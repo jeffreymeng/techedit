@@ -90,10 +90,10 @@
                 <br>
                 <button id="sidebar-new-file" class="btn btn-primary form-control">New File</button>
                 <hr>
-                <label for="sidebar-view-file-id">Or Enter File ID:</label>
-                <input type="text" class="form-control" id="sidebar-view-file-id" placeholder="e.g. 24Js8I">
+                <label for="sidebar-edit-file-id">Or Enter File ID:</label>
+                <input type="text" class="form-control" id="sidebar-edit-file-id" placeholder="e.g. 24Js8I">
                 <br>
-                <button id="sidebar-view-file" class="btn btn-primary form-control">Edit File</button>
+                <button id="sidebar-edit-file" class="btn btn-primary form-control">Edit File</button>
 
             </div>
         </div>
@@ -121,6 +121,12 @@
         firebase.initializeApp(config);
     </script>
     <script>
+    $("#sidebar-edit-file").click(function(){
+        window.location.href = "/f/" +  $("sidebar-edit-file-id").val();
+    });
+    $("#sidebar-new-file").click(function(){
+        
+    });
     </script>
 </body>
 
