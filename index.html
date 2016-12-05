@@ -53,7 +53,7 @@
                         <a href="#">New File</a>
                     </li>
                     <li>
-                        <a href="#">View File</a>
+                        <a href="#">Edit File</a>
                     </li>
 
                 </ul>
@@ -67,25 +67,36 @@
     <div class="container">
 
         <div class="row">
-            
+
             <div class="col-lg-9 text-center">
                 <h1>Techedit</h1>
-                <p class="lead">The techlab sharing solution.</p>
+                <p class="lead">The Techlab file sharing solution.</p>
+                <p>Get started with the quick actions on the right, or select a link below.</p>
                 <ul class="list-unstyled">
-                    <li>Bootstrap v3.3.7</li>
-                    <li>jQuery v1.11.1</li>
+                    <li><a href="/new/#advanced">New File(Advanced)</a></li>
+                    <li><a href="/new/">New File(Simple)</a></li>
+                    <li><a href="/edit/">Edit File</a></li>
                 </ul>
             </div>
             <div class="col-lg-3">
                 <p class="lead">Quick Actions</p>
                 
-                    <button id="sidebar-new-file" class="btn btn-primary form-control">New File</button>
-                    <hr>
-                    <label for="sidebar-view-file-id">Or Enter File ID:</label>
-                    <input type="text" class="form-control" id="sidebar-view-file-id" placeholder="e.g. 24Js8I">
-                    <br>
-                    <button id="sidebar-view-file" class="btn btn-primary form-control">View File</button>
-                
+                <label for="sidebar-new-file-type">File Type(You can change this later):</label>
+                <select class="form-control" id="sidebar-new-file-type">
+                    <option>Java</option>
+                    <option>Python</option>
+                    <option>HTML</option>
+                    <option>Text</option>
+                    <option>Text</option>
+                </select>
+                <br>
+                <button id="sidebar-new-file" class="btn btn-primary form-control">New File</button>
+                <hr>
+                <label for="sidebar-view-file-id">Or Enter File ID:</label>
+                <input type="text" class="form-control" id="sidebar-view-file-id" placeholder="e.g. 24Js8I">
+                <br>
+                <button id="sidebar-view-file" class="btn btn-primary form-control">Edit File</button>
+
             </div>
         </div>
         <!-- /.row -->
@@ -112,7 +123,6 @@
         firebase.initializeApp(config);
     </script>
     <script>
-        
     </script>
 </body>
 
