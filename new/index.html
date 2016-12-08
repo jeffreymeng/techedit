@@ -1,0 +1,60 @@
+<!doctype html>
+<!-- See http://www.firepad.io/docs/ for detailed embedding docs. -->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    
+<style>
+    .hidden {
+        display:none;
+    }
+</style>
+    
+</head>
+
+<body>
+    <p id="loading">Loading...</p>
+    
+    <script src="/js/jquery.js"></script>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+    <script>
+        //http://stackoverflow.com/a/901144/5511561
+        function getQuery(name) {
+            var url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        var config = {
+            apiKey: "AIzaSyDSCVcPcMzCXMjGhQvQJfkgnjCFzzewTgA",
+            authDomain: "jmeng.firebaseapp.com",
+            databaseURL: "https://jmeng.firebaseio.com",
+            storageBucket: "project-4679594405675385181.appspot.com",
+            messagingSenderId: "590199481216"
+        };
+        firebase.initializeApp(config);
+
+        function createRef() {
+            var language = getQuery("language");
+            var theme = getQuery("theme");
+            if (!language || !theme) {
+                // window.location.href = "/create";
+            } else {
+            var ref = firebase.database().ref("/techedit/");
+
+            ref = ref.push(); // generate unique location.
+            window.location.href = "https://techedit.jeffkmeng.com/f/" + ref.key;
+}
+
+            
+        }
+    </script>
+</body>
+
+</html>
