@@ -113,7 +113,7 @@
             //// Get Firebase Database reference.
             var firepadRef = getExampleRef();
             if (!firepadRef) {
-                window.location.href = "404error.html";
+                window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
             }
             else {
                 //// Create ACE
