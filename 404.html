@@ -1,37 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- See http://www.firepad.io/docs/ for detailed embedding docs. -->
+<html>
 
 <head>
+    <meta charset="utf-8" />
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- ACE and its JavaScript mode and theme files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/mode-javascript.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/theme-monokai.js"></script>
 
+    <!-- Firepad -->
+    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.css" />
+    <script src="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.min.js"></script>
 
-    <title>Techedit</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
     <style>
+        html {
+            height: 100%;
+        }
+        
+        .powered-by-firepad {
+            display: none;
+        }
+        
         body {
-            padding-top: 70px;
-            /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+            margin: 0;
+            height: 100%;
+            position: relative;
+        }
+        /* Height / width / positioning can be customized for your use case.
+       For demo purposes, we make firepad fill the entire browser. */
+        
+        #firepad-container {
+            width: 100%;
+            height: 100%;
         }
     </style>
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
 </head>
 
-<body>
-
+<body onload="init()">
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -54,7 +63,14 @@
                     <li>
                         <a href="/edit/">Edit File</a>
                     </li>
+                    <p class="navbar-text navbar-right">Current File:</p>
 
+                    <li class="navbar-right">
+                        <a id="share">Share</a>
+                    </li>
+                    <li class="navbar-right">
+                        <a id="options">Options</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -64,52 +80,75 @@
 
     <!-- Page Content -->
     <div class="container">
-        <div class="row" id="loading">
 
-            <p>Loading...</p>
+        <div class="row">
 
-        </div>
-        <div class="row" id="fileeditor">
-
-            <div class="col-lg-12 text-center">
-                <h1>404 - File Not Found</h1>
-                <p class="lead">The requested file was not found on this site.</p>
-                <p>The page may have been moved, deleted, or was never created. If you typed in a link by hand to view this page, double-check your spelling.<br><a href="/">Click here to go to the home page.</a></p>
-
+            <div class="col-lg-12">
+                <div id="firepad-container"></div>
             </div>
-
+        
         </div>
-        <div class="row" id="404error">
-
-            <div class="col-lg-12 text-center">
-                <h1>404 - File Not Found</h1>
-                <p class="lead">The requested file was not found on this site.</p>
-                <p>The page may have been moved, deleted, or was never created. If you typed in a link by hand to view this page, double-check your spelling.<br><a href="/">Click here to go to the home page.</a></p>
-
-            </div>
-
-        </div>
-        <div class="row" id="404error">
-
-            <div class="col-lg-12 text-center">
-                <h1>404 - File Not Found</h1>
-                <p class="lead">The requested file was not found on this site.</p>
-                <p>The page may have been moved, deleted, or was never created. If you typed in a link by hand to view this page, double-check your spelling.<br><a href="/">Click here to go to the home page.</a></p>
-
-            </div>
-
-        </div>
-        <!-- /.row -->
-
+    
     </div>
-    <!-- /.container -->
+    <script>
+        function init() {
+            //// Initialize Firebase.
+            //// TODO: replace with your Firebase project configuration.
+            var config = {
+                apiKey: "AIzaSyDSCVcPcMzCXMjGhQvQJfkgnjCFzzewTgA",
+                authDomain: "jmeng.firebaseapp.com",
+                databaseURL: "https://jmeng.firebaseio.com",
+                storageBucket: "project-4679594405675385181.appspot.com",
+                messagingSenderId: "590199481216"
+            };
+            firebase.initializeApp(config);
 
-    <!-- jQuery Version 1.11.1 -->
-    <script src="/js/jquery.js"></script>
+            //// Get Firebase Database reference.
+            var firepadRef = getExampleRef();
+            if (!firepadRef) {
+                window.location.href = "404error.html";
+            }
+            else {
+                //// Create ACE
+                var editor = ace.edit("firepad-container");
+                editor.setTheme("ace/theme/monokai");
+                editor.setShowPrintMargin(false);
+                var session = editor.getSession();
+                session.setUseWrapMode(true);
+                session.setUseWorker(false);
+                session.setMode("ace/mode/javascript");
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/js/bootstrap.min.js"></script>
+                //// Create Firepad.
+                var firepad = Firepad.fromACE(firepadRef, editor, {
+                    defaultText: ""
+                });
+            }
+        }
 
+        // Helper to get hash from end of URL or generate a random one.
+        function getExampleRef() {
+            var ref = firebase.database().ref("/techedit/");
+            var page = window.location.pathname.split("/");
+            if (page[0] === "f" && page[1] !== null && page[1] !== "") {
+                ref.child(page[1]).once("value").then(function(snapshot) {
+                    var data = snapshot.val();
+                    if (data === null || data === undefined) {
+                        window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
+                    }
+
+                    else {
+                        return ref.child(page[1]);
+                    }
+                });
+
+            }
+            else {
+                window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
+            }
+
+
+        }
+    </script>
 </body>
 
 </html>
