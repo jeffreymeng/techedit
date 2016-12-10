@@ -90,7 +90,11 @@
         </div>
     
     </div>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
     <script>
+    /* global firebase $ ace Firepad*/
+    $(document).load(init);
         function init() {
             //// Initialize Firebase.
             //// TODO: replace with your Firebase project configuration.
@@ -119,7 +123,7 @@
                 session.setMode("ace/mode/javascript");
 
                 //// Create Firepad.
-                var firepad = Firepad.fromACE(firepadRef, editor, {
+                /* var firepad = */ Firepad.fromACE(firepadRef, editor, {
                     defaultText: ""
                 });
             }
