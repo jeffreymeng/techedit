@@ -164,7 +164,7 @@
         // Helper to get hash from end of URL or generate a random one.
         function getExampleRef() {
             var ref = firebase.database().ref("/");
-            var page = window.location.pathname.split("/");
+            var page = window.location.pathname.substring(1).split("/");
             console.log(page[1]);
             console.log(page);
             if (page[0] === "f" && page[1] !== null && page[1] !== "") {
