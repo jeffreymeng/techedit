@@ -160,8 +160,9 @@
                     //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
                 }
                 else {
-                    $("#filename").text(data.info.name || "unamed-file")
+                    
                     var data = snapshot.val();
+                    $("#filename").text(data.info.name || "unamed-file");
                     //// Create ACE
                     var editor = ace.edit("firepad-container");
                     editor.setTheme("ace/theme/" + (data.info.theme || "monaki" ));
