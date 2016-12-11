@@ -140,7 +140,7 @@
             firebase.initializeApp(config);
 
             //// Get Firebase Database reference.
-            var firepadRef = getExampleRef();
+            var firepadRef = getFirepadRef();
             console.log(firepadRef);
             if (!firepadRef) {
                 //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
@@ -165,7 +165,7 @@
         }
 
         // Helper to get hash from end of URL or generate a random one.
-        function getExampleRef() {
+        function getFirepadRef() {
             var ref = firebase.database().ref("/");
             var page = window.location.pathname.substring(1).split("/");
             console.log(page[1]);
@@ -179,6 +179,7 @@
 
                         console.log(1)
                             //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
+                            return null;
                     }
 
                     else {
@@ -192,6 +193,7 @@
             else {
                 console.log(2);
                 //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
+                return null;
             }
 
 
