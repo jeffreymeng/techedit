@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
 
     <title>Techedit</title>
 
@@ -78,7 +78,7 @@
             </div>
             <div class="col-lg-3">
                 <p class="lead">Quick Actions</p>
-                
+
                 <label for="sidebar-new-file-type">File Type(You can change this later):</label>
                 <select class="form-control" id="sidebar-new-file-type">
                     <option value="java">Java</option>
@@ -108,25 +108,25 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="/js/bootstrap.min.js"></script>
 
-    <script src="https://www.gstatic.com/firebasejs/3.6.2/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.3/firebase.js"></script>
     <script>
         // Initialize Firebase
         var config = {
-            apiKey: "AIzaSyDSCVcPcMzCXMjGhQvQJfkgnjCFzzewTgA",
-            authDomain: "jmeng.firebaseapp.com",
-            databaseURL: "https://jmeng.firebaseio.com",
-            storageBucket: "project-4679594405675385181.appspot.com",
-            messagingSenderId: "590199481216"
+            apiKey: "AIzaSyBQ2E4ISQoIcRsDxfPxzDjbJwmD-r98JYw",
+            authDomain: "techedit-63e7f.firebaseapp.com",
+            databaseURL: "https://techedit-63e7f.firebaseio.com",
+            storageBucket: "techedit-63e7f.appspot.com",
+            messagingSenderId: "609280907475"
         };
         firebase.initializeApp(config);
     </script>
     <script>
-    $("#sidebar-edit-file").click(function(){
-        window.location.href = "/f/" +  $("#sidebar-edit-file-id").val();
-    });
-    $("#sidebar-new-file").click(function(){
-        window.location.href = "/create/?type=" +  $("#sidebar-new-file-type").val();
-    });
+        $("#sidebar-edit-file").click(function() {
+            window.location.href = "/f/" + $("#sidebar-edit-file-id").val();
+        });
+        $("#sidebar-new-file").click(function() {
+            window.location.href = "/create/?type=" + $("#sidebar-new-file-type").val();
+        });
     </script>
 </body>
 

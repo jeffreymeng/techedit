@@ -4,21 +4,23 @@
 
 <head>
     <meta charset="utf-8" />
-    
-<style>
-    .hidden {
-        display:none;
-    }
-</style>
-    
+
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+
 </head>
 
 <body>
     <p id="loading">Loading...</p>
-    
+    <p id="keyerror" class="hidden">Error: Unable to create an file. You can try <a href=".">reloading this page</a>, or come back later. <br>Error Code: <b>rand_id_invalid</b></p>
     <script src="/js/jquery.js"></script>
     <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.3/firebase.js"></script>
+
+
     <script>
         //http://stackoverflow.com/a/901144/5511561
         function getQuery(name) {
@@ -32,28 +34,71 @@
         }
 
         var config = {
-            apiKey: "AIzaSyDSCVcPcMzCXMjGhQvQJfkgnjCFzzewTgA",
-            authDomain: "jmeng.firebaseapp.com",
-            databaseURL: "https://jmeng.firebaseio.com",
-            storageBucket: "project-4679594405675385181.appspot.com",
-            messagingSenderId: "590199481216"
+            apiKey: "AIzaSyBQ2E4ISQoIcRsDxfPxzDjbJwmD-r98JYw",
+            authDomain: "techedit-63e7f.firebaseapp.com",
+            databaseURL: "https://techedit-63e7f.firebaseio.com",
+            storageBucket: "techedit-63e7f.appspot.com",
+            messagingSenderId: "609280907475"
         };
         firebase.initializeApp(config);
+
+        function getFileID(callback, count) {
+            if (!count) {
+                count = 0;
+            }
+            //some error, generated 100 random ID's and still didn't work.
+            if (count > 100) {
+                callback(false);
+            }
+            else {
+                //no captial I, lowercase l, captial or lowercase o, and no zero(0) to prevent confusion(in the url bar both look the same)
+                // generates 6 digit random ID from pool of 21 chars, not including the following five charcters: iIoO0
+                var chars = "123456789abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
+                var result = "";
+                for (var i = 6; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+                var invalid = true;
+
+                firebase.database().ref("/techedit/" + result).once("value").then(function(snapshot) {
+                    if (snapshot.val() === null) {
+
+                        callback(result);
+                    }
+                    else {
+                        getFileID(callback, count + 1);
+                    }
+                });
+            }
+
+        }
+
 
         function createRef() {
             var language = getQuery("language");
             var theme = getQuery("theme");
             if (!language || !theme) {
-                // window.location.href = "/create";
-            } else {
-            var ref = firebase.database().ref("/techedit/");
+                window.location.href = "/create/";
+            }
+            else {
+                getFileID(function(key) {
+                    if (!key) {
+                        $("#loading").addClass("hidden");
+                        $("#keyerror").removeClass("hidden");
+                    }
+                    else {
+                        firebase.database().ref("/techedit/" + result).set({
+                            "valid": true
+                        }).then(function() {
+                            window.location.href = "https://techedit.jeffkmeng.com/f/" + ref.key;
+                        });
 
-            ref = ref.push(); // generate unique location.
-            window.location.href = "https://techedit.jeffkmeng.com/f/" + ref.key;
-}
+                    }
+                });
 
-            
+            }
+
+
         }
+        createRef();
     </script>
 </body>
 

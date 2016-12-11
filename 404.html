@@ -4,9 +4,9 @@
 
 <head>
     <meta charset="utf-8" />
-    
+
     <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.3/firebase.js"></script>
 
     <!-- ACE and its JavaScript mode and theme files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/ace.js"></script>
@@ -40,7 +40,7 @@
             height: 100%;
         }
     </style>
-    
+
 </head>
 
 <body onload="init()">
@@ -66,14 +66,7 @@
                     <li>
                         <a href="/edit/">Edit File</a>
                     </li>
-                    <p class="navbar-text navbar-right">Current File:</p>
 
-                    <li class="navbar-right">
-                        <a id="share">Share</a>
-                    </li>
-                    <li class="navbar-right">
-                        <a id="options">Options</a>
-                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -86,27 +79,60 @@
 
         <div class="row">
 
-            <div class="col-lg-12">
+            <div class="col-lg-9">
                 <div id="firepad-container"></div>
             </div>
-        
+            <div class="col-lg-3">
+                <p class="lead">Options</p>
+
+                <label for="sidebar-new-file-type">File Type:</label>
+                <select class="form-control" id="sidebar-new-file-type">
+                    <option value="java">Java</option>
+                    <option value="python">Python</option>
+                    <option value="html">HTML</option>
+                    <option value="text">Text</option>
+                    <option value="other">Other</option>
+                </select>
+                <br>
+                <button id="sidebar-new-file" class="btn btn-primary form-control">Save Changes</button>
+                <hr>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="name">Share</span></span>
+                    <input type="text" class="form-control code" value="https://" id="share-code">
+                    <span class="input-group-btn" id="clip-button">
+                        <button class="btn btn-default clipboard-btn" type="button" data-clipboard-target="#share-code"><img height="20" src="https://assets.jeffkmeng.com/clipboard/1.5.12/svg/clipboard.svg" alt="Copy To Clipboard"></button>
+                    </span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="name">Embed URL</span></span>
+                    <input type="text" class="form-control code" value="https://techedit.jeffkmeng.com/embed?id=839Ish" id="embed-code">
+                    <span class="input-group-btn" id="clip-button">
+                        <button class="btn btn-default clipboard-btn" type="button" data-clipboard-target="#embed-code"><img height="20" src="https://assets.jeffkmeng.com/clipboard/1.5.12/svg/clipboard.svg" alt="Copy To Clipboard"></button>
+                    </span>
+                </div>
+
+
+            </div>
+
         </div>
-    
+
     </div>
     <script src="/js/jquery.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+
     <script>
-    /* global firebase $ ace Firepad*/
-    $(document).load(init);
+        /* global firebase $ ace Firepad*/
+        $(document).load(init);
+
         function init() {
             //// Initialize Firebase.
             //// TODO: replace with your Firebase project configuration.
             var config = {
-                apiKey: "AIzaSyDSCVcPcMzCXMjGhQvQJfkgnjCFzzewTgA",
-                authDomain: "jmeng.firebaseapp.com",
-                databaseURL: "https://jmeng.firebaseio.com",
-                storageBucket: "project-4679594405675385181.appspot.com",
-                messagingSenderId: "590199481216"
+                apiKey: "AIzaSyBQ2E4ISQoIcRsDxfPxzDjbJwmD-r98JYw",
+                authDomain: "techedit-63e7f.firebaseapp.com",
+                databaseURL: "https://techedit-63e7f.firebaseio.com",
+                storageBucket: "techedit-63e7f.appspot.com",
+                messagingSenderId: "609280907475"
             };
             firebase.initializeApp(config);
 
@@ -126,7 +152,8 @@
                 session.setMode("ace/mode/javascript");
 
                 //// Create Firepad.
-                /* var firepad = */ Firepad.fromACE(firepadRef, editor, {
+                /* var firepad = */
+                Firepad.fromACE(firepadRef, editor, {
                     defaultText: ""
                 });
             }
