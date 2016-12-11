@@ -165,13 +165,13 @@
                     $("#filename").text(data.info.name || "unamed-file");
                     //// Create ACE
                     var editor = ace.edit("firepad-container");
-                    editor.setTheme("ace/theme/" + (data.info.theme || "monaki" ));
+                    editor.setTheme("ace/theme/" + (data.info.theme || "monokai" ));
                     editor.setShowPrintMargin(false);
                     var session = editor.getSession();
                     session.setUseWrapMode(true);
                     session.setUseWorker(false);
-                    if (data.theme) {
-                        session.setMode("ace/mode/" + data.info.theme);
+                    if (data.language) {
+                        session.setMode("ace/mode/" + data.info.language);
                     }
                     
 
