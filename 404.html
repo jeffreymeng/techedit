@@ -165,10 +165,12 @@
         function getExampleRef() {
             var ref = firebase.database().ref("/");
             var page = window.location.pathname.split("/");
+            console.log(page[1]);
+            console.log(page);
             if (page[0] === "f" && page[1] !== null && page[1] !== "") {
                 ref.child(page[1]).once("value").then(function(snapshot) {
                     var data = snapshot.val();
-                    console.log(page[1]);
+                    
                     console.log(data);
                     if (data === null || data === undefined) {
                         
