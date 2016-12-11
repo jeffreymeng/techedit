@@ -167,8 +167,12 @@
             if (page[0] === "f" && page[1] !== null && page[1] !== "") {
                 ref.child(page[1]).once("value").then(function(snapshot) {
                     var data = snapshot.val();
+                    console.log(page[1]);
+                    console.log(data);
                     if (data === null || data === undefined) {
-                        window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
+                        
+                        console.log(1)
+                        //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
                     }
 
                     else {
@@ -178,7 +182,8 @@
 
             }
             else {
-                window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
+                console.log(2);
+                //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
             }
 
 
