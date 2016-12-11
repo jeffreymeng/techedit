@@ -88,14 +88,13 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Editor</h3>
+                        <h3 class="panel-title" id="filename">Loading...</h3>
                     </div>
                     <div class="panel-body">
                         <div id="firepad-container"></div>
                     </div>
                 </div>
-                <div class="text-center">---End of editor---</div>
-
+                
             </div>
             <div class="col-lg-3">
                 <br><br><br>
@@ -155,21 +154,24 @@
             firebase.initializeApp(config);
         
             //// Get Firebase Database reference.
-            var firepadRef = getFirepadRef(function(firepadRef) {
+            var firepadRef = getFirepadRef(function(firepadRef, snapshot) {
                 console.log(firepadRef);
                 if (!firepadRef) {
                     //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
                 }
                 else {
-
+                    var data = snapshot.val();
                     //// Create ACE
                     var editor = ace.edit("firepad-container");
-                    editor.setTheme("ace/theme/monokai");
+                    editor.setTheme("ace/theme/" + (data.theme || "monaki" ));
                     editor.setShowPrintMargin(false);
                     var session = editor.getSession();
                     session.setUseWrapMode(true);
                     session.setUseWorker(false);
-                    session.setMode("ace/mode/javascript");
+                    if (data.theme) {
+                        session.setMode("ace/mode/" + data.theme);
+                    }
+                    
 
                     //// Create Firepad.
                     /* var firepad = */
@@ -202,7 +204,7 @@
                     else {
                         var result = ref.child(page[1])
                         console.log(result);
-                        callback(result, data);
+                        callback(result, snapshot);
                     }
                 });
 
