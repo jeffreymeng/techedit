@@ -160,16 +160,17 @@
                     //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
                 }
                 else {
+                    $("#filename").text(data.info.name || "unamed-file")
                     var data = snapshot.val();
                     //// Create ACE
                     var editor = ace.edit("firepad-container");
-                    editor.setTheme("ace/theme/" + (data.theme || "monaki" ));
+                    editor.setTheme("ace/theme/" + (data.info.theme || "monaki" ));
                     editor.setShowPrintMargin(false);
                     var session = editor.getSession();
                     session.setUseWrapMode(true);
                     session.setUseWorker(false);
                     if (data.theme) {
-                        session.setMode("ace/mode/" + data.theme);
+                        session.setMode("ace/mode/" + data.info.theme);
                     }
                     
 
