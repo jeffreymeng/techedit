@@ -140,28 +140,30 @@
             firebase.initializeApp(config);
 
             //// Get Firebase Database reference.
-            var firepadRef = getFirepadRef();
-            console.log(firepadRef);
-            if (!firepadRef) {
-                //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
-            }
-            else {
+            var firepadRef = getFirepadRef(function(firepadRef) {
+                console.log(firepadRef);
+                if (!firepadRef) {
+                    //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
+                }
+                else {
 
-                //// Create ACE
-                var editor = ace.edit("firepad-container");
-                editor.setTheme("ace/theme/monokai");
-                editor.setShowPrintMargin(false);
-                var session = editor.getSession();
-                session.setUseWrapMode(true);
-                session.setUseWorker(false);
-                session.setMode("ace/mode/javascript");
+                    //// Create ACE
+                    var editor = ace.edit("firepad-container");
+                    editor.setTheme("ace/theme/monokai");
+                    editor.setShowPrintMargin(false);
+                    var session = editor.getSession();
+                    session.setUseWrapMode(true);
+                    session.setUseWorker(false);
+                    session.setMode("ace/mode/javascript");
 
-                //// Create Firepad.
-                /* var firepad = */
-                Firepad.fromACE(firepadRef, editor, {
-                    defaultText: ""
-                });
-            }
+                    //// Create Firepad.
+                    /* var firepad = */
+                    Firepad.fromACE(firepadRef, editor, {
+                        defaultText: ""
+                    });
+                }
+            });
+
         }
 
         // Helper to get hash from end of URL or generate a random one.
@@ -179,13 +181,13 @@
 
                         console.log(1)
                             //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
-                            return null;
+
                     }
 
                     else {
                         var result = ref.child(page[1])
                         console.log(result);
-                        return result;
+                        callback(result);
                     }
                 });
 
@@ -193,9 +195,9 @@
             else {
                 console.log(2);
                 //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
-                return null;
+
             }
-            return false;
+
 
         }
     </script>
