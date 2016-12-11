@@ -142,6 +142,7 @@
                 window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
             }
             else {
+                
                 //// Create ACE
                 var editor = ace.edit("firepad-container");
                 editor.setTheme("ace/theme/monokai");
@@ -161,7 +162,7 @@
 
         // Helper to get hash from end of URL or generate a random one.
         function getExampleRef() {
-            var ref = firebase.database().ref("/techedit/");
+            var ref = firebase.database().ref("/");
             var page = window.location.pathname.split("/");
             if (page[0] === "f" && page[1] !== null && page[1] !== "") {
                 ref.child(page[1]).once("value").then(function(snapshot) {

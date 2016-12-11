@@ -58,7 +58,7 @@
                 for (var i = 6; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
                 var invalid = true;
 
-                firebase.database().ref("/techedit/" + result).once("value").then(function(snapshot) {
+                firebase.database().ref(result).once("value").then(function(snapshot) {
                     if (snapshot.val() === null) {
 
                         callback(result);
@@ -85,7 +85,7 @@
                         $("#keyerror").removeClass("hidden");
                     }
                     else {
-                        firebase.database().ref("/techedit/" + key + "/valid").set(true).then(function() {
+                        firebase.database().ref(key + "/valid").set(true).then(function() {
                             window.location.href = "https://techedit.jeffkmeng.com/f/" + ref.key;
                         });
 
