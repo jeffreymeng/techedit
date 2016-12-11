@@ -85,9 +85,7 @@
                         $("#keyerror").removeClass("hidden");
                     }
                     else {
-                        firebase.database().ref("/techedit/" + key).set({
-                            "valid": true
-                        }).then(function() {
+                        firebase.database().ref("/techedit/" + key + "/valid").set(true).then(function() {
                             window.location.href = "https://techedit.jeffkmeng.com/f/" + ref.key;
                         });
 
