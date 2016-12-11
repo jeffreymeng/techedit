@@ -120,12 +120,14 @@
     </div>
     <script src="/js/jquery.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/clipboard.min.js"></script>
 
     <script>
         /* global firebase $ ace Firepad*/
         $(document).load(init);
 
         function init() {
+            var clipboard = new Clipboard(".clipboard-btn");
             //// Initialize Firebase.
             //// TODO: replace with your Firebase project configuration.
             var config = {
