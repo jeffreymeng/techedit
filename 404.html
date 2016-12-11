@@ -146,7 +146,7 @@
                 //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
             }
             else {
-                
+
                 //// Create ACE
                 var editor = ace.edit("firepad-container");
                 editor.setTheme("ace/theme/monokai");
@@ -173,17 +173,18 @@
             if (page[0] === "f" && page[1] !== null && page[1] !== "") {
                 ref.child(page[1]).once("value").then(function(snapshot) {
                     var data = snapshot.val();
-                    
+
                     console.log(data);
                     if (data === null || data === undefined) {
-                        
+
                         console.log(1)
-                        //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
+                            //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
                     }
 
                     else {
-                        console.log(ref.child(page[1]))
-                        return ref.child(page[1]);
+                        var result = ref.child(page[1])
+                        console.log(result);
+                        return result;
                     }
                 });
 
