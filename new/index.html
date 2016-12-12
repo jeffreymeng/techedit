@@ -182,7 +182,7 @@
 
                 getFileID(function(key) {
                     if (!key) {
-                        window.location.href = ".";
+                        window.location.href = window.location.href;
                     }
                     else {
                         firebase.database().ref(key + "/valid").set(true).then(function() {
