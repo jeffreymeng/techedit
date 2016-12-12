@@ -163,19 +163,27 @@
 
                     var data = snapshot.val();
                     if (data.info) {
-                        $("#filename").text(data.info.name || "unamed-file");
+                        var filename = data.info.name;
+                        var theme = data.info.theme;
+                        var language = data.info.language;
                     }
+                    else {
+                        var filename = "unamed-file";
+                        var theme = "momokai";
+                        var language = "text";
+                    }
+                    $("#filename").text(filename);
                     //// Create ACE
                     var editor = ace.edit("firepad-container");
-                    if (data.info) {
-                        editor.setTheme("ace/theme/" + (data.info.theme || "monokai"));
-                    }
+                    editor.setTheme("ace/theme/" + theme);
+
                     editor.setShowPrintMargin(false);
                     var session = editor.getSession();
                     session.setUseWrapMode(true);
                     session.setUseWorker(false);
-                    if (data.info && data.info.language) {
-                        session.setMode("ace/mode/" + data.info.language);
+                    //language is text by defualt, we don't need to change it.
+                    if (language != text) {
+                        session.setMode("ace/mode/" + language);
                     }
 
 
