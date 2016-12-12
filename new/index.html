@@ -1,38 +1,138 @@
-<!doctype html>
-<!-- See http://www.firepad.io/docs/ for detailed embedding docs. -->
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Techedit</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-select.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
 
     <style>
-        .hidden {
-            display: none;
+        body {
+            padding-top: 70px;
+            /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
         }
     </style>
-
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 
 <body>
-    <p id="loading">Loading...</p>
-    <p id="keyerror" class="hidden">Error: Unable to create an file. You can try <a href=".">reloading this page</a>, or come back later. <br>Error Code: <b>rand_id_invalid</b></p>
-    <script src="/js/jquery.js"></script>
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/3.6.3/firebase.js"></script>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>                <a class="navbar-brand" href="/">Techedit</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/new/">New File</a>
+                    </li>
+                    <li>
+                        <a href="/edit/">Edit File</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="alert alert-danger hidden" role="alert" id="allfieldsrequired">All fields are required</div>
 
 
+            <div class="col-lg-12 text-center">
+                <h1>Create New File</h1><b>All fields are required, and all fields can be changed later.</b>
+                <hr>
+                <label for="filename">File Name:</label>
+                <input class="form-control" id="filename" type="text">
+                <label for="filetype">Syntax Highlighting Language</label>
+                <select id="filetype" class="selectpicker form-control" data-live-search="true" title="Choose One">
+					<option value="java">
+						Java
+					</option>
+					<option value="python">
+						Python
+					</option>
+					<option value="html">
+						HTML
+					</option>
+					<option value="css">
+						CSS
+					</option>
+					<option value="javascript">
+						Javascript
+					</option>
+					<option value="text">
+						Text
+					</option>
+					<option value="swift">
+						Swift
+					</option>
+					
+					
+				</select>
+                <label for="theme">Editor Theme</label>
+                <select id="theme" class="selectpicker form-control" data-live-search="true" title="Choose One">
+					<optgroup label="Light">
+						<option value="xcode">
+							XCode
+						</option>
+						<option value="eclipse">
+							Eclipse
+						</option>
+						<option value="github">
+							Github
+						</option>
+						<option value="solarized-light">
+							Solarized Light
+						</option>
+					</optgroup>
+					<optgroup label="Dark">
+						<option value="monokai">
+							Monokai
+						</option>
+						<option value="twilight">
+							Twilight
+						</option>
+						<option value="solarized-dark">
+							Solarized Dark
+						</option>
+					</optgroup>
+				</select>
+                <button class="btn btn-primary form-control" id="submit">Create File</button>
+
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container -->
+    <!-- jQuery Version 1.11.1 -->
+    <script src="/js/jquery.js">
+    </script>
+    <!-- Bootstrap Core JavaScript -->
+
+    <script src="/js/bootstrap.min.js">
+    </script>
+    <script src="/js/bootstrap-select.min.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.3/firebase.js">
+    </script>
     <script>
-        //http://stackoverflow.com/a/901144/5511561
-        function getQuery(name) {
-            var url = window.location.href;
-            name = name.replace(/[\[\]]/g, "\\$&");
-            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, " "));
-        }
-
+        // Initialize Firebase
         var config = {
             apiKey: "AIzaSyBQ2E4ISQoIcRsDxfPxzDjbJwmD-r98JYw",
             authDomain: "techedit-63e7f.firebaseapp.com",
@@ -41,7 +141,8 @@
             messagingSenderId: "609280907475"
         };
         firebase.initializeApp(config);
-
+    </script>
+    <script>
         function getFileID(callback, count) {
             if (!count) {
                 count = 0;
@@ -71,32 +172,37 @@
 
         }
 
+        function createFile() {
 
-        function createRef() {
-            var language = getQuery("language");
-            var theme = getQuery("theme");
-            if (!language || !theme) {
-                window.location.href = "/create/";
+            if ($("#filetype").val().replace(" ", "") === "" || $("#theme").val().replace(" ", "") === "" || $("#filename").val().replace(" ", "") === "") {
+
+                $("#allfieldsrequired").removeClass("hidden");
             }
             else {
+
                 getFileID(function(key) {
                     if (!key) {
-                        $("#loading").addClass("hidden");
-                        $("#keyerror").removeClass("hidden");
+                        window.location.href = ".";
                     }
                     else {
                         firebase.database().ref(key + "/valid").set(true).then(function() {
-                            window.location.href = "https://techedit.jeffkmeng.com/f/" + key;
+                            firebase.database().ref(key + "/info/").set({
+                                language: $("#filetype").val(),
+                                theme: $("#theme").val(),
+                                name: $("#filename").val()
+                            }).then(function() {
+                                window.location.href = "https://techedit.jeffkmeng.com/f/" + key;
+                            });
                         });
 
                     }
                 });
-
             }
 
 
+
         }
-        createRef();
+        $("#submit").click(createFile)
     </script>
 </body>
 
