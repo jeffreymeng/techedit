@@ -44,6 +44,9 @@
         #page {
             margin-top: 75px;
         }
+        .hidden {
+            display:none;
+        }
     </style>
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
 </head>
@@ -99,10 +102,8 @@
             <div class="col-lg-3">
                 
                 <p class="lead">Options</p>
-                <div class="alert alert-danger alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>Error:</strong> All fields are required.
-                </div>
+                <div class="alert alert-danger hidden" role="alert" id="allfieldsrequired">All fields are required</div>
+
                 <label for="sidebar-new-file-type">File Type:</label>
                 <select class="form-control" id="sidebar-new-file-type">
                     <option value="java">Java</option>
@@ -277,9 +278,9 @@
 
         function createFile() {
 
-            if (!$("#filetype").val() || !$("#theme").val() || !$("#filename").val()) {
-            
-                //TODO: tell user all fields required
+            if ($("#filetype").val().replace(" ", "") === "" || $("#theme").val().replace(" ", "") === "" || $("#filename").val().replace(" ", "") === "") {
+
+                $("#allfieldsrequired").removeClass("hidden");
             } else {
             
                 getFileID(function(key) {
