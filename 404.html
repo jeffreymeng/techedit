@@ -103,12 +103,12 @@
             <div class="col-lg-3">
 
                 <p class="lead">Options</p>
-                <div class="alert alert-danger hidden" role="alert" id="allfieldsrequired">All fields are required</div>
+                <div class="alert alert-danger hidden" role="alert" id="opt-allfieldsrequired">All fields are required</div>
 
-                <label for="filename">File Name:</label>
-                <input class="form-control" id="filename" type="text">
-                <label for="filetype">Syntax Highlighting Language</label>
-                <select id="filetype" class="selectpicker form-control" data-live-search="true" title="Choose One">
+                <label for="opt-filename">File Name:</label>
+                <input class="form-control" id="opt-filename" type="text">
+                <label for="opt-filetype">Syntax Highlighting Language</label>
+                <select id="opt-filetype" class="selectpicker form-control" data-live-search="true" title="Choose One">
 					<option value="java">
 						Java
 					</option>
@@ -133,8 +133,8 @@
 					
 					
 				</select>
-                <label for="theme">Editor Theme</label>
-                <select id="theme" class="selectpicker form-control" data-live-search="true" title="Choose One">
+                <label for="opt-theme">Editor Theme</label>
+                <select id="opt-theme" class="selectpicker form-control" data-live-search="true" title="Choose One">
 					<optgroup label="Light">
 						<option value="xcode">
 							XCode
@@ -238,9 +238,9 @@
                         var theme = "monokai";
                         var language = "text";
                     }
-                    $("#filename").val(filename);
-                    $("#theme").val(theme);
-                    $("#filetype").val(language);
+                    $("#opt-filename").val(filename);
+                    $("#opt-theme").val(theme);
+                    $("#opt-filetype").val(language);
                     $("#filename").text(filename);
                     //// Create ACE
                     var editor = ace.edit("firepad-container");
@@ -336,21 +336,20 @@
 
             if ($("#filetype").val().replace(" ", "") === "" || $("#theme").val().replace(" ", "") === "" || $("#filename").val().replace(" ", "") === "") {
 
-                $("#allfieldsrequired").removeClass("hidden");
+                $("#opt-allfieldsrequired").removeClass("hidden");
             }
             else {
 
                 getFileID(function(key) {
                     if (!key) {
-                        $("#loading").addClass("hidden");
-                        $("#keyerror").removeClass("hidden");
+                        window.location.href = ".";
                     }
                     else {
                         firebase.database().ref(key + "/valid").set(true).then(function() {
                             firebase.database().ref(key + "/info/").set({
-                                language: $("#filetype").val(),
-                                theme: $("#theme").val(),
-                                name: $("#filename").val()
+                                language: $("#opt-filetype").val(),
+                                theme: $("#opt-theme").val(),
+                                name: $("#opt-filename").val()
                             }).then(function() {
                                 window.location.href = ".";
                             });
