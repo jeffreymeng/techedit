@@ -241,7 +241,7 @@
                     $("#filename").text(filename);
                     //// Create ACE
                     var editor = ace.edit("firepad-container");
-                    editor.setTheme("/js/ace/theme-" + theme);
+                    editor.setTheme("ace/theme/" + theme);
 
                     editor.setShowPrintMargin(false);
                     var session = editor.getSession();
@@ -249,7 +249,7 @@
                     session.setUseWorker(false);
                     //language is text by defualt, we don't need to change it.
                     if (language != "text") {
-                        session.setMode("/js/ace/" + language);
+                        session.setMode("/ace/mode/" + language);
                     }
 
 
