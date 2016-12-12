@@ -12,7 +12,7 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-
+ <link href="/css/bootstrap-select.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <style>
         body {
@@ -71,16 +71,20 @@
                 <h1>Create New File</h1>
                 <b>All fields are required, and all fields can be changed later.</b>
                 <label for="filetype">Syntax Highlighting Language</label>
-                <select class="form-control" id="filetype">
-                    <option value="java">Java</option>
+                <select class="selectpicker form-control" data-live-search="true" title="Choose one of the following...">
+<option value="java">Java</option>
                     <option value="python">Python</option>
                     <option value="html">HTML</option>
                     <option value="text">CSS</option>
                     <option value="text">Javascript</option>
                     <option value="text">Text</option>
                     <option value="text">Swift</option>
-                    <option value="text">Swift</option>
-                </select>
+                    <option value="text">C</option>
+                    <option value="text">C++</option>
+                    <option value="text">bash</option>
+</select>
+
+                
             </div>
             
         </div>
@@ -94,7 +98,7 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/js/bootstrap.min.js"></script>
-
+<script src="/js/bootstrap-select.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.6.3/firebase.js"></script>
     <script>
         // Initialize Firebase
