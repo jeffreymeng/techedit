@@ -67,27 +67,20 @@
 					<option value="html">
 						HTML
 					</option>
-					<option value="text">
+					<option value="css">
 						CSS
 					</option>
-					<option value="text">
+					<option value="javascript">
 						Javascript
 					</option>
 					<option value="text">
 						Text
 					</option>
-					<option value="text">
+					<option value="swift">
 						Swift
 					</option>
-					<option value="text">
-						C
-					</option>
-					<option value="text">
-						C++
-					</option>
-					<option value="text">
-						bash
-					</option>
+					
+					
 				</select>
                 <label for="theme">Editor Theme</label>
                 <select id="theme" class="selectpicker form-control" data-live-search="true" title="Choose One">
@@ -178,26 +171,30 @@
 
         function createFile() {
 
-
-            getFileID(function(key) {
-                if (!key) {
-                    $("#loading").addClass("hidden");
-                    $("#keyerror").removeClass("hidden");
-                }
-                else {
-                    firebase.database().ref(key + "/valid").set(true).then(function() {
-                        firebase.database().ref(key + "/info/").set({
-                            language: $("#filetype").val(),
-                            theme: $("#theme").val(),
-                            name: $("#filename").val()
-                        }).then(function() {
-                            window.location.href = "https://techedit.jeffkmeng.com/f/" + key;
+            if (!$("#filetype").val() || !$("#theme").val() || !$("#filename").val()) {
+            
+                //TODO: tell user all fields required
+            } else {
+            
+                getFileID(function(key) {
+                    if (!key) {
+                        $("#loading").addClass("hidden");
+                        $("#keyerror").removeClass("hidden");
+                    }
+                    else {
+                        firebase.database().ref(key + "/valid").set(true).then(function() {
+                            firebase.database().ref(key + "/info/").set({
+                                language: $("#filetype").val(),
+                                theme: $("#theme").val(),
+                                name: $("#filename").val()
+                            }).then(function() {
+                                window.location.href = "https://techedit.jeffkmeng.com/f/" + key;
+                            });
                         });
-                    });
 
-                }
-            });
-
+                    }
+                });
+            }
 
 
 
