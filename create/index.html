@@ -45,7 +45,10 @@
 			<div class="col-lg-12 text-center">
 				<h1>Create New File</h1><b>All fields are required, and all fields can be changed later.</b>
 				<hr>
-				<label for="filetype">Syntax Highlighting Language</label> <select class="selectpicker form-control" data-live-search="true" title="Choose one of the following...">
+				<label for="filename">File Name:</label>
+				<input class="form-control" id="filename" type="text">
+				<label for="filetype">Syntax Highlighting Language</label> 
+				<select id="filetype" class="selectpicker form-control" data-live-search="true" title="Choose One">
 					<option value="java">
 						Java
 					</option>
@@ -76,7 +79,9 @@
 					<option value="text">
 						bash
 					</option>
-				</select> <label for="filetype">Editor Theme</label> <select class="selectpicker form-control" data-live-search="true" title="Choose one of the following...">
+				</select> 
+				<label for="theme">Editor Theme</label> 
+				<select id="theme" class="selectpicker form-control" data-live-search="true" title="Choose One">
 					<optgroup label="Light">
 						<option value="xcode">
 							XCode
@@ -103,6 +108,7 @@
 						</option>
 					</optgroup>
 				</select>
+				
 			</div>
 		</div><!-- /.row -->
 	</div><!-- /.container -->
@@ -127,13 +133,6 @@
 	       };
 	       firebase.initializeApp(config);
 	</script> 
-	<script>
-	       $("#sidebar-edit-file").click(function() {
-	           window.location.href = "/f/" + $("#sidebar-edit-file-id").val();
-	       });
-	       $("#sidebar-new-file").click(function() {
-	           window.location.href = "/create/?type=" + $("#sidebar-new-file-type").val();
-	       });
-	</script>
+	
 </body>
 </html>
