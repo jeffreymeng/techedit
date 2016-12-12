@@ -112,15 +112,22 @@
                 <button id="sidebar-new-file" class="btn btn-primary form-control">Save Changes</button>
                 <hr>
                 <div class="input-group">
-                    <span class="input-group-addon"><span class="name">Share</span></span>
-                    <input type="text" class="form-control code" value="https://" id="share-code">
+                    <span class="input-group-addon"><span class="name">File ID</span></span>
+                    <input type="text" class="form-control code" value="Loading..." id="file-id" readonly>
+                    <span class="input-group-btn" id="clip-button">
+                        <button class="btn btn-default clipboard-btn" type="button" data-clipboard-target="#embed-code"><img height="20" src="https://assets.jeffkmeng.com/clipboard/1.5.12/svg/clipboard.svg" alt="Copy To Clipboard"></button>
+                    </span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="name">Share URL</span></span>
+                    <input type="text" class="form-control code" value="Loading..." id="share-code" readonly>
                     <span class="input-group-btn" id="clip-button">
                         <button class="btn btn-default clipboard-btn" type="button" data-clipboard-target="#share-code"><img height="20" src="https://assets.jeffkmeng.com/clipboard/1.5.12/svg/clipboard.svg" alt="Copy To Clipboard"></button>
                     </span>
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon"><span class="name">Embed URL</span></span>
-                    <input type="text" class="form-control code" value="https://techedit.jeffkmeng.com/embed?id=839Ish" id="embed-code">
+                    <input type="text" class="form-control code" value="Loading..." id="embed-code" readonly>
                     <span class="input-group-btn" id="clip-button">
                         <button class="btn btn-default clipboard-btn" type="button" data-clipboard-target="#embed-code"><img height="20" src="https://assets.jeffkmeng.com/clipboard/1.5.12/svg/clipboard.svg" alt="Copy To Clipboard"></button>
                     </span>
@@ -162,13 +169,17 @@
                 else {
 
                     var data = snapshot.val();
+                    $("#embed-code").text("https://techedit.jeffkmeng.com/embed?id=" + page[1]);
+                    $("#share-code").text("https://techedit.jeffkmeng.com/f/" + page[1]);
+                    $("#file-id").text(page[1]);
                     if (data.info) {
                         var filename = data.info.name;
                         var theme = data.info.theme;
                         var language = data.info.language;
                     }
                     else {
-                        var filename = "unamed-file";
+                        // just in case
+                        var filename = "Unamed";
                         var theme = "monokai";
                         var language = "text";
                     }

@@ -1,54 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta content="IE=edge" http-equiv="X-UA-Compatible">
-	<meta content="width=device-width, initial-scale=1" name="viewport">
-	<title>Techedit</title><!-- Bootstrap Core CSS -->
-	<link href="/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/css/bootstrap-select.min.css" rel="stylesheet"><!-- Custom CSS -->
 
-	<style>
-	       body {
-	           padding-top: 70px;
-	           /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-	       }
-	</style><!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Techedit</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-select.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+
+    <style>
+        body {
+            padding-top: 70px;
+            /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+        }
+    </style>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
+
 <body>
-	<!-- Navigation -->
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a class="navbar-brand" href="/">Techedit</a>
-			</div><!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
-					<li>
-						<a href="/new/">New File</a>
-					</li>
-					<li>
-						<a href="/edit/">Edit File</a>
-					</li>
-				</ul>
-			</div><!-- /.navbar-collapse -->
-		</div><!-- /.container -->
-	</nav><!-- Page Content -->
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12 text-center">
-				<h1>Create New File</h1><b>All fields are required, and all fields can be changed later.</b>
-				<hr>
-				<label for="filename">File Name:</label>
-				<input class="form-control" id="filename" type="text">
-				<label for="filetype">Syntax Highlighting Language</label> 
-				<select id="filetype" class="selectpicker form-control" data-live-search="true" title="Choose One">
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>                <a class="navbar-brand" href="/">Techedit</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/new/">New File</a>
+                    </li>
+                    <li>
+                        <a href="/edit/">Edit File</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1>Create New File</h1><b>All fields are required, and all fields can be changed later.</b>
+                <hr>
+                <label for="filename">File Name:</label>
+                <input class="form-control" id="filename" type="text">
+                <label for="filetype">Syntax Highlighting Language</label>
+                <select id="filetype" class="selectpicker form-control" data-live-search="true" title="Choose One">
 					<option value="java">
 						Java
 					</option>
@@ -79,9 +88,9 @@
 					<option value="text">
 						bash
 					</option>
-				</select> 
-				<label for="theme">Editor Theme</label> 
-				<select id="theme" class="selectpicker form-control" data-live-search="true" title="Choose One">
+				</select>
+                <label for="theme">Editor Theme</label>
+                <select id="theme" class="selectpicker form-control" data-live-search="true" title="Choose One">
 					<optgroup label="Light">
 						<option value="xcode">
 							XCode
@@ -108,31 +117,93 @@
 						</option>
 					</optgroup>
 				</select>
-				
-			</div>
-		</div><!-- /.row -->
-	</div><!-- /.container -->
-	<!-- jQuery Version 1.11.1 -->
-	<script src="/js/jquery.js">
-	</script> <!-- Bootstrap Core JavaScript -->
-	 
-	<script src="/js/bootstrap.min.js">
-	</script> 
-	<script src="/js/bootstrap-select.min.js">
-	</script> 
-	<script src="https://www.gstatic.com/firebasejs/3.6.3/firebase.js">
-	</script> 
-	<script>
-	       // Initialize Firebase
-	       var config = {
-	           apiKey: "AIzaSyBQ2E4ISQoIcRsDxfPxzDjbJwmD-r98JYw",
-	           authDomain: "techedit-63e7f.firebaseapp.com",
-	           databaseURL: "https://techedit-63e7f.firebaseio.com",
-	           storageBucket: "techedit-63e7f.appspot.com",
-	           messagingSenderId: "609280907475"
-	       };
-	       firebase.initializeApp(config);
-	</script> 
-	
+                <button class="btn btn-primary form-control" id="submit">Create File</button>
+
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container -->
+    <!-- jQuery Version 1.11.1 -->
+    <script src="/js/jquery.js">
+    </script>
+    <!-- Bootstrap Core JavaScript -->
+
+    <script src="/js/bootstrap.min.js">
+    </script>
+    <script src="/js/bootstrap-select.min.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.3/firebase.js">
+    </script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyBQ2E4ISQoIcRsDxfPxzDjbJwmD-r98JYw",
+            authDomain: "techedit-63e7f.firebaseapp.com",
+            databaseURL: "https://techedit-63e7f.firebaseio.com",
+            storageBucket: "techedit-63e7f.appspot.com",
+            messagingSenderId: "609280907475"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script>
+        function getFileID(callback, count) {
+            if (!count) {
+                count = 0;
+            }
+            //some error, generated 100 random ID's and still didn't work.
+            if (count > 100) {
+                callback(false);
+            }
+            else {
+                //no captial I, lowercase l, captial or lowercase o, and no zero(0) to prevent confusion(in the url bar both look the same)
+                // generates 6 digit random ID from pool of 21 chars, not including the following five charcters: iIoO0
+                var chars = "123456789abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
+                var result = "";
+                for (var i = 6; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+                var invalid = true;
+
+                firebase.database().ref(result).once("value").then(function(snapshot) {
+                    if (snapshot.val() === null) {
+
+                        callback(result);
+                    }
+                    else {
+                        getFileID(callback, count + 1);
+                    }
+                });
+            }
+
+        }
+
+        function createFile() {
+
+
+            getFileID(function(key) {
+                if (!key) {
+                    $("#loading").addClass("hidden");
+                    $("#keyerror").removeClass("hidden");
+                }
+                else {
+                    firebase.database().ref(key + "/valid").set(true).then(function() {
+                        firebase.database().ref(key + "/info/").set({
+                            language: $("#filetype").val(),
+                            theme: $("#theme").val(),
+                            name: $("#filename").val()
+                        }).then(function() {
+                            window.location.href = "https://techedit.jeffkmeng.com/f/" + key;
+                        });
+                    });
+
+                }
+            });
+
+
+
+
+        }
+        $("#submit").click(createFile)
+    </script>
 </body>
+
 </html>
