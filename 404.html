@@ -150,6 +150,7 @@
         $(document).load(init);
 
         function init() {
+            
             var clipboard = new Clipboard(".clipboard-btn");
             //// Initialize Firebase.
             //// TODO: replace with your Firebase project configuration.
@@ -164,9 +165,9 @@
 
             //// Get Firebase Database reference.
             var firepadRef = getFirepadRef(function(firepadRef, snapshot) {
-                console.log(firepadRef);
+                //console.log(firepadRef);
                 if (!firepadRef) {
-                    //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
+                    window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
                 }
                 else {
 
@@ -205,6 +206,7 @@
                     Firepad.fromACE(firepadRef, editor, {
                         defaultText: ""
                     });
+                    $("#update").click(createFile);
                 }
             });
 
@@ -214,32 +216,32 @@
         function getFirepadRef(callback) {
             var ref = firebase.database().ref("/");
             var page = window.location.pathname.substring(1).split("/");
-            console.log(page[1]);
-            console.log(page);
+            //console.log(page[1]);
+            //console.log(page);
             if (page[0] === "f" && page[1] !== null && page[1] !== "") {
                 ref.child(page[1]).once("value").then(function(snapshot) {
                     var data = snapshot.val();
 
-                    console.log(data);
+                    //console.log(data);
                     if (data === null || data === undefined) {
 
-                        console.log(1)
-                            //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
+                        //console.log(1)
+                            window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
 
                     }
 
                     else {
                         var result = ref.child(page[1])
-                        console.log(result);
-                        console.log(data);
+                        //console.log(result);
+                        //console.log(data);
                         callback(result, snapshot);
                     }
                 });
 
             }
             else {
-                console.log(2);
-                //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
+                //console.log(2);
+                window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
 
             }
 
@@ -304,7 +306,8 @@
 
 
         }
-        $("#update").click(createFile)
+        
+        init();
     </script>
 </body>
 
