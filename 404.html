@@ -42,11 +42,14 @@
         #page {
             margin-top: 75px;
         }
+        
         .hidden {
-            display:none;
+            display: none;
         }
     </style>
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link href="/css/bootstrap-select.min.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -98,7 +101,7 @@
 
             </div>
             <div class="col-lg-3">
-                
+
                 <p class="lead">Options</p>
                 <div class="alert alert-danger hidden" role="alert" id="allfieldsrequired">All fields are required</div>
 
@@ -190,6 +193,8 @@
     </div>
     <script src="/js/jquery.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap-select.min.js"></script>
+
     <script src="/js/clipboard.min.js"></script>
 
     <script>
@@ -197,7 +202,7 @@
         $(document).load(init);
 
         function init() {
-            
+
             var clipboard = new Clipboard(".clipboard-btn");
             //// Initialize Firebase.
             //// TODO: replace with your Firebase project configuration.
@@ -273,14 +278,14 @@
                     if (data === null || data === undefined) {
 
                         //console.log(1)
-                            window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
+                        window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
 
                     }
 
                     else {
                         var result = ref.child(page[1])
-                        //console.log(result);
-                        //console.log(data);
+                            //console.log(result);
+                            //console.log(data);
                         callback(result, snapshot);
                     }
                 });
@@ -294,6 +299,7 @@
 
 
         }
+
         function getFileID(callback, count) {
             if (!count) {
                 count = 0;
@@ -328,8 +334,9 @@
             if ($("#filetype").val().replace(" ", "") === "" || $("#theme").val().replace(" ", "") === "" || $("#filename").val().replace(" ", "") === "") {
 
                 $("#allfieldsrequired").removeClass("hidden");
-            } else {
-            
+            }
+            else {
+
                 getFileID(function(key) {
                     if (!key) {
                         $("#loading").addClass("hidden");
@@ -353,7 +360,7 @@
 
 
         }
-        
+
         init();
     </script>
 </body>
