@@ -238,6 +238,9 @@
                         var theme = "monokai";
                         var language = "text";
                     }
+                    $("#filename").val(filename);
+                    $("#theme").val(theme);
+                    $("#filetype").val(language);
                     $("#filename").text(filename);
                     //// Create ACE
                     var editor = ace.edit("firepad-container");
