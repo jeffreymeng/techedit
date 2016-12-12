@@ -161,7 +161,7 @@
 						</option>
 					</optgroup>
 				</select>
-                <button class="btn btn-primary form-control" id="submit">Create File</button>
+                <button class="btn btn-primary form-control" id="update">Create File</button>
                 <hr>
                 <div class="input-group">
                     <span class="input-group-addon"><span class="name">File ID</span></span>
@@ -258,7 +258,7 @@
                     Firepad.fromACE(firepadRef, editor, {
                         defaultText: ""
                     });
-                    $("#update").click(createFile);
+                    $("#update").click(updateInfo);
                 }
             });
 
@@ -309,7 +309,7 @@
                 callback(false);
             }
             else {
-                //no captial I, lowercase l, captial or lowercase o, and no zero(0) to prevent confusion(in the url bar both look the same)
+                //no captial I, lowercase l, captial or lowercase o, and no zero(0) to prevent confusion(in the url bar l & I look the same and o O 0 look the same)
                 // generates 6 digit random ID from pool of 21 chars, not including the following five charcters: iIoO0
                 var chars = "123456789abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
                 var result = "";
@@ -329,7 +329,7 @@
 
         }
 
-        function createFile() {
+        function updateInfo() {
 
             if ($("#filetype").val().replace(" ", "") === "" || $("#theme").val().replace(" ", "") === "" || $("#filename").val().replace(" ", "") === "") {
 
