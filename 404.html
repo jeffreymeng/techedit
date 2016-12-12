@@ -102,16 +102,63 @@
                 <p class="lead">Options</p>
                 <div class="alert alert-danger hidden" role="alert" id="allfieldsrequired">All fields are required</div>
 
-                <label for="sidebar-new-file-type">File Type:</label>
-                <select class="form-control" id="sidebar-new-file-type">
-                    <option value="java">Java</option>
-                    <option value="python">Python</option>
-                    <option value="html">HTML</option>
-                    <option value="text">Text</option>
-                    <option value="other">Other</option>
-                </select>
-                <br>
-                <button id="sidebar-new-file" class="btn btn-primary form-control">Save Changes</button>
+                <label for="filename">File Name:</label>
+                <input class="form-control" id="filename" type="text">
+                <label for="filetype">Syntax Highlighting Language</label>
+                <select id="filetype" class="selectpicker form-control" data-live-search="true" title="Choose One">
+					<option value="java">
+						Java
+					</option>
+					<option value="python">
+						Python
+					</option>
+					<option value="html">
+						HTML
+					</option>
+					<option value="css">
+						CSS
+					</option>
+					<option value="javascript">
+						Javascript
+					</option>
+					<option value="text">
+						Text
+					</option>
+					<option value="swift">
+						Swift
+					</option>
+					
+					
+				</select>
+                <label for="theme">Editor Theme</label>
+                <select id="theme" class="selectpicker form-control" data-live-search="true" title="Choose One">
+					<optgroup label="Light">
+						<option value="xcode">
+							XCode
+						</option>
+						<option value="eclipse">
+							Eclipse
+						</option>
+						<option value="github">
+							Github
+						</option>
+						<option value="solarized-light">
+							Solarized Light
+						</option>
+					</optgroup>
+					<optgroup label="Dark">
+						<option value="monokai">
+							Monokai
+						</option>
+						<option value="twilight">
+							Twilight
+						</option>
+						<option value="solarized-dark">
+							Solarized Dark
+						</option>
+					</optgroup>
+				</select>
+                <button class="btn btn-primary form-control" id="submit">Create File</button>
                 <hr>
                 <div class="input-group">
                     <span class="input-group-addon"><span class="name">File ID</span></span>
