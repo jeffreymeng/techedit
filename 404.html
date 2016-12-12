@@ -19,7 +19,6 @@
     <script src="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.min.js"></script>
 
     <style>
-    
         html {
             height: 100%;
         }
@@ -41,8 +40,9 @@
         .col-lg-12 {
             background-color: gray;
         }
+        
         #page {
-            margin-top:75px;
+            margin-top: 75px;
         }
     </style>
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
@@ -94,7 +94,7 @@
                         <div id="firepad-container"></div>
                     </div>
                 </div>
-                
+
             </div>
             <div class="col-lg-3">
                 <br><br><br>
@@ -152,7 +152,7 @@
                 messagingSenderId: "609280907475"
             };
             firebase.initializeApp(config);
-        
+
             //// Get Firebase Database reference.
             var firepadRef = getFirepadRef(function(firepadRef, snapshot) {
                 console.log(firepadRef);
@@ -160,13 +160,15 @@
                     //window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
                 }
                 else {
-                    
+
                     var data = snapshot.val();
-                    $("#filename").text(data.info.name || "unamed-file");
+                    if (data.info) {
+                        $("#filename").text(data.info.name || "unamed-file");
+                    }
                     //// Create ACE
                     var editor = ace.edit("firepad-container");
                     if (data.info) {
-                    editor.setTheme("ace/theme/" + (data.info.theme || "monokai" ));
+                        editor.setTheme("ace/theme/" + (data.info.theme || "monokai"));
                     }
                     editor.setShowPrintMargin(false);
                     var session = editor.getSession();
@@ -175,7 +177,7 @@
                     if (data.info && data.info.language) {
                         session.setMode("ace/mode/" + data.info.language);
                     }
-                    
+
 
                     //// Create Firepad.
                     /* var firepad = */
