@@ -85,7 +85,7 @@
 					
 					
 				</select>
-                <label for="theme">Your Editor Theme(This is diffrent for everyone)</label>
+                <label for="theme">Editor Theme(Only for you, saved on this browser for all future files, not saved on private browsing)</label>
                 <select id="theme" class="selectpicker form-control" data-live-search="true" title="Choose One">
 					<optgroup label="Light">
 						<option value="xcode">
@@ -146,7 +146,7 @@
     </script>
     <script>
         
-        /* global $ firebase */
+        /* global $ firebase localStorage */
         function getFileID(callback, count) {
             if (!count) {
                 count = 0;
@@ -197,9 +197,11 @@
                         firebase.database().ref(key + "/valid").set(true).then(function() {
                             firebase.database().ref(key + "/info/").set({
                                 language: $("#filetype").val(),
-                                theme: $("#theme").val(),
+                                
                                 name: $("#filename").val()
                             }).then(function() {
+                                localStorage.setItem("techedit-opts-local-theme", $("#theme").val());
+
                                 window.location.href = "https://techedit.jeffkmeng.com/f/" + key;
                             });
                         });

@@ -111,6 +111,7 @@
     </script>
     <script>
         $("#sidebar-edit-file").click(function() {
+            localStorage.setItem("techedit-opts-local-theme", theme);
             window.location.href = "/f/" + $("#sidebar-edit-file-id").val();
         });
     </script>
