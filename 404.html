@@ -282,7 +282,7 @@
                         
                         language = "text";
                     }
-                    if (loaalStorage) {
+                    if (localStorage) {
                         theme = localStorage.getItem("techedit-opts-local-theme") || "xcode";
                     } else {
                         theme = "xcode";
@@ -319,6 +319,7 @@
                         var theme = $("#opt-theme").val();
                         editor.setTheme("ace/theme/" + theme);
                         localStorage.setItem("techedit-opts-local-theme", theme);
+                        $("#opt-theme").selectpicker("val", theme);
                     });
                 }
             });
