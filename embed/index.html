@@ -43,9 +43,11 @@
         #filename {
             overflow-x: scroll;
         }
+        
         #panal {
             resize: both;
         }
+        
         #error404 {
             margin-top: 75px;
         }
@@ -181,8 +183,8 @@
 						</option>
 					</optgroup>
 				</select>
-				<br>
-				<br>
+                <br>
+                <br>
                 <button class="btn btn-primary form-control" id="update">Update Options</button>
                 <hr>
                 <div class="input-group">
@@ -252,12 +254,12 @@
             firebase.initializeApp(config);
 
             // Get Firebase Database reference.
-            
+
             getFirepadRef(function(firepadRef, snapshot) {
                 if (!firepadRef) {
                     $("#page").addClass("hidden");
-                        $("#loading").addClass("hidden");
-                        $("#error404").removeClass("hidden");
+                    $("#loading").addClass("hidden");
+                    $("#error404").removeClass("hidden");
                 }
                 else {
 
@@ -319,18 +321,18 @@
                 ref.child(getQuery("id")).once("value").then(function(snapshot) {
                     var data = snapshot.val();
 
-                    
+
                     if (data === null || data === undefined) {
 
-                        
-                       $("#page").addClass("hidden");
+
+                        $("#page").addClass("hidden");
                         $("#loading").addClass("hidden");
                         $("#error404").removeClass("hidden");
                     }
 
                     else {
                         var result = ref.child(getQuery("id"));
-                       
+
                         callback(result, snapshot);
                     }
                 });
@@ -338,8 +340,8 @@
             }
             else {
                 $("#page").addClass("hidden");
-                        $("#loading").addClass("hidden");
-                        $("#error404").removeClass("hidden");
+                $("#loading").addClass("hidden");
+                $("#error404").removeClass("hidden");
 
             }
 
