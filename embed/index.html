@@ -251,10 +251,9 @@
             };
             firebase.initializeApp(config);
 
-            //// Get Firebase Database reference.
+            // Get Firebase Database reference.
             
             getFirepadRef(function(firepadRef, snapshot) {
-                //console.log(firepadRef);
                 if (!firepadRef) {
                     $("#page").addClass("hidden");
                         $("#loading").addClass("hidden");
