@@ -35,8 +35,6 @@
             height: 600px;
         }
         
-        
-        
         #page {
             margin-top: 75px;
         }
@@ -361,23 +359,19 @@
             }
             else {
 
-                getFileID(function(key) {
-                    if (!key) {
-                        window.location.href = window.location.href;
-                    }
-                    else {
-                        firebase.database().ref(key + "/valid").set(true).then(function() {
-                            firebase.database().ref(key + "/info/").set({
-                                language: $("#opt-filetype").val(),
-                                theme: $("#opt-theme").val(),
-                                name: $("#opt-filename").val()
-                            }).then(function() {
-                                window.location.href = window.location.href;
-                            });
-                        });
 
-                    }
+
+                firebase.database().ref(window.location.pathname.substring(1).split("/")[1] + "/info/").set({
+                    language: $("#opt-filetype").val(),
+                    theme: $("#opt-theme").val(),
+                    name: $("#opt-filename").val()
+                }).then(function() {
+                    window.location.href = window.location.href;
                 });
+
+
+
+
             }
 
 
