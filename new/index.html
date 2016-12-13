@@ -179,7 +179,7 @@
                 $("#nospecialchars").addClass("hidden");
                 $("#allfieldsrequired").removeClass("hidden");
             }
-            else if (!$("#filename").val().match(/[a-zA-Z0-9\-_\/\.]+/g)) {
+            else if (!(/[a-zA-Z0-9\-_\/\.]{1,60}/g.test($("#filename").val()))) {
                 $("#allfieldsrequired").addClass("hidden");
                 $("#nospecialchars").removeClass("hidden");
             }
