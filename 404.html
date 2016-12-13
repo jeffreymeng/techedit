@@ -309,6 +309,12 @@
                     var firepad = Firepad.fromACE(firepadRef, editor, {
                         defaultText: ""
                     });
+                    firebase.database().child(id).on("value", function(data){
+                        $("#filename").text(data.val().info.name);
+                        session.setMode("ace/mode/" + data.val().info.language);
+                        $("#opt-filetype").selectpicker("val", data.val().info.language);
+
+                    });
                     firepad.on("ready", function() {
                         $("#error404").addClass("hidden");
                         $("#loading").addClass("hidden");
