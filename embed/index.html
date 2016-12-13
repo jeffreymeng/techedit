@@ -360,7 +360,7 @@
                     }
 
                     else {
-                        var result = ref.child(page[1]);
+                        var result = ref.child(getQuery("id"));
 
                         callback(result, snapshot);
                     }
