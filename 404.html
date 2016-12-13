@@ -39,7 +39,7 @@
             background-color: gray;
         }
         
-        #page {
+        #page #error404 {
             margin-top: 75px;
         }
         
@@ -84,6 +84,18 @@
     </nav>
 
     <!-- Page Content -->
+    <div class="container hidden" id="error404">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                <h1>Error: File not found</h1>
+                <p>The file requested does not exist.</p>
+            </div>
+
+        </div>
+
+    </div>
     <div class="container" id="page">
 
         <div class="row">
@@ -198,12 +210,12 @@
     <script src="/js/clipboard.min.js"></script>
 
     <script>
-        /* global firebase $ ace Firepad*/
+        /* global firebase $ ace Firepad Clipboard*/
         $(document).load(init);
 
         function init() {
 
-            var clipboard = new Clipboard(".clipboard-btn");
+            /* var clipboard = */ new Clipboard(".clipboard-btn");
             //// Initialize Firebase.
             //// TODO: replace with your Firebase project configuration.
             var config = {
@@ -216,27 +228,30 @@
             firebase.initializeApp(config);
 
             //// Get Firebase Database reference.
-            var firepadRef = getFirepadRef(function(firepadRef, snapshot) {
+            /* var firepadRef = */ getFirepadRef(function(firepadRef, snapshot) {
                 //console.log(firepadRef);
                 if (!firepadRef) {
-                    window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
+                    $("#main").addClass("hidden");
+                    $("#error404").removeClass("hidden");
                 }
                 else {
 
                     var data = snapshot.val();
+                    var page = window.location.pathname.substring(1).split("/");
                     $("#embed-code").text("https://techedit.jeffkmeng.com/embed?id=" + page[1]);
                     $("#share-code").text("https://techedit.jeffkmeng.com/f/" + page[1]);
                     $("#file-id").text(page[1]);
+                    var filename, theme, language;
                     if (data.info) {
-                        var filename = data.info.name;
-                        var theme = data.info.theme;
-                        var language = data.info.language;
+                        filename = data.info.name;
+                        theme = data.info.theme;
+                        language = data.info.language;
                     }
                     else {
                         // just in case
-                        var filename = "Unamed";
-                        var theme = "monokai";
-                        var language = "text";
+                        filename = "Unamed";
+                        theme = "monokai";
+                        language = "text";
                     }
                     $("#opt-filename").selectpicker("val", filename);
                     $("#opt-theme").selectpicker("val", theme);
@@ -281,12 +296,13 @@
                     if (data === null || data === undefined) {
 
                         //console.log(1)
-                        window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
+                        $("#main").addClass("hidden");
+                        $("#error404").removeClass("hidden");
 
                     }
 
                     else {
-                        var result = ref.child(page[1])
+                        var result = ref.child(page[1]);
                             //console.log(result);
                             //console.log(data);
                         callback(result, snapshot);
@@ -296,7 +312,8 @@
             }
             else {
                 //console.log(2);
-                window.location.href = "/404error.html?ref=" + encodeURIComponent(window.location.href);
+                $("#main").addClass("hidden");
+                $("#error404").removeClass("hidden");
 
             }
 
@@ -317,7 +334,7 @@
                 var chars = "123456789abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
                 var result = "";
                 for (var i = 6; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
-                var invalid = true;
+                //var invalid = true;
 
                 firebase.database().ref(result).once("value").then(function(snapshot) {
                     if (snapshot.val() === null) {
