@@ -120,7 +120,7 @@
 
                 <p class="lead">Options</p>
                 <div class="alert alert-danger hidden" role="alert" id="opt-allfieldsrequired">All fields are required</div>
-                <div class="alert alert-danger hidden" role="alert" id="opt-nospecialchars">The file name can only contain letters, numbers, dashes(-), underscores(_), slashes(/), and dots(.), and must be 60 charcters or less.</div>
+                <div class="alert alert-danger hidden" role="alert" id="opt-nospecialchars">The file name can only contain letters, numbers, spaces( ), dashes(-), underscores(_), slashes(/), and dots(.), and must be 60 charcters or less.</div>
 
                 <label for="opt-filename">File Name:</label>
                 <input class="form-control" id="opt-filename" type="text" value="Loading...">
@@ -334,7 +334,7 @@
         
 
         function updateInfo() {
-            var charsregex = /^[a-zA-Z0-9\-_\/\.]{1,60}$/;
+            var charsregex = /^[a-zA-Z0-9\-_\/\. ]{1,60}$/;
             if ($("#opt-filetype").val().replace(" ", "") === "" || $("#opt-theme").val().replace(" ", "") === "" || $("#opt-filename").val().replace(" ", "") === "") {
                 $("#opt-nospecialchars").addClass("hidden");
                 $("#opt-allfieldsrequired").removeClass("hidden");
