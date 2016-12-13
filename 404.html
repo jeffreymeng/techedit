@@ -327,34 +327,7 @@
 
         }
 
-        function getFileID(callback, count) {
-            if (!count) {
-                count = 0;
-            }
-            //some error, generated 100 random ID's and still didn't work.
-            if (count > 100) {
-                callback(false);
-            }
-            else {
-                //no captial I, lowercase l, captial or lowercase o, and no zero(0) to prevent confusion(in the url bar l & I look the same and o O 0 look the same)
-                // generates 6 digit random ID from pool of 21 chars, not including the following five charcters: iIoO0
-                var chars = "123456789abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
-                var result = "";
-                for (var i = 6; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
-                //var invalid = true;
-
-                firebase.database().ref(result).once("value").then(function(snapshot) {
-                    if (snapshot.val() === null) {
-
-                        callback(result);
-                    }
-                    else {
-                        getFileID(callback, count + 1);
-                    }
-                });
-            }
-
-        }
+        
 
         function updateInfo() {
             var charsregex = /^[a-zA-Z0-9\-_\/\.]{1,60}$/;
