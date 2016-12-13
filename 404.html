@@ -241,10 +241,10 @@
                 else {
 
                     var data = snapshot.val();
-                    var page = window.location.pathname.substring(1).split("/");
-                    $("#embed-code").val("https://techedit.jeffkmeng.com/embed?id=" + page[1]);
-                    $("#share-code").val("https://techedit.jeffkmeng.com/f/" + page[1]);
-                    $("#file-id").val(page[1]);
+                    var id = window.location.pathname.substring(1).split("/")[1];
+                    $("#embed-code").val("https://techedit.jeffkmeng.com/embed?id=" + id);
+                    $("#share-code").val("https://techedit.jeffkmeng.com/f/" + id);
+                    $("#file-id").val(id);
                     var filename, theme, language;
                     if (data.info) {
                         filename = data.info.name;
