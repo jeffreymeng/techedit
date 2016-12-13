@@ -46,6 +46,7 @@
         #error404 {
             margin-top: 75px;
         }
+        
         #loading {
             margin-top: 75px;
         }
@@ -242,7 +243,7 @@
             firebase.initializeApp(config);
 
             // Get Firebase Database reference.
-            
+
             getFirepadRef(function(firepadRef, snapshot) {
                 //console.log(firepadRef);
                 if (!firepadRef) {
