@@ -309,8 +309,9 @@
                     var firepad = Firepad.fromACE(firepadRef, editor, {
                         defaultText: ""
                     });
-                    firebase.database().child(id).on("value", function(data){
+                    firebase.database().ref("/" + id + "/").on("value", function(data){
                         $("#filename").text(data.val().info.name);
+                        $("#opt-filename").val(data.val().info.name);
                         session.setMode("ace/mode/" + data.val().info.language);
                         $("#opt-filetype").selectpicker("val", data.val().info.language);
 
