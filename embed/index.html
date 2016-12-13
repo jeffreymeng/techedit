@@ -252,12 +252,13 @@
             firebase.initializeApp(config);
 
             //// Get Firebase Database reference.
-            /* var firepadRef = */
+            
             getFirepadRef(function(firepadRef, snapshot) {
                 //console.log(firepadRef);
                 if (!firepadRef) {
                     $("#page").addClass("hidden");
-                    $("#error404").removeClass("hidden");
+                        $("#loading").addClass("hidden");
+                        $("#error404").removeClass("hidden");
                 }
                 else {
 
@@ -297,9 +298,13 @@
 
 
                     //// Create Firepad.
-                    /* var firepad = */
-                    Firepad.fromACE(firepadRef, editor, {
+                    var firepad = Firepad.fromACE(firepadRef, editor, {
                         defaultText: ""
+                    });
+                    firepad.on("ready", function() {
+                        $("#error404").addClass("hidden");
+                        $("#loading").addClass("hidden");
+                        $("#page").removeClass("hidden");
                     });
                     $("#update").click(updateInfo);
                 }
@@ -310,34 +315,32 @@
         // Helper to get hash from end of URL or generate a random one.
         function getFirepadRef(callback) {
             var ref = firebase.database().ref("/");
-            //console.log(page[1]);
-            //console.log(page);
+
             if (getQuery("id") !== null && getQuery("id") !== "") {
                 ref.child(getQuery("id")).once("value").then(function(snapshot) {
                     var data = snapshot.val();
 
-                    //console.log(data);
+                    
                     if (data === null || data === undefined) {
 
-                        //console.log(1)
-                        $("#page").addClass("hidden");
+                        
+                       $("#page").addClass("hidden");
+                        $("#loading").addClass("hidden");
                         $("#error404").removeClass("hidden");
-
                     }
 
                     else {
                         var result = ref.child(getQuery("id"));
-                        //console.log(result);
-                        //console.log(data);
+                       
                         callback(result, snapshot);
                     }
                 });
 
             }
             else {
-                //console.log(2);
                 $("#page").addClass("hidden");
-                $("#error404").removeClass("hidden");
+                        $("#loading").addClass("hidden");
+                        $("#error404").removeClass("hidden");
 
             }
 

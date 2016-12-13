@@ -100,7 +100,8 @@
         </div>
 
     </div>
-    <div class="container" id="page">
+    <p id="loading">Loading...</p>
+    <div class="container hidden" id="page">
 
         <div class="row">
 
@@ -178,8 +179,8 @@
 						</option>
 					</optgroup>
 				</select>
-				<br>
-				<br>
+                <br>
+                <br>
                 <button class="btn btn-primary form-control" id="update">Update Options</button>
                 <hr>
                 <div class="input-group">
@@ -238,11 +239,12 @@
             firebase.initializeApp(config);
 
             //// Get Firebase Database reference.
-            /* var firepadRef = */
+            
             getFirepadRef(function(firepadRef, snapshot) {
                 //console.log(firepadRef);
                 if (!firepadRef) {
                     $("#page").addClass("hidden");
+                    $("#loading").addClass("hidden");
                     $("#error404").removeClass("hidden");
                 }
                 else {
@@ -283,9 +285,13 @@
 
 
                     //// Create Firepad.
-                    /* var firepad = */
-                    Firepad.fromACE(firepadRef, editor, {
+                    var firepad = Firepad.fromACE(firepadRef, editor, {
                         defaultText: ""
+                    });
+                    firepad.on("ready", function() {
+                        $("#error404").addClass("hidden");
+                        $("#loading").addClass("hidden");
+                        $("#page").removeClass("hidden");
                     });
                     $("#update").click(updateInfo);
                 }
@@ -297,33 +303,33 @@
         function getFirepadRef(callback) {
             var ref = firebase.database().ref("/");
             var page = window.location.pathname.substring(1).split("/");
-            //console.log(page[1]);
-            //console.log(page);
+
             if (page[0] === "f" && page[1] !== null && page[1] !== "") {
                 ref.child(page[1]).once("value").then(function(snapshot) {
                     var data = snapshot.val();
 
-                    //console.log(data);
+
                     if (data === null || data === undefined) {
 
-                        //console.log(1)
+
                         $("#page").addClass("hidden");
+                        $("#loading").addClass("hidden");
                         $("#error404").removeClass("hidden");
 
                     }
 
                     else {
                         var result = ref.child(page[1]);
-                        //console.log(result);
-                        //console.log(data);
+
                         callback(result, snapshot);
                     }
                 });
 
             }
             else {
-                //console.log(2);
+
                 $("#page").addClass("hidden");
+                $("#loading").addClass("hidden");
                 $("#error404").removeClass("hidden");
 
             }
@@ -331,7 +337,7 @@
 
         }
 
-        
+
 
         function updateInfo() {
             var charsregex = /^[a-zA-Z0-9\-_\/\. ]{1,60}$/;
