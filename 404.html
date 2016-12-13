@@ -244,7 +244,7 @@
                     var page = window.location.pathname.substring(1).split("/");
                     $("#embed-code").val("https://techedit.jeffkmeng.com/embed?id=" + page[1]);
                     $("#share-code").val("https://techedit.jeffkmeng.com/f/" + page[1]);
-                    $("#file-id").text(page[1]);
+                    $("#file-id").val(page[1]);
                     var filename, theme, language;
                     if (data.info) {
                         filename = data.info.name;
@@ -271,7 +271,7 @@
                     session.setUseWorker(false);
                     //language is text by defualt, we don't need to change it.
 
-                    session.setMode("/ace/mode/" + language);
+                    session.setMode("ace/mode/" + language);
 
 
 
