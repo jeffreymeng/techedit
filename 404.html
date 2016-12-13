@@ -240,8 +240,8 @@
 
                     var data = snapshot.val();
                     var page = window.location.pathname.substring(1).split("/");
-                    $("#embed-code").text("https://techedit.jeffkmeng.com/embed?id=" + page[1]);
-                    $("#share-code").text("https://techedit.jeffkmeng.com/f/" + page[1]);
+                    $("#embed-code").val("https://techedit.jeffkmeng.com/embed?id=" + page[1]);
+                    $("#share-code").val("https://techedit.jeffkmeng.com/f/" + page[1]);
                     $("#file-id").text(page[1]);
                     var filename, theme, language;
                     if (data.info) {
