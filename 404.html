@@ -321,13 +321,14 @@
                         $("#loading").addClass("hidden");
                         $("#page").removeClass("hidden");
                     });
-                    $("#update").click(updateInfo);
                     $("#opt-theme").change(function() {
                         var theme = $("#opt-theme").val();
                         editor.setTheme("ace/theme/" + theme);
                         localStorage.setItem("techedit-opts-local-theme", theme);
                         $("#opt-theme").selectpicker("val", theme);
                     });
+                    $("#update").click(updateInfo);
+                    
                 }
             });
 
