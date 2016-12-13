@@ -85,7 +85,7 @@
 					
 					
 				</select>
-                <label for="theme">Editor Theme</label>
+                <label for="theme">Your Editor Theme(This is diffrent for everyone)</label>
                 <select id="theme" class="selectpicker form-control" data-live-search="true" title="Choose One">
 					<optgroup label="Light">
 						<option value="xcode">
@@ -145,6 +145,7 @@
         firebase.initializeApp(config);
     </script>
     <script>
+        
         /* global $ firebase */
         function getFileID(callback, count) {
             if (!count) {

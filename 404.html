@@ -166,7 +166,11 @@
 					
 					
 				</select>
-                <label for="opt-theme">Editor Theme</label>
+				<br>
+                <br>
+                <button class="btn btn-primary form-control" id="update">Update Options</button>
+                <hr>
+                <label for="opt-theme">Editor Theme(Only for you, saved on this browser for all future files)</label>
                 <select id="opt-theme" class="selectpicker form-control" data-live-search="true" title="loading...">
 					<optgroup label="Light">
 						<option value="xcode">
@@ -194,9 +198,7 @@
 						</option>
 					</optgroup>
 				</select>
-                <br>
-                <br>
-                <button class="btn btn-primary form-control" id="update">Update Options</button>
+                
                 <hr>
                 <div class="input-group">
                     <span class="input-group-addon"><span class="name">File ID</span></span>
@@ -235,7 +237,7 @@
     <script src="/js/clipboard.min.js"></script>
 
     <script>
-        /* global firebase $ ace Firepad Clipboard*/
+        /* global firebase $ ace Firepad Clipboard localStorage*/
         $(document).load(init);
 
         function init() {
@@ -272,14 +274,18 @@
                     var filename, theme, language;
                     if (data.info) {
                         filename = data.info.name;
-                        theme = data.info.theme;
                         language = data.info.language;
                     }
                     else {
                         // just in case
                         filename = "Unamed";
-                        theme = "monokai";
+                        
                         language = "text";
+                    }
+                    if (loaalStorage) {
+                        theme = localStorage.getItem("techedit-opts-local-theme") || "xcode";
+                    } else {
+                        theme = "xcode";
                     }
                     $("#opt-filename").val(filename);
                     $("#opt-theme").selectpicker("val", theme);
@@ -296,7 +302,7 @@
                     //language is text by defualt, we don't need to change it.
 
                     session.setMode("ace/mode/" + language);
-
+                    
 
 
                     //// Create Firepad.
@@ -309,6 +315,11 @@
                         $("#page").removeClass("hidden");
                     });
                     $("#update").click(updateInfo);
+                    $("#theme").change(function(){
+                        var theme = $("#opt-theme").val();
+                        editor.setTheme("ace/theme/" + theme);
+                        localStorage.setItem("techedit-opts-local-theme", theme);
+                    });
                 }
             });
 
@@ -370,7 +381,7 @@
 
                 firebase.database().ref(window.location.pathname.substring(1).split("/")[1] + "/info/").set({
                     language: $("#opt-filetype").val(),
-                    theme: $("#opt-theme").val(),
+                    
                     name: $("#opt-filename").val()
                 }).then(function() {
                     window.location.href = window.location.href;
