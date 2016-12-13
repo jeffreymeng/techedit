@@ -315,7 +315,7 @@
                         $("#page").removeClass("hidden");
                     });
                     $("#update").click(updateInfo);
-                    $("#theme").change(function(){
+                    $("#opt-theme").change(function(){
                         var theme = $("#opt-theme").val();
                         editor.setTheme("ace/theme/" + theme);
                         localStorage.setItem("techedit-opts-local-theme", theme);
