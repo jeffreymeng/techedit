@@ -35,9 +35,7 @@
             height: 600px;
         }
         
-        .col-lg-12 {
-            background-color: gray;
-        }
+        
         
         #page {
             margin-top: 75px;
@@ -237,7 +235,7 @@
             getFirepadRef(function(firepadRef, snapshot) {
                 //console.log(firepadRef);
                 if (!firepadRef) {
-                    $("#main").addClass("hidden");
+                    $("#page").addClass("hidden");
                     $("#error404").removeClass("hidden");
                 }
                 else {
@@ -302,7 +300,7 @@
                     if (data === null || data === undefined) {
 
                         //console.log(1)
-                        $("#main").addClass("hidden");
+                        $("#page").addClass("hidden");
                         $("#error404").removeClass("hidden");
 
                     }
@@ -318,7 +316,7 @@
             }
             else {
                 //console.log(2);
-                $("#main").addClass("hidden");
+                $("#page").addClass("hidden");
                 $("#error404").removeClass("hidden");
 
             }
