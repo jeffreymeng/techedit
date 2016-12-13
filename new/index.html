@@ -178,6 +178,10 @@
 
                 $("#allfieldsrequired").removeClass("hidden");
             }
+            else if ($("#filename").val().match(/[a-zA-Z0-9\-_\/\.]+/g)) {
+                $("#allfieldsrequired").removeClass("hidden");
+                $("#name").removeClass("hidden");
+            }
             else {
 
                 getFileID(function(key) {

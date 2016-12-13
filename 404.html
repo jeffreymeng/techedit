@@ -256,10 +256,10 @@
                         theme = "monokai";
                         language = "text";
                     }
-                    $("#opt-filename").selectpicker("val", filename);
+                    $("#opt-filename").val(filename);
                     $("#opt-theme").selectpicker("val", theme);
                     $("#opt-filetype").selectpicker("val", language);
-                    $("#filename").selectpicker("val", filename);
+                    $("#filename").text(filename);
                     //// Create ACE
                     var editor = ace.edit("firepad-container");
                     editor.setTheme("ace/theme/" + theme);
