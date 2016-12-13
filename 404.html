@@ -42,6 +42,7 @@
         #page {
             margin-top: 75px;
         }
+        
         #error404 {
             margin-top: 75px;
         }
@@ -176,7 +177,7 @@
 						</option>
 					</optgroup>
 				</select>
-                <button class="btn btn-primary form-control" id="update">Create File</button>
+                <button class="btn btn-primary form-control" id="update">Update Options</button>
                 <hr>
                 <div class="input-group">
                     <span class="input-group-addon"><span class="name">File ID</span></span>
@@ -218,7 +219,8 @@
 
         function init() {
 
-            /* var clipboard = */ new Clipboard(".clipboard-btn");
+            /* var clipboard = */
+            new Clipboard(".clipboard-btn");
             //// Initialize Firebase.
             //// TODO: replace with your Firebase project configuration.
             var config = {
@@ -231,7 +233,8 @@
             firebase.initializeApp(config);
 
             //// Get Firebase Database reference.
-            /* var firepadRef = */ getFirepadRef(function(firepadRef, snapshot) {
+            /* var firepadRef = */
+            getFirepadRef(function(firepadRef, snapshot) {
                 //console.log(firepadRef);
                 if (!firepadRef) {
                     $("#main").addClass("hidden");
@@ -269,9 +272,9 @@
                     session.setUseWrapMode(true);
                     session.setUseWorker(false);
                     //language is text by defualt, we don't need to change it.
-                    if (language != "text") {
-                        session.setMode("/ace/mode/" + language);
-                    }
+
+                    session.setMode("/ace/mode/" + language);
+
 
 
                     //// Create Firepad.
@@ -306,8 +309,8 @@
 
                     else {
                         var result = ref.child(page[1]);
-                            //console.log(result);
-                            //console.log(data);
+                        //console.log(result);
+                        //console.log(data);
                         callback(result, snapshot);
                     }
                 });
