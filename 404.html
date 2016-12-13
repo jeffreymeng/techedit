@@ -235,9 +235,9 @@
     <script src="/js/bootstrap-select.min.js"></script>
 
     <script src="/js/clipboard.min.js"></script>
-
+    <script src="/js/mousetrap.min.js"></script>
     <script>
-        /* global firebase $ ace Firepad Clipboard localStorage*/
+        /* global firebase $ ace Firepad Clipboard localStorage Mousetrap */
 
         function init() {
 
@@ -255,6 +255,10 @@
             firebase.initializeApp(config);
 
             // Get Firebase Database reference.
+
+            Mousetrap.bind(['command+s', 'ctrl+s'], function(e) {
+                return false;
+            });
 
             getFirepadRef(function(firepadRef, snapshot) {
                 //console.log(firepadRef);
@@ -309,7 +313,7 @@
                     var firepad = Firepad.fromACE(firepadRef, editor, {
                         defaultText: ""
                     });
-                    firebase.database().ref("/" + id + "/").on("value", function(data){
+                    firebase.database().ref("/" + id + "/").on("value", function(data) {
                         $("#filename").text(data.val().info.name);
                         $("#opt-filename").val(data.val().info.name);
                         session.setMode("ace/mode/" + data.val().info.language);
@@ -328,7 +332,7 @@
                         $("#opt-theme").selectpicker("val", theme);
                     });
                     $("#update").click(updateInfo);
-                    
+
                 }
             });
 

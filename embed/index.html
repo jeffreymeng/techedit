@@ -235,7 +235,7 @@
     <script src="/js/bootstrap-select.min.js"></script>
 
     <script src="/js/clipboard.min.js"></script>
-
+    <script src="/js/mousetrap.min.js"></script>
     <script>
         /* global firebase $ ace Firepad Clipboard localStorage*/
 
@@ -267,7 +267,9 @@
             firebase.initializeApp(config);
 
             // Get Firebase Database reference.
-
+            Mousetrap.bind(['command+s', 'ctrl+s'], function(e) {
+                return false;
+            });
             getFirepadRef(function(firepadRef, snapshot) {
                 //console.log(firepadRef);
                 if (!firepadRef) {
@@ -333,7 +335,7 @@
                         $("#opt-theme").selectpicker("val", theme);
                     });
                     $("#update").click(updateInfo);
-                    
+
                 }
             });
 
