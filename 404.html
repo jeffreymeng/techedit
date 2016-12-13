@@ -38,9 +38,11 @@
         #page {
             margin-top: 75px;
         }
+        
         #filename {
-            overflow-x:scroll;
+            overflow-x: scroll;
         }
+        
         #error404 {
             margin-top: 75px;
         }
@@ -118,6 +120,7 @@
 
                 <p class="lead">Options</p>
                 <div class="alert alert-danger hidden" role="alert" id="opt-allfieldsrequired">All fields are required</div>
+                <div class="alert alert-danger hidden" role="alert" id="opt-nospecialchars">The file name can only contain letters, numbers, dashes(-), underscores(_), slashes(/), and dots(.), and must be 60 charcters or less.</div>
 
                 <label for="opt-filename">File Name:</label>
                 <input class="form-control" id="opt-filename" type="text" value="Loading...">
@@ -242,7 +245,7 @@
 
                     var data = snapshot.val();
                     var id = window.location.pathname.substring(1).split("/")[1];
-                    $("#embed-code").val("https://techedit.jeffkmeng.com/embed?id=" + id);
+                    $("#embed-code").val("https://techedit.jeffkmeng.com/embed/?id=" + id);
                     $("#share-code").val("https://techedit.jeffkmeng.com/f/" + id);
                     $("#file-id").val(id);
                     var filename, theme, language;
@@ -354,10 +357,14 @@
         }
 
         function updateInfo() {
-
+            var charsregex = /^[a-zA-Z0-9\-_\/\.]{1,60}$/;
             if ($("#opt-filetype").val().replace(" ", "") === "" || $("#opt-theme").val().replace(" ", "") === "" || $("#opt-filename").val().replace(" ", "") === "") {
-
+                $("#opt-nospecialchars").addClass("hidden");
                 $("#opt-allfieldsrequired").removeClass("hidden");
+            }
+            else if (!(charsregex.test($("#opt-filename").val()))) {
+                $("#opt-allfieldsrequired").addClass("hidden");
+                $("#opt-nospecialchars").removeClass("hidden");
             }
             else {
 
