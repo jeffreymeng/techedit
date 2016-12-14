@@ -75,8 +75,10 @@
 
 
         <div class="col-lg-12 text-center">
-            <div class="alert alert-danger hidden" id="error" role="alert">Error: No user could be found with the combiation of email address and password given. You can try entering your password again, <a href="/account/create/" class="alert-link">Creating an account</a>, or <a href="/account/reset/" class="alert-link">Resetting your password</a>.</div>
-            <div class="alert alert-success hidden" id="accountcreated" role="alert">Your account was created successfully. You may now login.</div>
+            <div class="alert alert-danger hidden" id="error" role="alert">Error: The email given is badly formatted, or already in use.</div>
+            <div class="alert alert-danger hidden" id="nomatch" role="alert">Error: The passwords don't match.</div>
+            <div class="alert alert-danger hidden" id="weakpassword" role="alert">Error: The password used is too weak. Try adding captial letters, numbers, and at least 8 charcters in tottal.</div>
+            <div class="alert alert-danger hidden" id="unknownerror" role="alert">Error: An unknown error occured. You can reload the page and try again.</div>
 
             <h1>Login to Techedit</h1>
             <hr>
@@ -85,10 +87,12 @@
             <input type="text" id="email" class="form-control">
             <label for="password">Password:</label>
             <input type="password" id="password" class="form-control">
+            <label for="confirmpassword">Confirm Password:</label>
+            <input type="password" id="confirmpassword" class="form-control">
             <br><br>
-            <button class="btn btn-primary form-control">Login</button>
+            <button class="btn btn-primary form-control">Create Account</button>
             <hr>
-            <p id="option-bar">Or: <a href="/account/create/">Create an account</a> | <a href="/account/reset/">Reset your password</a></p>
+            <p id="option-bar">Or: <a href="/account/login/">Login</a> | <a href="/account/reset/">Reset your password</a></p>
         </div>
 
 
@@ -117,10 +121,7 @@
     </script>
     <script>
         /* global $ firebase */
-        if (window.location.hash === "#accountcreated") {
-            $("#accountcreated").removeClass("hidden");
-            window.location.hash = "";
-        }
+
         function getQuery(name) {
             var url = window.location.href;
             name = name.replace(/[\[\]]/g, "\\$&");
@@ -142,20 +143,55 @@
 
         function login() {
             var email = $("#email").val();
+
             var password = $("#password").val();
-            firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+            var confirmpassword = $("#confirmpassword").val();
+            if (confirmpassword !== password) {
                 $("#password").val("");
-                $("#accountcreated").addClass("hidden");
-                $("#error").removeClass("hidden");
+                $("#confirmpassword").val("");
+                $("#unknownerror").addClass("hidden");
+                $("#error").addClass("hidden");
+                $("#weakpassword").addClass("hidden");
+                $("#nomatch").removeClass("hidden");
+            }
+            firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+                if (error.code === "auth/weak-password") {
+                    $("#password").val("");
+                    $("#confirmpassword").val("");
+                    $("#unknownerror").addClass("hidden");
+                    $("#error").addClass("hidden");
+                    $("#nomatch").addClass("hidden");
+                    $("#weakpassword").removeClass("hidden");
+                }
+                else {
+                    $("#password").val("");
+                    $("#confirmpassword").val("");
+                    $("#unknownerror").addClass("hidden");
+                    $("#nomatch").addClass("hidden");
+                    $("#weakpassword").addClass("hidden");
+                    $("#error").removeClass("hidden");
+                }
             }).then(function() {
                 firebase.auth().onAuthStateChanged(function(user) {
                     if (user) {
-                        window.location.href = getQuery("redir") || "/home/";
+                        firebase.auth().signOut().then(function() {
+                            window.location.href = "/login/#accountcreated";
+                        }, function(error) {
+                            $("#password").val("");
+                            $("#confirmpassword").val("");
+                            $("#nomatch").addClass("hidden");
+                            $("#weakpassword").addClass("hidden");
+                            $("#error").addCass("hidden");
+                            $("#unknownerror").removeClass("hidden");
+                        });
                     }
                     else {
                         $("#password").val("");
-                        $("#accountcreated").addClass("hidden");
-                        $("#error").removeClass("hidden");
+                        $("#confirmpassword").val("");
+                        $("#nomatch").addClass("hidden");
+                        $("#weakpassword").addClass("hidden");
+                        $("#error").addCass("hidden");
+                        $("#unknownerror").removeClass("hidden");
                     }
                 });
 

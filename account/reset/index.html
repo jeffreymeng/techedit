@@ -75,20 +75,18 @@
 
 
         <div class="col-lg-12 text-center">
-            <div class="alert alert-danger hidden" id="error" role="alert">Error: No user could be found with the combiation of email address and password given. You can try entering your password again, <a href="/account/create/" class="alert-link">Creating an account</a>, or <a href="/account/reset/" class="alert-link">Resetting your password</a>.</div>
-            <div class="alert alert-success hidden" id="accountcreated" role="alert">Your account was created successfully. You may now login.</div>
+            <div class="alert alert-success hidden" id="success" role="alert">If an account was created using that email, you should recieve an password reset email.</div>
 
             <h1>Login to Techedit</h1>
             <hr>
 
-            <label for="email">Email Address:</label>
+            <label for="email">Enter your email to reset your password:</label>
             <input type="text" id="email" class="form-control">
-            <label for="password">Password:</label>
-            <input type="password" id="password" class="form-control">
+
             <br><br>
-            <button class="btn btn-primary form-control">Login</button>
+            <button class="btn btn-primary form-control">Reset password</button>
             <hr>
-            <p id="option-bar">Or: <a href="/account/create/">Create an account</a> | <a href="/account/reset/">Reset your password</a></p>
+            <p id="option-bar">Or: <a href="/account/login/">Login</a> | <a href="/account/create">Create an account</a></p>
         </div>
 
 
@@ -121,6 +119,7 @@
             $("#accountcreated").removeClass("hidden");
             window.location.hash = "";
         }
+
         function getQuery(name) {
             var url = window.location.href;
             name = name.replace(/[\[\]]/g, "\\$&");
@@ -131,37 +130,12 @@
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
 
-        $("#login").click(login);
-        $(document).keypress(function(e) {
-            var key = e.which;
-            if (key == 13) // the enter key code
-            {
-                login();
-            }
+
+        firebase.auth().sendPasswordResetEmail(email).then(function() {
+            $("#success").removeClass("hidden");
+        }, function(error) {
+            $("#success").removeClass("hidden");
         });
-
-        function login() {
-            var email = $("#email").val();
-            var password = $("#password").val();
-            firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-                $("#password").val("");
-                $("#accountcreated").addClass("hidden");
-                $("#error").removeClass("hidden");
-            }).then(function() {
-                firebase.auth().onAuthStateChanged(function(user) {
-                    if (user) {
-                        window.location.href = getQuery("redir") || "/home/";
-                    }
-                    else {
-                        $("#password").val("");
-                        $("#accountcreated").addClass("hidden");
-                        $("#error").removeClass("hidden");
-                    }
-                });
-
-
-            });
-        }
     </script>
 </body>
 
