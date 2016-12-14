@@ -86,6 +86,7 @@
                     <li>
                         <a href="/account/login/">Login</a>
                     </li>
+                    <p class="navbar-text navbar-right">You are logged in. <a href="/account/logout" class="navbar-link">Logout</a></p>
 
                 </ul>
             </div>
@@ -203,6 +204,8 @@
 				</select>
 
                 <hr>
+                <button id="addtocollection" class="form-control btn btn-primary">Login and add to my collection</button>
+                <hr>
                 <div class="input-group">
                     <span class="input-group-addon"><span class="name">File ID</span></span>
                     <input type="text" class="form-control code" value="Loading..." id="file-id" readonly>
@@ -239,6 +242,7 @@
 
     <script src="/js/clipboard.min.js"></script>
     <script src="/js/mousetrap.min.js"></script>
+    <script src="/js/techedit.js"></script>
     <script>
         /* global firebase $ ace Firepad Clipboard localStorage Mousetrap */
 
