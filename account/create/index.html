@@ -175,7 +175,7 @@
                 firebase.auth().onAuthStateChanged(function(user) {
                     if (user) {
                         firebase.auth().signOut().then(function() {
-                            window.location.href = "/login/#accountcreated";
+                            window.location.href = "/account/login/#accountcreated";
                         }, function(error) {
                             $("#password").val("");
                             $("#confirmpassword").val("");
