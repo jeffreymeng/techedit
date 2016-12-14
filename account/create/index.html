@@ -90,7 +90,7 @@
             <label for="confirmpassword">Confirm Password:</label>
             <input type="password" id="confirmpassword" class="form-control">
             <br><br>
-            <button class="btn btn-primary form-control">Create Account</button>
+            <button class="btn btn-primary form-control" id="create">Create Account</button>
             <hr>
             <p id="option-bar">Or: <a href="/account/login/">Login</a> | <a href="/account/reset/">Reset your password</a></p>
         </div>
@@ -132,7 +132,7 @@
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
 
-        $("#login").click(login);
+        $("#create").click(login);
         $(document).keypress(function(e) {
             var key = e.which;
             if (key == 13) // the enter key code

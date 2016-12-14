@@ -84,7 +84,7 @@
             <input type="text" id="email" class="form-control">
 
             <br><br>
-            <button class="btn btn-primary form-control">Reset password</button>
+            <button class="btn btn-primary form-control" id="reset">Reset password</button>
             <hr>
             <p id="option-bar">Or: <a href="/account/login/">Login</a> | <a href="/account/create">Create an account</a></p>
         </div>
@@ -130,11 +130,12 @@
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
 
-
-        firebase.auth().sendPasswordResetEmail(email).then(function() {
-            $("#success").removeClass("hidden");
-        }, function(error) {
-            $("#success").removeClass("hidden");
+        $("#reset").click(function() {
+            firebase.auth().sendPasswordResetEmail(email).then(function() {
+                $("#success").removeClass("hidden");
+            }, function(error) {
+                $("#success").removeClass("hidden");
+            });
         });
     </script>
 </body>
