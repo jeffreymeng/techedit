@@ -19,6 +19,10 @@
             padding-top: 70px;
             /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
         }
+        
+        .hidden {
+            display: none;
+        }
     </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -71,8 +75,11 @@
 
 
         <div class="col-lg-12 text-center">
+            <div class="alert alert-danger hidden" id="error" role="alert">Error: No user could be found with the combiation of email address and password given. You can try entering your password again, <a href="/account/create/" class="alert-link">Creating an account</a>, or <a href="/account/reset/" class="alert-link">Resetting your password</a>.</div>
+
             <h1>Login to Techedit</h1>
             <hr>
+
             <label for="email">Email Address:</label>
             <input type="text" id="email" class="form-control">
             <label for="password">Password:</label>
@@ -108,7 +115,18 @@
         firebase.initializeApp(config);
     </script>
     <script>
-    /* global $ firebase */
+        /* global $ firebase */
+
+        function getQuery(name) {
+            var url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
         $("#login").click(login);
         $(document).keypress(function(e) {
             var key = e.which;
@@ -117,10 +135,24 @@
                 login();
             }
         });
-        function login(){
+
+        function login() {
             var email = $("#email").val();
             var password = $("#password").val();
-            firebase.auth().loginWithEmailAndPassword(email, password);
+            firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+                $("#error").removeClass("hidden");
+            }).then(function() {
+                firebase.auth().onAuthStateChanged(function(user) {
+                    if (user) {
+                        window.location.href = getQuery("redir") || "/home/";
+                    }
+                    else {
+                        $("#error").removeClass("hidden");
+                    }
+                });
+
+
+            });
         }
     </script>
 </body>
