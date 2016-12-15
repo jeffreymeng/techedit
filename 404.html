@@ -377,9 +377,10 @@
                             
                         }
                         else {
+                            $("#addtocollection").html("Login to Add To Collection");
                             $("#addtocollection").click(function() {
-                                $("#addtocollection").html("Login to Add To Collection");
-                                window.location.href = "/account/login/?redir=" + encodeURIComponent("https://techedit.jeffkmeng.com/" + window.location.pathname + window.location.search + "#addtocollection");
+                                
+                                window.location.href = "/account/login/?redir=" + encodeURIComponent("https://techedit.jeffkmeng.com" + window.location.pathname + window.location.search + "#addtocollection");
                             });
                            
                         }
