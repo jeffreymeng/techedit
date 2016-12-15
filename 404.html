@@ -124,8 +124,10 @@
 
         <div class="row">
 
-            <div class="col-lg-9">
 
+            <div class="col-lg-9">
+                <div class="alert alert-success hidden" role="alert" id="addtocollection-success">Successfully updated your collection.</div>
+                <div class="alert alert-danger hidden" role="alert" id="addtocollection-error">There was an error while updateing your collection. Please try again later.</div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title" id="filename">Loading...</h3>
@@ -371,7 +373,14 @@
                                 }
                                 $("#addtocollection-save").click(function() {
                                     firebase.database().ref("/u/" + user.uid + "/collections/" + id + "/").set({
-                                        
+                                        name: $("#addtocollection-name").val(),
+                                        description: $("#addtocollection-description").val()
+                                    }).catch(function() {
+                                        $("#addtocollection-modal").modal("hide");
+                                        $("#addtocollection-error").removeClass("hidden");
+                                    }).then(function() {
+                                        $("#addtocollection-modal").modal("hide");
+                                        $("#addtocollection-success").removeClass("hidden");
                                     });
                                 });
 
