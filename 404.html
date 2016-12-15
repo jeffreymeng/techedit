@@ -305,7 +305,7 @@
                     $("#opt-theme").selectpicker("val", theme);
                     $("#opt-filetype").selectpicker("val", language);
                     $("#filename").text(filename);
-                    $("#addtocollection-name").text(filename);
+                    $("#addtocollection-name").val(filename);
                     //// Create ACE
                     var editor = ace.edit("firepad-container");
                     editor.setTheme("ace/theme/" + theme);
@@ -351,12 +351,13 @@
                             
                                 firebase.database().ref("/u/" + user.uid + "/collections/" + id + "/").once("value").then(function(data) {
                                     if (data.val() === null) {
+                                        
                                         $("#addtocollection").html("Add To Collection");
 
                                     }
                                     else {
                                         $("#addtocollection").html("Add To Collection");
-                                        $("#addtocollection-name").html(data.val().name);
+                                        $("#addtocollection-name").val(data.val().name);
                                         if (data.val().description) {
                                             $("#addtocollection-description").val(data.val().description);
                                         }
