@@ -326,11 +326,12 @@
                     var firepad = Firepad.fromACE(firepadRef, editor, {
                         defaultText: ""
                     });
-                    firebase.database().ref("/" + id + "/").on("value", function(data) {
-                        $("#filename").text(data.val().info.name);
-                        $("#opt-filename").val(data.val().info.name);
-                        session.setMode("ace/mode/" + data.val().info.language);
-                        $("#opt-filetype").selectpicker("val", data.val().info.language);
+                    firebase.database().ref("/f/" + id + "/info/").on("value", function(snapshot) {
+                        var data = snapshot.val();
+                        $("#filename").text(data.name);
+                        $("#opt-filename").val(data.name);
+                        session.setMode("ace/mode/" + data.language);
+                        $("#opt-filetype").selectpicker("val", data.info.language);
 
                     });
                     firepad.on("ready", function() {
