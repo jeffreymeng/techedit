@@ -76,8 +76,13 @@
             <p class="lead">A list of all your saved files</p>
             <hr>
             <div class="container col-lg-12" id="file-box">
-                <input class="fuzzy-search form-control" placeholder="Search" />
-
+                <input class="fuzzy-search form-control" type="text" placeholder="Search">
+                <button class="sort" data-sort="name">
+    Sort by Name
+  </button>
+                <button class="sort" data-sort="file-id">
+    Sort by ID
+  </button>
 
                 <hr>
 
@@ -161,7 +166,7 @@
                     for (var key in data) {
                         if (data.hasOwnProperty(key)) {
                             var value = data[key];
-                            $("#files").append("<h1><a href='https://techedit.jeffkmeng.com/f/" + key + "/' class='name'>" + value.name + "</a> (<span class='file-id'>" + key + "</span> | <a href='https://techedit.jeffkmeng.com/f/" + key + "#addtocollection'>Edit</a>)</h1><p>" + value.description + "</p><hr>")
+                            $("#files").append("<h3><span class='file-id'>" + key + "</span>:<a href='https://techedit.jeffkmeng.com/f/" + key + "/' class='name'>" + value.name + "</a> (<a href='https://techedit.jeffkmeng.com/f/" + key + "#addtocollection'>Edit</a>)</h3><p>" + value.description + "</p><hr>")
                         }
                     }
                 });

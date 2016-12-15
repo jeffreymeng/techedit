@@ -156,7 +156,7 @@
             }).then(function() {
                 firebase.auth().onAuthStateChanged(function(user) {
                     if (user) {
-                        window.location.href = getQuery("redir") || "/home/";
+                        window.location.href = getQuery("redir") || "/collection/";
                     }
                     else {
                         $("#password").val("");
