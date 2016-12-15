@@ -346,44 +346,46 @@
                     /* global firebase $ */
                     firebase.auth().onAuthStateChanged(function(user) {
                         if (user) {
-                            
 
-                            
-                                firebase.database().ref("/u/" + user.uid + "/collections/" + id + "/").once("value").then(function(data) {
-                                    if (data.val() === null) {
-                                        
-                                        $("#addtocollection").html("Add To Collection");
 
+
+                            firebase.database().ref("/u/" + user.uid + "/collections/" + id + "/").once("value").then(function(data) {
+                                if (data.val() === null) {
+
+                                    $("#addtocollection").html("Add To Collection");
+
+                                }
+                                else {
+                                    $("#addtocollection").html("Add To Collection");
+                                    $("#addtocollection-name").val(data.val().name);
+                                    if (data.val().description) {
+                                        $("#addtocollection-description").val(data.val().description);
                                     }
-                                    else {
-                                        $("#addtocollection").html("Add To Collection");
-                                        $("#addtocollection-name").val(data.val().name);
-                                        if (data.val().description) {
-                                            $("#addtocollection-description").val(data.val().description);
-                                        }
-                                    }
-                                    $("#addtocollection").click(function() {
-                                        $("#addtocollection-modal").modal("show");
-                                    });
-                                    if (window.location.hash === "#addtocollection") {
-                                        window.location.hash = "";
-                                        $("#addtocollection-modal").modal("show");
-                                    }
-                                    $("#addtocollection-save").click(function(){
+                                }
+                                $("#addtocollection").click(function() {
+                                    $("#addtocollection-modal").modal("show");
+                                });
+                                if (window.location.hash === "#addtocollection") {
+                                    window.location.hash = "";
+                                    $("#addtocollection-modal").modal("show");
+                                }
+                                $("#addtocollection-save").click(function() {
+                                    firebase.database().ref("/u/" + user.uid + "/collections/" + id + "/").set({
                                         
                                     });
-                                    
                                 });
 
-                            
+                            });
+
+
                         }
                         else {
                             $("#addtocollection").html("Login to Add To Collection");
                             $("#addtocollection").click(function() {
-                                
+
                                 window.location.href = "/account/login/?redir=" + encodeURIComponent("https://techedit.jeffkmeng.com" + window.location.pathname + window.location.search + "#addtocollection");
                             });
-                           
+
                         }
                     });
 
@@ -395,7 +397,7 @@
 
         // Helper to get hash from end of URL or generate a random one.
         function getFirepadRef(callback) {
-            var ref = firebase.database().ref("/");
+            var ref = firebase.database().ref("/f/");
             var page = window.location.pathname.substring(1).split("/");
 
             if (page[0] === "f" && page[1] !== null && page[1] !== "") {

@@ -354,7 +354,7 @@
 
         // Helper to get hash from end of URL or generate a random one.
         function getFirepadRef(callback) {
-            var ref = firebase.database().ref("/");
+            var ref = firebase.database().ref("/f/");
 
             if (getQuery("id") !== null && getQuery("id") !== "") {
                 ref.child(getQuery("id")).once("value").then(function(snapshot) {
