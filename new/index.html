@@ -31,10 +31,16 @@
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>                <a class="navbar-brand" href="/">Techedit</a>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Techedit</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li>
                         <a href="/new/">New File</a>
@@ -42,9 +48,10 @@
                     <li>
                         <a href="/edit/">Edit File</a>
                     </li>
-                    <li>
-                        <a href="/account/login/">Login</a>
+                    <li id="nav-login" class="hidden">
+                        <a id="nav-login-link">Login</a>
                     </li>
+                    <p id="nav-logout" class="navbar-text navbar-right hidden">You are logged in. <a id="nav-logout-link" class="navbar-link">Logout</a></p>
 
                 </ul>
             </div>
@@ -137,6 +144,7 @@
     </script>
     <script src="https://www.gstatic.com/firebasejs/3.6.3/firebase.js">
     </script>
+    
     <script>
         // Initialize Firebase
         var config = {
@@ -148,6 +156,7 @@
         };
         firebase.initializeApp(config);
     </script>
+    <script src="/js/techedit.js"></script>
     <script>
         
         /* global $ firebase localStorage */

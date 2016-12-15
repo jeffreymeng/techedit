@@ -73,21 +73,13 @@
     <!-- Page Content -->
     <div class="container">
 
+        <p id="loading">Loading...</p>
 
-
-        <div class="col-lg-12 text-center">
-            <div class="alert alert-success hidden" id="success" role="alert">If an account was created using that email, you should recieve an password reset email.</div>
-
-            <h1>Login to Techedit</h1>
-            <hr>
-
-            <label for="email">Enter your email to reset your password:</label>
-            <input type="text" id="email" class="form-control">
-
-            <br><br>
-            <button class="btn btn-primary form-control" id="reset">Reset password</button>
-            <hr>
-            <p id="option-bar">Or: <a href="/account/login/">Login</a> | <a href="/account/create">Create an account</a></p>
+        <div class="col-lg-12 text-center hidden" id="success">
+            <p>You have been successfully logged out. <br><a href="/account/login">Login again</a></p>
+        </div>
+        <div class="col-lg-12 text-center hidden" id="error">
+            <p>An error occured. Please try again later.</p>
         </div>
 
 
@@ -117,27 +109,12 @@
     <script src="/js/techedit.js"></script>
     <script>
         /* global $ firebase */
-        if (window.location.hash === "#accountcreated") {
-            $("#accountcreated").removeClass("hidden");
-            window.location.hash = "";
-        }
-
-        function getQuery(name) {
-            var url = window.location.href;
-            name = name.replace(/[\[\]]/g, "\\$&");
-            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, " "));
-        }
-
-        $("#reset").click(function() {
-            firebase.auth().sendPasswordResetEmail(email).then(function() {
-                $("#success").removeClass("hidden");
-            }, function(error) {
-                $("#success").removeClass("hidden");
-            });
+        firebase.auth().signOut().then(function() {
+            $("#loading").addClass("hidden");
+            $("#success").removeClass("hidden");
+        }, function(error) {
+            $("#loading").addClass("hidden");
+            $("#error").removeClass("hidden");
         });
     </script>
 </body>
