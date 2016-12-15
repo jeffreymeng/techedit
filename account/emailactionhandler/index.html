@@ -147,7 +147,7 @@
                     $("#passwordreset").removeClass("hidden");
                     $("#resetpassword-btn").click(function() {
                         if ($("#reset-password").val() === $("#reset-confirmpassword").val()) {
-                            firebase.auth().confirmPasswordReset(getQuery("oobCode"), $("#password").val()).then(function(resp) {
+                            firebase.auth().confirmPasswordReset(getQuery("oobCode"), $("#reset-password").val()).then(function(resp) {
                                 window.location.href = "/account/login/#passwordresetsuccess";
                             }).catch(function(error) {
                                 $("#codeinvalid").addClass("hidden");
