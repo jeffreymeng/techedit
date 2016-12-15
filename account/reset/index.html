@@ -133,9 +133,10 @@
         }
 
         $("#reset").click(function() {
-            firebase.auth().sendPasswordResetEmail(email).then(function() {
+            firebase.auth().sendPasswordResetEmail($("#email").val()).then(function() {
                 $("#success").removeClass("hidden");
             }, function(error) {
+                
                 $("#success").removeClass("hidden");
             });
         });
