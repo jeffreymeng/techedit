@@ -358,8 +358,10 @@
 
                                 }
                                 else {
-                                    $("#addtocollection").html("Add To Collection");
+                                    $("#addtocollection-action").html("update")
+                                    $("#addtocollection").html("Update this file in your Collection");
                                     $("#addtocollection-name").val(data.val().name);
+                                    
                                     if (data.val().description) {
                                         $("#addtocollection-description").val(data.val().description);
                                     }
@@ -369,6 +371,7 @@
                                 });
                                 if (window.location.hash === "#addtocollection") {
                                     window.location.hash = "";
+                                    
                                     $("#addtocollection-modal").modal("show");
                                 }
                                 $("#addtocollection-save").click(function() {
@@ -480,7 +483,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="addtocollection-modal-label">Add this file to your collection</h4>
+                    <h4 class="modal-title" id="addtocollection-modal-label"><span id="addtocollection-action">Add</span> this file to your collection</h4>
                 </div>
                 <div class="modal-body">
                     <label for="addtocollection-name">Name:</label>
