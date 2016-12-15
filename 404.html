@@ -368,6 +368,9 @@
                                         window.location.hash = "";
                                         $("#addtocollection-modal").modal("show");
                                     }
+                                    $("#addtocollection-save").click(function(){
+                                        
+                                    });
                                     $("#addtocollection").removeAttr("disabled");
                                     $("#addtocollection").removeClass("disabled");
                                 });
@@ -476,7 +479,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save Changes</button>
+                    <button type="button" class="btn btn-primary" id="addtocollection-save">Save Changes</button>
                 </div>
             </div>
         </div>
