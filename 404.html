@@ -348,7 +348,7 @@
                         if (user) {
                             
 
-                            function showATCmodal() {
+                            
                                 firebase.database().ref("/u/" + user.uid + "/collections/" + id + "/").once("value").then(function(data) {
                                     if (data.val() === null) {
                                         $("#addtocollection").html("Add To Collection");
@@ -374,7 +374,7 @@
                                     
                                 });
 
-                            }
+                            
                         }
                         else {
                             $("#addtocollection").click(function() {
