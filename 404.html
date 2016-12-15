@@ -273,7 +273,7 @@
             });
 
             getFirepadRef(function(firepadRef, snapshot) {
-                //console.log(firepadRef);
+                console.log(firepadRef);
                 if (!firepadRef) {
                     $("#page").addClass("hidden");
                     $("#loading").addClass("hidden");
@@ -412,7 +412,8 @@
         // Helper to get hash from end of URL or generate a random one.
         function getFirepadRef(callback) {
             var ref = firebase.database().ref("/f/");
-
+            console.log(id);
+            console.log(window.location.pathname.substring(1).split("/")[0]);
             if (window.location.pathname.substring(1).split("/")[0] === "f" && id !== null && id !== "") {
                 ref.child(id).once("value").then(function(snapshot) {
                     var data = snapshot.val();
