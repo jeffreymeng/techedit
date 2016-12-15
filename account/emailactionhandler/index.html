@@ -140,14 +140,14 @@
         }
         if (getQuery("mode") !== null && getQuery("oobCode") !== null) {
             if (getQuery("mode") === "resetPassword") {
-                $("#loading").addClass("hidden");
-                $("#passwordreset").removeClass("hidden");
+
                 // Verify the password reset code is valid.
                 firebase.auth().verifyPasswordResetCode(getQuery("oobCode")).then(function(email) {
-
+                    $("#loading").addClass("hidden");
+                    $("#passwordreset").removeClass("hidden");
                     $("#resetpassword-btn").click(function() {
-                        if ($("#reset-password") === $("#reset-confirmpassword")) {
-                            firebase.auth().confirmPasswordReset(getQuery("oobCode"), newPassword).then(function(resp) {
+                        if ($("#reset-password").val() === $("#reset-confirmpassword").val()) {
+                            firebase.auth().confirmPasswordReset(getQuery("oobCode"), $("#password").val()).then(function(resp) {
                                 window.location.href = "/account/login/#passwordresetsuccess";
                             }).catch(function(error) {
                                 $("#codeinvalid").addClass("hidden");
@@ -165,7 +165,7 @@
 
 
                 }).catch(function(error) {
-
+                    $("#loading").removeClass("hidden");
                     $("#invalidcode").removeClass("hidden");
                 });
             }
