@@ -204,7 +204,7 @@
 				</select>
 
                 <hr>
-                <button id="addtocollection" class="form-control btn btn-primary">Login and add to my collection</button>
+                <button id="addtocollection" class="form-control btn btn-primary disabled" disabled>Loading add to collection...</button>
                 <hr>
                 <div class="input-group">
                     <span class="input-group-addon"><span class="name">File ID</span></span>
@@ -346,16 +346,41 @@
                     /* global firebase $ */
                     firebase.auth().onAuthStateChanged(function(user) {
                         if (user) {
+                            
 
-                            $("#addtocollection").html("Add To Collection");
-                            $("#addtocollection").click(function() {
-                                $("#addtocollection-modal").modal("show");
-                            });
+                            function showATCmodal() {
+                                firebase.database().ref("/u/" + user.uid + "/collections/" + id + "/").once("value").then(function(data) {
+                                    if (data.val() === null) {
+                                        $("#addtocollection").html("Add To Collection");
+
+                                    }
+                                    else {
+                                        $("#addtocollection").html("Add To Collection");
+                                        $("#addtocollection-name").html(data.val().name);
+                                        if (data.val().description) {
+                                            $("#addtocollection-description").val(data.val().description);
+                                        }
+                                    }
+                                    $("#addtocollection").click(function() {
+                                        $("#addtocollection-modal").modal("show");
+                                    });
+                                    if (window.location.hash === "addtocollection") {
+                                        window.location.hash = "";
+                                        $("#addtocollection-modal").modal("show");
+                                    }
+                                    $("#addtocollection").removeAttr("disabled");
+                                    $("#addtocollection").removeClass("disabled");
+                                });
+
+                            }
                         }
                         else {
                             $("#addtocollection").click(function() {
+                                $("#addtocollection").html("Login to Add To Collection");
                                 window.location.href = "/account/login/?redir=" + encodeURIComponent("https://techedit.jeffkmeng.com/" + window.location.pathname + window.location.search + "#addtocollection");
                             });
+                            $("#addtocollection").removeAttr("disabled");
+                            $("#addtocollection").removeClass("disabled");
                         }
                     });
 
@@ -437,25 +462,25 @@
         init();
     </script>
     <div class="modal fade" id="addtocollection-modal" tabindex="-1" role="dialog" aria-labelledby="addtocollection-modal-label">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="addtocollection-modal-label">Add this file to your collection</h4>
-      </div>
-      <div class="modal-body">
-        <label for="addtocollection-name">Name:</label>
-        <input type="text" id="addtocollection-name" class="form-control">
-        <label for="addtocollection-description">Description:</label>
-        <input type="text" id="addtocollection-description" class="form-control">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save Changes</button>
-      </div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="addtocollection-modal-label">Add this file to your collection</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="addtocollection-name">Name:</label>
+                    <input type="text" id="addtocollection-name" class="form-control">
+                    <label for="addtocollection-description">Description:</label>
+                    <input type="text" id="addtocollection-description" class="form-control">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 </body>
 
 </html>
