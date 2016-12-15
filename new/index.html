@@ -178,7 +178,7 @@
                 for (var i = 6; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
                 //var invalid = true;
 
-                firebase.database().ref("f" + result).once("value").then(function(snapshot) {
+                firebase.database().ref("/f/" + result).once("value").then(function(snapshot) {
                     if (snapshot.val() === null) {
 
                         callback(result);
