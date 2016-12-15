@@ -78,7 +78,6 @@
         <div class="col-lg-12 text-center hidden" id="passwordreset">
             <div class="alert alert-danger hidden" id="weak" role="alert">Error: Your password is too weak. Try adding at least 8 charcters in tottal, captial letters, symbols, and/or numbers</a>.</div>
             <div class="alert alert-danger hidden" id="nomatch" role="alert">Error: The passwords don't match!</div>
-            <div class="alert alert-danger hidden" id="codeinvalid" role="alert">Error: The url you used is invalid. It may have been already redemmed, or may have expired. You can request a password reset again <a href="/account/reset">here</a>.</div>
             <h1>Reset your techedit password</h1>
             <hr>
 
@@ -95,6 +94,11 @@
             <h1>Error: Invalid Link</h1>
             <hr>
             <p>This page should be only accessed by clicking a link in a password reset or other type of email. If you want to reset your password, click <a href="/accout/reset">here</a>.</p>
+        </div>
+        <div class="col-lg-12 text-center hidden" id="invalidcode">
+            <h1>Error: Invalid Link</h1>
+            <hr>
+            <p>The link you used to access this page was invalid. It may have expired, or may have already been used..</p>
         </div>
 
 
@@ -161,9 +165,8 @@
 
 
                 }).catch(function(error) {
-                    $("#weak").addClass("hidden");
-                    $("#nomatch").addClass("hidden");
-                    $("#codeinvalid").removeClass("hidden");
+
+                    $("#invalidcode").removeClass("hidden");
                 });
             }
             else if (getQuery("mode") === "MODE TODO") {
