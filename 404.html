@@ -204,7 +204,7 @@
 				</select>
 
                 <hr>
-                <button id="addtocollection" class="form-control btn btn-primary disabled" disabled>Loading add to collection...</button>
+                <button id="addtocollection" class="form-control btn btn-primary btn-disabled" disabled>Loading add to collection...</button>
                 <hr>
                 <div class="input-group">
                     <span class="input-group-addon"><span class="name">File ID</span></span>
@@ -372,7 +372,7 @@
                                         
                                     });
                                     $("#addtocollection").removeAttr("disabled");
-                                    $("#addtocollection").removeClass("disabled");
+                                    $("#addtocollection").removeClass("btn-disabled");
                                 });
 
                             }
@@ -383,7 +383,7 @@
                                 window.location.href = "/account/login/?redir=" + encodeURIComponent("https://techedit.jeffkmeng.com/" + window.location.pathname + window.location.search + "#addtocollection");
                             });
                             $("#addtocollection").removeAttr("disabled");
-                            $("#addtocollection").removeClass("disabled");
+                            $("#addtocollection").removeClass("btn-disabled");
                         }
                     });
 
