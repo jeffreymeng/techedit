@@ -121,7 +121,7 @@ function getQuery(name) {
 }
         firebase.auth().signOut().then(function() {
             $("#login").click(function(){
-                window.location.href = "/account/login/?redir=" + encodeURIComponent(getQuery("redir"));
+                window.location.href = "/account/login/?redir=" + encodeURIComponent(getQuery("redir") || "");
             });
             $("#loading").addClass("hidden");
             $("#success").removeClass("hidden");
