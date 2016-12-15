@@ -96,18 +96,19 @@
     </nav>
 
     <!-- Page Content -->
-    <div class="container" id="loading">
+    <div class="container hidden" id="error404">
 
         <div class="row">
 
             <div class="col-lg-12">
-                <p id="loading">Loading...</p>
+                <h1>Error: File not found</h1>
+                <p>The file requested does not exist.</p>
             </div>
 
         </div>
 
     </div>
-    <div class="container hidden" id="loading">
+    <div class="container" id="loading">
 
         <div class="row">
 
@@ -123,8 +124,10 @@
 
         <div class="row">
 
-            <div class="col-lg-9">
 
+            <div class="col-lg-9">
+                <div class="alert alert-success hidden" role="alert" id="addtocollection-success">Successfully updated your collection.</div>
+                <div class="alert alert-danger hidden" role="alert" id="addtocollection-error">There was an error while updateing your collection. Please try again later.</div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title" id="filename">Loading...</h3>
@@ -203,9 +206,11 @@
 				</select>
 
                 <hr>
+                <button id="addtocollection" class="form-control btn btn-primary">Loading add to collection...</button>
+                <hr>
                 <div class="input-group">
                     <span class="input-group-addon"><span class="name">File ID</span></span>
-                    <input type="text" class="form-control code" value="Loading..." id="file-id" readonly>
+                    <input type="text" class="form-control code" value="Loading..." id="file-id" readonly height="20">
                     <span class="input-group-btn" id="clip-button">
                         <button class="btn btn-default clipboard-btn" type="button" data-clipboard-target="#file-id"><img height="20" src="https://assets.jeffkmeng.com/clipboard/1.5.12/svg/clipboard.svg" alt="Copy To Clipboard"></button>
                     </span>
@@ -213,7 +218,7 @@
                 <br>
                 <div class="input-group">
                     <span class="input-group-addon"><span class="name">Share URL</span></span>
-                    <input type="text" class="form-control code" value="Loading..." id="share-code" readonly>
+                    <input type="text" class="form-control code" value="Loading..." id="share-code" readonly height="20">
                     <span class="input-group-btn" id="clip-button">
                         <button class="btn btn-default clipboard-btn" type="button" data-clipboard-target="#share-code"><img height="20" src="https://assets.jeffkmeng.com/clipboard/1.5.12/svg/clipboard.svg" alt="Copy To Clipboard"></button>
                     </span>
@@ -221,7 +226,7 @@
                 <br>
                 <div class="input-group">
                     <span class="input-group-addon"><span class="name">Embed URL</span></span>
-                    <input type="text" class="form-control code" value="Loading..." id="embed-code" readonly>
+                    <input type="text" class="form-control code" value="Loading..." id="embed-code" readonly height="20">
                     <span class="input-group-btn" id="clip-button">
                         <button class="btn btn-default clipboard-btn" type="button" data-clipboard-target="#embed-code"><img height="20" src="https://assets.jeffkmeng.com/clipboard/1.5.12/svg/clipboard.svg" alt="Copy To Clipboard"></button>
                     </span>
@@ -239,9 +244,19 @@
 
     <script src="/js/clipboard.min.js"></script>
     <script src="/js/mousetrap.min.js"></script>
+    <script>
+        var config = {
+            apiKey: "AIzaSyBQ2E4ISQoIcRsDxfPxzDjbJwmD-r98JYw",
+            authDomain: "techedit-63e7f.firebaseapp.com",
+            databaseURL: "https://techedit-63e7f.firebaseio.com",
+            storageBucket: "techedit-63e7f.appspot.com",
+            messagingSenderId: "609280907475"
+        };
+        firebase.initializeApp(config);
+    </script>
     <script src="/js/techedit.js"></script>
     <script>
-        /* global firebase $ ace Firepad Clipboard localStorage*/
+        /* global firebase $ ace Firepad Clipboard localStorage Mousetrap */
 
         //http://stackoverflow.com/a/901144/5511561
         function getQuery(name) {
@@ -254,6 +269,7 @@
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
 
+        var id = getQuery("id");
 
         function init() {
 
@@ -261,19 +277,14 @@
             new Clipboard(".clipboard-btn");
             //// Initialize Firebase.
             //// TODO: replace with your Firebase project configuration.
-            var config = {
-                apiKey: "AIzaSyBQ2E4ISQoIcRsDxfPxzDjbJwmD-r98JYw",
-                authDomain: "techedit-63e7f.firebaseapp.com",
-                databaseURL: "https://techedit-63e7f.firebaseio.com",
-                storageBucket: "techedit-63e7f.appspot.com",
-                messagingSenderId: "609280907475"
-            };
-            firebase.initializeApp(config);
+
 
             // Get Firebase Database reference.
+
             Mousetrap.bind(['command+s', 'ctrl+s'], function(e) {
                 return false;
             });
+
             getFirepadRef(function(firepadRef, snapshot) {
                 //console.log(firepadRef);
                 if (!firepadRef) {
@@ -284,7 +295,7 @@
                 else {
 
                     var data = snapshot.val();
-                    var id = getQuery("id");
+
                     $("#embed-code").val("https://techedit.jeffkmeng.com/embed/?id=" + id);
                     $("#share-code").val("https://techedit.jeffkmeng.com/f/" + id);
                     $("#file-id").val(id);
@@ -309,6 +320,7 @@
                     $("#opt-theme").selectpicker("val", theme);
                     $("#opt-filetype").selectpicker("val", language);
                     $("#filename").text(filename);
+                    $("#addtocollection-name").val(filename);
                     //// Create ACE
                     var editor = ace.edit("firepad-container");
                     editor.setTheme("ace/theme/" + theme);
@@ -327,17 +339,17 @@
                     var firepad = Firepad.fromACE(firepadRef, editor, {
                         defaultText: ""
                     });
-                    firepad.on("ready", function() {
-                        $("#error404").addClass("hidden");
-                        $("#loading").addClass("hidden");
-                        $("#page").removeClass("hidden");
-                    });
                     firebase.database().ref("/" + id + "/").on("value", function(data) {
                         $("#filename").text(data.val().info.name);
                         $("#opt-filename").val(data.val().info.name);
                         session.setMode("ace/mode/" + data.val().info.language);
                         $("#opt-filetype").selectpicker("val", data.val().info.language);
 
+                    });
+                    firepad.on("ready", function() {
+                        $("#error404").addClass("hidden");
+                        $("#loading").addClass("hidden");
+                        $("#page").removeClass("hidden");
                     });
                     $("#opt-theme").change(function() {
                         var theme = $("#opt-theme").val();
@@ -346,6 +358,63 @@
                         $("#opt-theme").selectpicker("val", theme);
                     });
                     $("#update").click(updateInfo);
+                    /* global firebase $ */
+                    firebase.auth().onAuthStateChanged(function(user) {
+                        if (user) {
+
+
+
+                            firebase.database().ref("/u/" + user.uid + "/collections/" + id + "/").once("value").then(function(data) {
+                                if (data.val() === null) {
+
+                                    $("#addtocollection").html("Add To Collection");
+
+                                }
+                                else {
+                                    $("#addtocollection-action").html("update");
+                                    $("#addtocollection-word").html("in");
+                                    $("#addtocollection").html("Update your Collection");
+                                    $("#addtocollection-name").val(data.val().name);
+
+                                    if (data.val().description) {
+                                        $("#addtocollection-description").val(data.val().description);
+                                    }
+                                }
+                                $("#addtocollection").click(function() {
+                                    $("#addtocollection-modal").modal("show");
+                                });
+                                if (window.location.hash === "#addtocollection") {
+                                    window.location.hash = "";
+
+                                    $("#addtocollection-modal").modal("show");
+                                }
+                                $("#addtocollection-save").click(function() {
+                                    firebase.database().ref("/u/" + user.uid + "/collections/" + id + "/").set({
+                                        name: $("#addtocollection-name").val(),
+                                        description: $("#addtocollection-description").val()
+                                    }).catch(function() {
+                                        $("#addtocollection-modal").modal("hide");
+                                        $("#addtocollection-error").removeClass("hidden");
+                                    }).then(function() {
+                                        $("#addtocollection-modal").modal("hide");
+                                        $("#addtocollection-success").removeClass("hidden");
+                                    });
+                                });
+
+                            });
+
+
+                        }
+                        else {
+                            $("#addtocollection").html("Login to Add To Collection");
+                            $("#addtocollection").click(function() {
+
+                                window.location.href = "/account/login/?redir=" + encodeURIComponent("https://techedit.jeffkmeng.com" + window.location.pathname + window.location.search + "#addtocollection");
+                            });
+
+                        }
+                    });
+
 
                 }
             });
@@ -356,8 +425,8 @@
         function getFirepadRef(callback) {
             var ref = firebase.database().ref("/f/");
 
-            if (getQuery("id") !== null && getQuery("id") !== "") {
-                ref.child(getQuery("id")).once("value").then(function(snapshot) {
+            if (id !== null && id !== "") {
+                ref.child(id).once("value").then(function(snapshot) {
                     var data = snapshot.val();
 
 
@@ -371,7 +440,7 @@
                     }
 
                     else {
-                        var result = ref.child(getQuery("id"));
+                        var result = ref.child(id);
 
                         callback(result, snapshot);
                     }
@@ -405,7 +474,7 @@
 
 
 
-                firebase.database().ref(getQuery("id") + "/info/").set({
+                firebase.database().ref(id + "/info/").set({
                     language: $("#opt-filetype").val(),
 
                     name: $("#opt-filename").val()
@@ -422,6 +491,26 @@
 
         init();
     </script>
+    <div class="modal fade" id="addtocollection-modal" tabindex="-1" role="dialog" aria-labelledby="addtocollection-modal-label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="addtocollection-modal-label"><span id="addtocollection-action">Add</span> this file <span id="addtocollection-word">to</span> your collection</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="addtocollection-name">Name:</label>
+                    <input type="text" id="addtocollection-name" class="form-control">
+                    <label for="addtocollection-description">Description:</label>
+                    <textarea id="addtocollection-description" class="form-control"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="addtocollection-save">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
