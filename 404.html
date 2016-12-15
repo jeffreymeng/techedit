@@ -305,6 +305,7 @@
                     $("#opt-theme").selectpicker("val", theme);
                     $("#opt-filetype").selectpicker("val", language);
                     $("#filename").text(filename);
+                    $("#addtocollection-name").text(filename);
                     //// Create ACE
                     var editor = ace.edit("firepad-container");
                     editor.setTheme("ace/theme/" + theme);
