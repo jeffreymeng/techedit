@@ -144,7 +144,7 @@
     </script>
     <script src="https://www.gstatic.com/firebasejs/3.6.3/firebase.js">
     </script>
-    
+
     <script>
         // Initialize Firebase
         var config = {
@@ -158,8 +158,10 @@
     </script>
     <script src="/js/techedit.js"></script>
     <script>
-        
         /* global $ firebase localStorage */
+
+        $("#theme").selectpicker("val", localStorage.getItem("techedit-opts-local-theme"));
+
         function getFileID(callback, count) {
             if (!count) {
                 count = 0;
@@ -210,7 +212,7 @@
                         firebase.database().ref("/f/" + key + "/valid").set(true).then(function() {
                             firebase.database().ref("/f/" + key + "/info/").set({
                                 language: $("#filetype").val(),
-                                
+
                                 name: $("#filename").val()
                             }).then(function() {
                                 localStorage.setItem("techedit-opts-local-theme", $("#theme").val());
