@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8" />
-
+    <title>Techedit - View File</title>
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/3.6.3/firebase.js"></script>
 
@@ -257,7 +257,6 @@
     <script src="/js/techedit.js"></script>
     <script>
         /* global firebase $ ace Firepad Clipboard localStorage Mousetrap */
-
         //http://stackoverflow.com/a/901144/5511561
         function getQuery(name) {
             var url = window.location.href;
@@ -268,7 +267,6 @@
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
-
         var id = getQuery("id");
 
         function init() {
@@ -286,7 +284,7 @@
             });
 
             getFirepadRef(function(firepadRef, snapshot) {
-                //console.log(firepadRef);
+                console.log(firepadRef);
                 if (!firepadRef) {
                     $("#page").addClass("hidden");
                     $("#loading").addClass("hidden");
@@ -339,11 +337,12 @@
                     var firepad = Firepad.fromACE(firepadRef, editor, {
                         defaultText: ""
                     });
-                    firebase.database().ref("/" + id + "/").on("value", function(data) {
-                        $("#filename").text(data.val().info.name);
-                        $("#opt-filename").val(data.val().info.name);
-                        session.setMode("ace/mode/" + data.val().info.language);
-                        $("#opt-filetype").selectpicker("val", data.val().info.language);
+                    firebase.database().ref("/f/" + id + "/info/").on("value", function(snapshot) {
+                        var data = snapshot.val();
+                        $("#filename").text(data.name);
+                        $("#opt-filename").val(data.name);
+                        session.setMode("ace/mode/" + data.language);
+                        $("#opt-filetype").selectpicker("val", data.info.language);
 
                     });
                     firepad.on("ready", function() {
@@ -424,7 +423,8 @@
         // Helper to get hash from end of URL or generate a random one.
         function getFirepadRef(callback) {
             var ref = firebase.database().ref("/f/");
-
+            console.log(id);
+            console.log(window.location.pathname.substring(1).split("/")[0]);
             if (id !== null && id !== "") {
                 ref.child(id).once("value").then(function(snapshot) {
                     var data = snapshot.val();
