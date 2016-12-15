@@ -73,14 +73,7 @@
     <!-- Page Content -->
     <div class="container">
 
-        <p id="loading">Loading...</p>
-
-        <div class="col-lg-12 text-center hidden" id="success">
-            <p>You have been successfully logged out. <br><a href="/account/login">Login again</a></p>
-        </div>
-        <div class="col-lg-12 text-center hidden" id="error">
-            <p>An error occured. Please try again later.</p>
-        </div>
+        
 
 
 
@@ -109,13 +102,7 @@
     <script src="/js/techedit.js"></script>
     <script>
         /* global $ firebase */
-        firebase.auth().signOut().then(function() {
-            $("#loading").addClass("hidden");
-            $("#success").removeClass("hidden");
-        }, function(error) {
-            $("#loading").addClass("hidden");
-            $("#error").removeClass("hidden");
-        });
+        
     </script>
 </body>
 
