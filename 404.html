@@ -244,13 +244,13 @@
     <script src="/js/mousetrap.min.js"></script>
     <script>
         var config = {
-                apiKey: "AIzaSyBQ2E4ISQoIcRsDxfPxzDjbJwmD-r98JYw",
-                authDomain: "techedit-63e7f.firebaseapp.com",
-                databaseURL: "https://techedit-63e7f.firebaseio.com",
-                storageBucket: "techedit-63e7f.appspot.com",
-                messagingSenderId: "609280907475"
-            };
-            firebase.initializeApp(config);
+            apiKey: "AIzaSyBQ2E4ISQoIcRsDxfPxzDjbJwmD-r98JYw",
+            authDomain: "techedit-63e7f.firebaseapp.com",
+            databaseURL: "https://techedit-63e7f.firebaseio.com",
+            storageBucket: "techedit-63e7f.appspot.com",
+            messagingSenderId: "609280907475"
+        };
+        firebase.initializeApp(config);
     </script>
     <script src="/js/techedit.js"></script>
     <script>
@@ -262,7 +262,7 @@
             new Clipboard(".clipboard-btn");
             //// Initialize Firebase.
             //// TODO: replace with your Firebase project configuration.
-            
+
 
             // Get Firebase Database reference.
 
@@ -342,6 +342,22 @@
                         $("#opt-theme").selectpicker("val", theme);
                     });
                     $("#update").click(updateInfo);
+                    /* global firebase $ */
+                    firebase.auth().onAuthStateChanged(function(user) {
+                        if (user) {
+
+                            $("#addtocollection").html("Add To Collection");
+                            $("#addtocollection").click(function() {
+                                $("#addtocollection-modal").modal("show");
+                            });
+                        }
+                        else {
+                            $("#addtocollection").click(function() {
+                                window.location.href = "/account/login/?redir=" + encodeURIComponent("https://techedit.jeffkmeng.com/" + window.location.pathname + window.location.search + "#addtocollection");
+                            });
+                        }
+                    });
+
 
                 }
             });
@@ -419,6 +435,26 @@
 
         init();
     </script>
+    <div class="modal fade" id="addtocollection-modal" tabindex="-1" role="dialog" aria-labelledby="addtocollection-modal-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="addtocollection-modal-label">Add this file to your collection</h4>
+      </div>
+      <div class="modal-body">
+        <label for="addtocollection-name">Name:</label>
+        <input type="text" id="addtocollection-name" class="form-control">
+        <label for="addtocollection-description">Description:</label>
+        <input type="text" id="addtocollection-description" class="form-control">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 
 </html>
