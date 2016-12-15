@@ -168,7 +168,7 @@
                     for (var key in data) {
                         if (data.hasOwnProperty(key)) {
                             var value = data[key];
-                            $("#files").append("<h3><span class='file-id'>" + key + "</span>:<a href='https://techedit.jeffkmeng.com/f/" + key + "/' class='name'>" + value.name + "</a> (<a href='https://techedit.jeffkmeng.com/f/" + key + "#addtocollection'>Edit</a>)</h3><p>" + value.description + "</p><hr>")
+                            $("#files").append("<h3><span class='file-id'>" + key + "</span>: <a href='https://techedit.jeffkmeng.com/f/" + key + "/' class='name'>" + value.name + "</a> (<a href='https://techedit.jeffkmeng.com/f/" + key + "#addtocollection'>Edit</a>)</h3><p>" + value.description + "</p><hr>")
                         }
                     }
                 });
