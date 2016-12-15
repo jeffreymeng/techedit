@@ -19,10 +19,6 @@
             padding-top: 70px;
             /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
         }
-        
-        .hidden {
-            display: none;
-        }
     </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -73,7 +69,27 @@
     <!-- Page Content -->
     <div class="container">
 
-        
+
+
+        <div class="col-lg-12 text-center">
+            <h1>Your Collection</h1>
+            <p class="lead">A list of all your saved files</p>
+            <hr>
+            <div class="container col-lg-12" id="file-box">
+                <input class="fuzzy-search form-control" placeholder="Search" />
+
+
+                <hr>
+
+
+
+                <ul class="pagination-top pagination"></ul>
+                <div class="list" id="files">
+
+                </div>
+                <ul class="pagination-bottom pagination"></ul>
+            </div>
+        </div>
 
 
 
@@ -87,7 +103,8 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/js/bootstrap.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.6.3/firebase.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
     <script>
         // Initialize Firebase
         var config = {
@@ -101,8 +118,56 @@
     </script>
     <script src="/js/techedit.js"></script>
     <script>
-        /* global $ firebase */
-        
+        /* global $ List ListFuzzySearch ListPagination atob*/
+
+
+
+        var fuzzyOptions = {
+            searchClass: "fuzzy-search",
+            location: 0,
+            distance: 100,
+            threshold: 0.4,
+            multiSearch: true
+        };
+        var paginationTopOptions = {
+            name: "pagination-top",
+            paginationClass: "pagination-top",
+            outerWindow: 2
+        };
+        var paginationBottomOptions = {
+            name: "pagination-bottom",
+            paginationClass: "pagination-bottom",
+            innerWindow: 3,
+            left: 2,
+            right: 4
+        };
+        var options = {
+            valueNames: ["name", "file-id"],
+
+            page: 7,
+            plugins: [
+                ListFuzzySearch(fuzzyOptions),
+                ListPagination(paginationTopOptions),
+                ListPagination(paginationBottomOptions)
+            ]
+        };
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                firebase.database().ref("/u/" + user.uid + "/collections/").once("value").then(function(snapshot) {
+                    var data = snapshot.val();
+                    for (var key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            var value = data[key];
+                            $("#files").append("<h1><a href='https://techedit.jeffkmeng.com/f/" + key + "/' class='name'>" + value.name + "</a> (<span class='file-id'>" + key + "</span> | <a href='https://techedit.jeffkmeng.com/f/" + key + "#addtocollection'>Edit</a>)</h1><p>" + value.description + "</p><hr>")
+                        }
+                    }
+                });
+                new List("file-box", options);
+            }
+            else {
+                window.location.href = "/account/login/?redir=" + encodeURIComponent(window.location.href);
+            }
+        });
     </script>
 </body>
 
