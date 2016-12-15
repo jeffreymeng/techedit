@@ -1,6 +1,7 @@
 /* global firebase $ */
 firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
+        $("#nav-login").addClass("hidden");
         $("#nav-logout-link").click(function() {
             window.location.href = "/account/logout/?redir=" + encodeURIComponent(window.location.href);
         });
@@ -8,6 +9,7 @@ firebase.auth().onAuthStateChanged(function(user) {
         
     }
     else {
+        $("#nav-logout").addClass("hidden");
         $("#nav-login-link").click(function() {
             window.location.href = "/account/login/?redir=" + encodeURIComponent(window.location.href);
         });
