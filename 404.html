@@ -242,6 +242,16 @@
 
     <script src="/js/clipboard.min.js"></script>
     <script src="/js/mousetrap.min.js"></script>
+    <script>
+        var config = {
+                apiKey: "AIzaSyBQ2E4ISQoIcRsDxfPxzDjbJwmD-r98JYw",
+                authDomain: "techedit-63e7f.firebaseapp.com",
+                databaseURL: "https://techedit-63e7f.firebaseio.com",
+                storageBucket: "techedit-63e7f.appspot.com",
+                messagingSenderId: "609280907475"
+            };
+            firebase.initializeApp(config);
+    </script>
     <script src="/js/techedit.js"></script>
     <script>
         /* global firebase $ ace Firepad Clipboard localStorage Mousetrap */
@@ -252,14 +262,7 @@
             new Clipboard(".clipboard-btn");
             //// Initialize Firebase.
             //// TODO: replace with your Firebase project configuration.
-            var config = {
-                apiKey: "AIzaSyBQ2E4ISQoIcRsDxfPxzDjbJwmD-r98JYw",
-                authDomain: "techedit-63e7f.firebaseapp.com",
-                databaseURL: "https://techedit-63e7f.firebaseio.com",
-                storageBucket: "techedit-63e7f.appspot.com",
-                messagingSenderId: "609280907475"
-            };
-            firebase.initializeApp(config);
+            
 
             // Get Firebase Database reference.
 
