@@ -387,6 +387,23 @@
                                     $("#addtocollection-modal").modal("show");
                                 }
                                 $("#addtocollection-save").click(function() {
+                                    var nameregex = /^[a-zA-Z0-9\-_\/\. ]{1,60}$/;
+                                    var descriptionregex = /^[a-zA-Z0-9\-_\/\. ]{1,2000}$/;
+                                    if ($("#addtocollection-name").val().replace(" ") === "") {
+                                        $("#atc-nospecialchars-description").addClass("hidden");
+                                        $("#atc-nospecialchars-name").addClass("hidden");
+                                        $("#atc-allfieldsrequired").removeClass("hidden");
+                                    }
+
+                                    else if (!(nameregex.test($("#addtocollection-name").val()))) {
+                                        $("#atc-allfieldsrequired").addClass("hidden");
+                                        $("#atc-nospecialchars-description").addClass("hidden");
+                                        $("#atc-nospecialchars-name").removeClass("hidden");
+                                    } else if (!(descriptionregex.test($("#addtocollection-description").val()))) {
+                                        $("#atc-allfieldsrequired").addClass("hidden");
+                                        $("#atc-nospecialchars-name").addClass("hidden");
+                                        $("#atc-nospecialchars-description").removeClass("hidden");
+                                    }
                                     firebase.database().ref("/u/" + user.uid + "/collections/" + id + "/").set({
                                         name: $("#addtocollection-name").val(),
                                         description: $("#addtocollection-description").val()
@@ -498,6 +515,8 @@
                     <h4 class="modal-title" id="addtocollection-modal-label"><span id="addtocollection-action">Add</span> this file <span id="addtocollection-word">to</span> your collection</h4>
                 </div>
                 <div class="modal-body">
+                    <div class="alert alert-danger hidden" role="alert" id="atc-nospecialchars-name">Successfully updated your collection.</div>
+                
                     <label for="addtocollection-name">Name:</label>
                     <input type="text" id="addtocollection-name" class="form-control">
                     <label for="addtocollection-description">Description:</label>

@@ -168,8 +168,9 @@
                             $("#files").append("<h3><span class='file-id'>" + key + "</span>: <a href='https://techedit.jeffkmeng.com/f/" + key + "/' class='name'>" + value.name + "</a> (<a href='https://techedit.jeffkmeng.com/f/" + key + "#addtocollection'>Edit</a>)</h3><p>" + value.description + "</p><hr>")
                         }
                     }
+                    new List("file-box", options);
                 });
-                new List("file-box", options);
+               
             }
             else {
                 window.location.href = "/account/login/?redir=" + encodeURIComponent(window.location.href);
