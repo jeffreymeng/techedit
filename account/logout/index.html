@@ -58,8 +58,8 @@
                     <li>
                         <a href="/edit/">Edit File</a>
                     </li>
-                    <li id="nav-collections" class="hidden">
-                        <a id="nav-collections-link" href="/collections/">My Collection</a>
+                    <li id="nav-collection" class="hidden">
+                        <a id="nav-collection-link" href="/collection/">My Collection</a>
                     </li>
                     <li id="nav-login" class="hidden">
                         <a id="nav-login-link">Login</a>
@@ -112,18 +112,18 @@
     <script src="/js/techedit.js"></script>
     <script>
         /* global $ firebase */
-//http://stackoverflow.com/a/901144/5511561
-function getQuery(name) {
-    var  url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
+        //http://stackoverflow.com/a/901144/5511561
+        function getQuery(name) {
+            var url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
         firebase.auth().signOut().then(function() {
-            $("#login").click(function(){
+            $("#login").click(function() {
                 window.location.href = "/account/login/?redir=" + encodeURIComponent(getQuery("redir") || "");
             });
             $("#loading").addClass("hidden");
