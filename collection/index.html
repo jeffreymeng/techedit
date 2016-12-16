@@ -81,15 +81,17 @@
             <hr>
             <div class="container col-lg-12" id="file-box">
                 <input class="fuzzy-search form-control" type="text" placeholder="Search">
-                <br>
-                <button class="sort btn btn-primary form-control" data-sort="name">
+                <br> Copy
+                <div class="btn-group btn-group-justified" role="group" aria-label="Sort By...">
+                    <button type="button" class="sort btn btn-primary form-control" data-sort="name">
     Sort by Name
   </button>
-                <br>
-                <br>
-                <button class="sort btn btn-primary form-control" data-sort="file-id">
+
+                    <button type="button" class="sort btn btn-primary form-control" data-sort="file-id">
     Sort by ID
   </button>
+                </div>
+
                 <hr>
                 <ul class="pagination-top pagination"></ul>
                 <ul class="list" id="files">
