@@ -76,7 +76,7 @@
 
         <div class="col-lg-12 text-center">
             <h1>Edit File</h1>
-            <p class="lead">To edit a file, enter the file id, or go to the file url:</p>
+            <p class="lead">To edit a file or collection, enter the file or collection id, or go to the file or collection url:</p>
             <hr>
             <input type="text" id="fileid" class="form-control">
             <br>
@@ -111,7 +111,7 @@
 <script src="/js/techedit.js"></script>
     <script>
         $("#submit").click(function() {
-            window.location.href = "https://techedit.jeffkmeng.com/f/" + $("#fileid").val();
+            window.location.href = "https://techedit.jeffkmeng.com/" + $("#fileid").val();
         });
     </script>
 </body>

@@ -477,7 +477,7 @@
 
 
 
-                firebase.database().ref(id + "/info/").set({
+                firebase.database().ref("/f/" + id + "/info/").set({
                     language: $("#opt-filetype").val(),
 
                     name: $("#opt-filename").val()

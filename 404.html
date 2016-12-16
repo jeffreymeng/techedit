@@ -122,8 +122,69 @@
         </div>
 
     </div>
+    <div class="container" id="showcollection">
 
-    <div class="container hidden" id="page">
+        <div class="row">
+
+            <div class="col-lg-12 text-center">
+                <h1>Cool Stuff</h1>
+                <p class="lead">A collection created by <b id="collection-creator">Jeffrey Meng</b></p>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="name">Collection ID</span></span>
+                    <input type="text" class="form-control code" value="Loading..." id="collection-file-id" readonly height="20">
+                    <span class="input-group-btn" id="clip-button">
+                        <button class="btn btn-default clipboard-btn" type="button" data-clipboard-target="#collection-file-id"><img height="20" src="https://assets.jeffkmeng.com/clipboard/1.5.12/svg/clipboard.svg" alt="Copy To Clipboard"></button>
+                    </span>
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="name">Share URL</span></span>
+                    <input type="text" class="form-control code" value="Loading..." id="collection-share-code" readonly height="20">
+                    <span class="input-group-btn" id="clip-button">
+                        <button class="btn btn-default clipboard-btn" type="button" data-clipboard-target="#collection-share-code"><img height="20" src="https://assets.jeffkmeng.com/clipboard/1.5.12/svg/clipboard.svg" alt="Copy To Clipboard"></button>
+                    </span>
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="name">Embed URL</span></span>
+                    <input type="text" class="form-control code" value="Loading..." id="collection-embed-code" readonly height="20">
+                    <span class="input-group-btn" id="clip-button">
+                        <button class="btn btn-default clipboard-btn" type="button" data-clipboard-target="#collection-embed-code"><img height="20" src="https://assets.jeffkmeng.com/clipboard/1.5.12/svg/clipboard.svg" alt="Copy To Clipboard"></button>
+                    </span>
+                </div>
+                <hr>
+                <div class="container col-lg-12" id="file-box">
+                    <input class="fuzzy-search form-control" type="text" placeholder="Search">
+                    <br>
+
+                    <div class="btn-group btn-group-justified" role="group" aria-label="Sort As:">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="sort btn btn-primary" data-sort="name">
+    Sort by Name
+  </button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="sort btn btn-primary" data-sort="file-id">
+    Sort by ID
+  </button>
+                        </div>
+
+                    </div>
+
+                    <hr>
+                    <ul class="pagination-top pagination"></ul>
+                    <ul class="list" id="files">
+
+                    </ul>
+                    <ul class="pagination-bottom pagination"></ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="container hidden" id="viewfile">
 
         <div class="row">
 
@@ -248,6 +309,7 @@
     <script src="/js/clipboard.min.js"></script>
     <script src="/js/mousetrap.min.js"></script>
     <script>
+    /* global firebase */
         var config = {
             apiKey: "AIzaSyBQ2E4ISQoIcRsDxfPxzDjbJwmD-r98JYw",
             authDomain: "techedit-63e7f.firebaseapp.com",
@@ -259,7 +321,9 @@
     </script>
     <script src="/js/techedit.js"></script>
     <script>
-        /* global firebase $ ace Firepad Clipboard localStorage Mousetrap */
+        /* global firebase $ ace Firepad Clipboard localStorage Mousetrap List ListFuzzySearch ListPagination */
+        
+        /*
         //http://stackoverflow.com/a/901144/5511561
         function getQuery(name) {
             var url = window.location.href;
@@ -270,17 +334,80 @@
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
-        var id = window.location.pathname.substring(1).split("/")[1];
+        */
+        /* var clipboard = */
+        new Clipboard(".clipboard-btn");
 
-        function init() {
+        var pagetype = window.location.pathname.substring(1).split("/")[0];
+        if (pagetype === "f") {
+            viewFile();
+        }
+        else if (pagetype === "c") {
+            showCollection();
+        }
 
-            /* var clipboard = */
-            new Clipboard(".clipboard-btn");
-            //// Initialize Firebase.
-            //// TODO: replace with your Firebase project configuration.
+        function showCollection() {
 
 
-            // Get Firebase Database reference.
+
+            var fuzzyOptions = {
+                searchClass: "fuzzy-search",
+                location: 0,
+                distance: 100,
+                threshold: 0.4,
+                multiSearch: true
+            };
+            var paginationTopOptions = {
+                name: "pagination-top",
+                paginationClass: "pagination-top",
+                outerWindow: 2
+            };
+            var paginationBottomOptions = {
+                name: "pagination-bottom",
+                paginationClass: "pagination-bottom",
+                innerWindow: 3,
+                left: 2,
+                right: 4
+            };
+            var options = {
+                valueNames: ["name", "file-id"],
+
+                page: 7,
+                plugins: [
+                    ListFuzzySearch(fuzzyOptions),
+                    ListPagination(paginationTopOptions),
+                    ListPagination(paginationBottomOptions)
+                ]
+            };
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    firebase.database().ref("/u/" + user.uid + "/collections/").once("value").then(function(snapshot) {
+                        var data = snapshot.val();
+                        for (var key in data) {
+                            if (data.hasOwnProperty(key)) {
+                                var value = data[key];
+                                $("#files").append("<li><h3><span class='file-id'>" + key + "</span>: <a href='https://techedit.jeffkmeng.com/f/" +
+                                    key + "/' class='name'>" + value.name + "</a> (<a href='https://techedit.jeffkmeng.com/f/" + key +
+                                    "#addtocollection'>Edit</a>)</h3><p>" + value.description + "</p><hr></li>");
+                            }
+                        }
+                        new List("file-box", options);
+                    });
+
+                }
+                else {
+                    window.location.href = "/account/login/?redir=" + encodeURIComponent(window.location.href);
+                }
+            });
+
+        }
+
+        function viewFile() {
+            var id = window.location.pathname.substring(1).split("/")[1];
+
+
+
+
 
             Mousetrap.bind(['command+s', 'ctrl+s'], function(e) {
                 return false;
@@ -289,7 +416,7 @@
             getFirepadRef(function(firepadRef, snapshot) {
                 console.log(firepadRef);
                 if (!firepadRef) {
-                    $("#page").addClass("hidden");
+                    $("#viewfile").addClass("hidden");
                     $("#loading").addClass("hidden");
                     $("#error404").removeClass("hidden");
                 }
@@ -299,7 +426,7 @@
 
                     $("#embed-code").val("https://techedit.jeffkmeng.com/embed/?id=" + id);
                     $("#share-code").val("https://techedit.jeffkmeng.com/f/" + id);
-                    $("#file-id").val(id);
+                    $("#file-id").val("f/" + id);
                     var filename, theme, language;
                     if (data.info) {
                         filename = data.info.name;
@@ -350,7 +477,7 @@
                     firepad.on("ready", function() {
                         $("#error404").addClass("hidden");
                         $("#loading").addClass("hidden");
-                        $("#page").removeClass("hidden");
+                        $("#viewfile").removeClass("hidden");
                     });
                     $("#opt-theme").change(function() {
                         var theme = $("#opt-theme").val();
@@ -402,7 +529,8 @@
                                         $("#atc-allfieldsrequired").addClass("hidden");
                                         $("#atc-nospecialchars-description").addClass("hidden");
                                         $("#atc-nospecialchars-name").removeClass("hidden");
-                                    } else if (!(descriptionregex.test($("#addtocollection-description").val()))) {
+                                    }
+                                    else if (!(descriptionregex.test($("#addtocollection-description").val()))) {
                                         $("#atc-allfieldsrequired").addClass("hidden");
                                         $("#atc-nospecialchars-name").addClass("hidden");
                                         $("#atc-nospecialchars-description").removeClass("hidden");
@@ -452,7 +580,7 @@
                     if (data === null || data === undefined) {
 
 
-                        $("#page").addClass("hidden");
+                        $("#viewfile").addClass("hidden");
                         $("#loading").addClass("hidden");
                         $("#error404").removeClass("hidden");
 
@@ -468,7 +596,7 @@
             }
             else {
 
-                $("#page").addClass("hidden");
+                $("#viewfile").addClass("hidden");
                 $("#loading").addClass("hidden");
                 $("#error404").removeClass("hidden");
 
@@ -493,7 +621,7 @@
 
 
 
-                firebase.database().ref(id + "/info/").set({
+                firebase.database().ref("/f/" + id + "/info/").set({
                     language: $("#opt-filetype").val(),
 
                     name: $("#opt-filename").val()
@@ -504,11 +632,7 @@
 
             }
 
-
-
         }
-
-        init();
     </script>
     <div class="modal fade" id="addtocollection-modal" tabindex="-1" role="dialog" aria-labelledby="addtocollection-modal-label">
         <div class="modal-dialog" role="document">
@@ -519,7 +643,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-danger hidden" role="alert" id="atc-nospecialchars-name">Successfully updated your collection.</div>
-                
+
                     <label for="addtocollection-name">Name:</label>
                     <input type="text" id="addtocollection-name" class="form-control">
                     <label for="addtocollection-description">Description:</label>
