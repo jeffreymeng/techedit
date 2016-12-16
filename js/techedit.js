@@ -10,10 +10,15 @@ firebase.auth().onAuthStateChanged(function(user) {
         
     }
     else {
-        $("#nav-collections").addClass("hidden");
+        
+        $("#nav-collection").addClass("hidden");
         $("#nav-logout").addClass("hidden");
         $("#nav-login-link").click(function() {
-            window.location.href = "/account/login/?redir=" + encodeURIComponent(window.location.href);
+            if (window.location.pathname !== "/account/logout/" || window.location.pathname !== "/account/logout/index.html") {
+                window.location.href = "/account/login/?redir=" + encodeURIComponent(window.location.href);
+            } else {
+                window.location.href = "/account/login/";
+            }
         });
         $("#nav-login").removeClass("hidden");
     }
