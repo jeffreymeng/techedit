@@ -261,6 +261,7 @@
     <script>
         /* global firebase $ ace Firepad Clipboard localStorage Mousetrap */
         //http://stackoverflow.com/a/901144/5511561
+        
         function getQuery(name) {
             var url = window.location.href;
             name = name.replace(/[\[\]]/g, "\\$&");
@@ -270,164 +271,179 @@
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
+        
         var id = getQuery("id");
 
-        function init() {
-
-            /* var clipboard = */
-            new Clipboard(".clipboard-btn");
-            //// Initialize Firebase.
-            //// TODO: replace with your Firebase project configuration.
+        /* var clipboard = */
+        new Clipboard(".clipboard-btn");
+        //// Initialize Firebase.
+        //// TODO: replace with your Firebase project configuration.
 
 
-            // Get Firebase Database reference.
+        // Get Firebase Database reference.
 
-            Mousetrap.bind(['command+s', 'ctrl+s'], function(e) {
-                return false;
-            });
+        Mousetrap.bind(['command+s', 'ctrl+s'], function(e) {
+            return false;
+        });
 
-            getFirepadRef(function(firepadRef, snapshot) {
-                console.log(firepadRef);
-                if (!firepadRef) {
-                    $("#page").addClass("hidden");
-                    $("#loading").addClass("hidden");
-                    $("#error404").removeClass("hidden");
+        getFirepadRef(function(firepadRef, snapshot) {
+            console.log(firepadRef);
+            if (!firepadRef) {
+                $("#page").addClass("hidden");
+                $("#loading").addClass("hidden");
+                $("#error404").removeClass("hidden");
+            }
+            else {
+
+                var data = snapshot.val();
+
+                $("#embed-code").val("https://techedit.jeffkmeng.com/embed/?id=" + id);
+                $("#share-code").val("https://techedit.jeffkmeng.com/f/" + id);
+                $("#file-id").val(id);
+                var filename, theme, language;
+                if (data.info) {
+                    filename = data.info.name;
+                    language = data.info.language;
                 }
                 else {
+                    // just in case
+                    filename = "Unamed";
 
-                    var data = snapshot.val();
-
-                    $("#embed-code").val("https://techedit.jeffkmeng.com/embed/?id=" + id);
-                    $("#share-code").val("https://techedit.jeffkmeng.com/f/" + id);
-                    $("#file-id").val(id);
-                    var filename, theme, language;
-                    if (data.info) {
-                        filename = data.info.name;
-                        language = data.info.language;
-                    }
-                    else {
-                        // just in case
-                        filename = "Unamed";
-
-                        language = "text";
-                    }
-                    if (localStorage) {
-                        theme = localStorage.getItem("techedit-opts-local-theme") || "xcode";
-                    }
-                    else {
-                        theme = "xcode";
-                    }
-                    $("#opt-filename").val(filename);
-                    $("#opt-theme").selectpicker("val", theme);
-                    $("#opt-filetype").selectpicker("val", language);
-                    $("#filename").text(filename);
-                    $("#addtocollection-name").val(filename);
-                    //// Create ACE
-                    var editor = ace.edit("firepad-container");
-                    editor.setTheme("ace/theme/" + theme);
-
-                    editor.setShowPrintMargin(false);
-                    var session = editor.getSession();
-                    session.setUseWrapMode(true);
-                    session.setUseWorker(false);
-                    //language is text by defualt, we don't need to change it.
-
-                    session.setMode("ace/mode/" + language);
-
-
-
-                    //// Create Firepad.
-                    var firepad = Firepad.fromACE(firepadRef, editor, {
-                        defaultText: ""
-                    });
-                    firebase.database().ref("/f/" + id + "/info/").on("value", function(snapshot) {
-                        var data = snapshot.val();
-                        $("#filename").text(data.name);
-                        $("#opt-filename").val(data.name);
-                        session.setMode("ace/mode/" + data.language);
-                        $("#opt-filetype").selectpicker("val", data.info.language);
-
-                    });
-                    firepad.on("ready", function() {
-                        $("#error404").addClass("hidden");
-                        $("#loading").addClass("hidden");
-                        $("#page").removeClass("hidden");
-                    });
-                    $("#opt-theme").change(function() {
-                        var theme = $("#opt-theme").val();
-                        editor.setTheme("ace/theme/" + theme);
-                        localStorage.setItem("techedit-opts-local-theme", theme);
-                        $("#opt-theme").selectpicker("val", theme);
-                    });
-                    $("#update").click(updateInfo);
-                    /* global firebase $ */
-                    firebase.auth().onAuthStateChanged(function(user) {
-                        if (user) {
-
-
-
-                            firebase.database().ref("/u/" + user.uid + "/collections/" + id + "/").once("value").then(function(data) {
-                                if (data.val() === null) {
-
-                                    $("#addtocollection").html("Add To Collection");
-
-                                }
-                                else {
-                                    $("#addtocollection-action").html("update");
-                                    $("#addtocollection-word").html("in");
-                                    $("#addtocollection").html("Update your Collection");
-                                    $("#addtocollection-name").val(data.val().name);
-
-                                    if (data.val().description) {
-                                        $("#addtocollection-description").val(data.val().description);
-                                    }
-                                }
-                                $("#addtocollection").click(function() {
-                                    $("#addtocollection-modal").modal("show");
-                                });
-                                if (window.location.hash === "#addtocollection") {
-                                    window.location.hash = "";
-
-                                    $("#addtocollection-modal").modal("show");
-                                }
-                                $("#addtocollection-save").click(function() {
-                                    firebase.database().ref("/u/" + user.uid + "/collections/" + id + "/").set({
-                                        name: $("#addtocollection-name").val(),
-                                        description: $("#addtocollection-description").val()
-                                    }).catch(function() {
-                                        $("#addtocollection-modal").modal("hide");
-                                        $("#addtocollection-error").removeClass("hidden");
-                                    }).then(function() {
-                                        $("#addtocollection-modal").modal("hide");
-                                        $("#addtocollection-success").removeClass("hidden");
-                                    });
-                                });
-
-                            });
-
-
-                        }
-                        else {
-                            $("#addtocollection").html("Login to Add To Collection");
-                            $("#addtocollection").click(function() {
-
-                                window.location.href = "/account/login/?redir=" + encodeURIComponent("https://techedit.jeffkmeng.com" + window.location.pathname + window.location.search + "#addtocollection");
-                            });
-
-                        }
-                    });
-
-
+                    language = "text";
                 }
-            });
+                if (localStorage) {
+                    theme = localStorage.getItem("techedit-opts-local-theme") || "xcode";
+                }
+                else {
+                    theme = "xcode";
+                }
+                $("#opt-filename").val(filename);
+                $("#opt-theme").selectpicker("val", theme);
+                $("#opt-filetype").selectpicker("val", language);
+                $("#filename").text(filename);
+                $("#addtocollection-name").val(filename);
+                //// Create ACE
+                var editor = ace.edit("firepad-container");
+                editor.setTheme("ace/theme/" + theme);
 
-        }
+                editor.setShowPrintMargin(false);
+                var session = editor.getSession();
+                session.setUseWrapMode(true);
+                session.setUseWorker(false);
+                //language is text by defualt, we don't need to change it.
+
+                session.setMode("ace/mode/" + language);
+
+
+
+                //// Create Firepad.
+                var firepad = Firepad.fromACE(firepadRef, editor, {
+                    defaultText: ""
+                });
+
+                $("#filename").text(data.info.name);
+                $("#opt-filename").val(data.info.name);
+                session.setMode("ace/mode/" + data.info.language);
+                $("#opt-filetype").selectpicker("val", data.info.language);
+
+
+                firepad.on("ready", function() {
+                    $("#error404").addClass("hidden");
+                    $("#loading").addClass("hidden");
+                    $("#page").removeClass("hidden");
+                });
+                $("#opt-theme").change(function() {
+                    var theme = $("#opt-theme").val();
+                    editor.setTheme("ace/theme/" + theme);
+                    localStorage.setItem("techedit-opts-local-theme", theme);
+                    $("#opt-theme").selectpicker("val", theme);
+                });
+                $("#update").click(updateInfo);
+                /* global firebase $ */
+                firebase.auth().onAuthStateChanged(function(user) {
+                    if (user) {
+
+
+
+                        firebase.database().ref("/u/" + user.uid + "/collections/" + id + "/").once("value").then(function(data) {
+                            if (data.val() === null) {
+
+                                $("#addtocollection").html("Add To Collection");
+
+                            }
+                            else {
+                                $("#addtocollection-action").html("update");
+                                $("#addtocollection-word").html("in");
+                                $("#addtocollection").html("Update your Collection");
+                                $("#addtocollection-name").val(data.val().name);
+
+                                if (data.val().description) {
+                                    $("#addtocollection-description").val(data.val().description);
+                                }
+                            }
+                            $("#addtocollection").click(function() {
+                                $("#addtocollection-modal").modal("show");
+                            });
+                            if (window.location.hash === "#addtocollection") {
+                                window.location.hash = "";
+
+                                $("#addtocollection-modal").modal("show");
+                            }
+                            $("#addtocollection-save").click(function() {
+                                var nameregex = /^[a-zA-Z0-9\-_\/\. ]{1,60}$/;
+                                var descriptionregex = /^[a-zA-Z0-9\-_\/\. ]{1,2000}$/;
+                                if ($("#addtocollection-name").val().replace(" ") === "") {
+                                    $("#atc-nospecialchars-description").addClass("hidden");
+                                    $("#atc-nospecialchars-name").addClass("hidden");
+                                    $("#atc-allfieldsrequired").removeClass("hidden");
+                                }
+
+                                else if (!(nameregex.test($("#addtocollection-name").val()))) {
+                                    $("#atc-allfieldsrequired").addClass("hidden");
+                                    $("#atc-nospecialchars-description").addClass("hidden");
+                                    $("#atc-nospecialchars-name").removeClass("hidden");
+                                }
+                                else if (!(descriptionregex.test($("#addtocollection-description").val()))) {
+                                    $("#atc-allfieldsrequired").addClass("hidden");
+                                    $("#atc-nospecialchars-name").addClass("hidden");
+                                    $("#atc-nospecialchars-description").removeClass("hidden");
+                                }
+                                firebase.database().ref("/u/" + user.uid + "/collections/" + id + "/").set({
+                                    name: $("#addtocollection-name").val(),
+                                    description: $("#addtocollection-description").val()
+                                }).catch(function() {
+                                    $("#addtocollection-modal").modal("hide");
+                                    $("#addtocollection-error").removeClass("hidden");
+                                }).then(function() {
+                                    $("#addtocollection-modal").modal("hide");
+                                    $("#addtocollection-success").removeClass("hidden");
+                                });
+                            });
+
+                        });
+
+
+                    }
+                    else {
+                        $("#addtocollection").html("Login to Add To Collection");
+                        $("#addtocollection").click(function() {
+
+                            window.location.href = "/account/login/?redir=" + encodeURIComponent("https://techedit.jeffkmeng.com" + window.location.pathname + window.location.search + "#addtocollection");
+                        });
+
+                    }
+                });
+
+
+            }
+        });
+
+
 
         // Helper to get hash from end of URL or generate a random one.
         function getFirepadRef(callback) {
             var ref = firebase.database().ref("/f/");
-            console.log(id);
-            console.log(window.location.pathname.substring(1).split("/")[0]);
+            
             if (id !== null && id !== "") {
                 ref.child(id).once("value").then(function(snapshot) {
                     var data = snapshot.val();
@@ -491,8 +507,6 @@
 
 
         }
-
-        init();
     </script>
     <div class="modal fade" id="addtocollection-modal" tabindex="-1" role="dialog" aria-labelledby="addtocollection-modal-label">
         <div class="modal-dialog" role="document">
@@ -502,6 +516,8 @@
                     <h4 class="modal-title" id="addtocollection-modal-label"><span id="addtocollection-action">Add</span> this file <span id="addtocollection-word">to</span> your collection</h4>
                 </div>
                 <div class="modal-body">
+                    <div class="alert alert-danger hidden" role="alert" id="atc-nospecialchars-name">Successfully updated your collection.</div>
+
                     <label for="addtocollection-name">Name:</label>
                     <input type="text" id="addtocollection-name" class="form-control">
                     <label for="addtocollection-description">Description:</label>
