@@ -36,7 +36,7 @@
 
 <body>
 
-   <!-- Navigation -->
+    <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -79,9 +79,15 @@
 
 
         <div class="col-lg-12 text-center">
-            <div class="alert alert-danger hidden" id="error" role="alert">Error: No user could be found with the combiation of email address and password given. You can try entering your password again, <a href="/account/create/" class="alert-link">Creating an account</a>, or <a href="/account/reset/" class="alert-link">Resetting your password</a>.</div>
-            <div class="alert alert-success hidden" id="accountcreated" role="alert">Your account was created successfully. You may now login.</div>
-            <div class="alert alert-success hidden" id="passwordresetsuccess" role="alert">Your account password was changed successfully. You may now login.</div>
+            <div class="alert alert-danger hidden" id="error" role="alert">Error: No user could be found with the combiation of email address
+            and password given. You can try entering your password again, <a href="/account/create/" class="alert-link">
+                Creating an account</a>, or <a href="/account/reset/" class="alert-link">Resetting your password</a>.</div>
+            <div class="alert alert-danger hidden" id="accountinvalid" role="alert">The account used to login has not been activated yet.
+            You need to follow a link on a password reset email to activate your account. You can try <a href="/account/verify">Verifying your email again</a>.</div>
+
+            <div class="alert alert-success hidden" id="accountcreated" role="alert">Your account was created and activated successfully. You may now login.</div>
+            <div class="alert alert-success hidden" id="passwordresetsuccess" role="alert">Your account password was changed successfully.
+            You may now login.</div>
 
             <h1>Login to Techedit</h1>
             <hr>
@@ -93,7 +99,7 @@
             <br><br>
             <button class="btn btn-primary form-control" id="login">Login</button>
             <hr>
-            <p id="option-bar">Or: <a href="/account/create/">Create an account</a> | <a href="/account/reset/">Reset your password</a></p>
+            <p id="option-bar">Or: <a href="/account/create/">Create an account</a> | <a href="/account/reset/">Reset your password</a> | <a href="/account/verify/">Send another email address verification email</a></p>
         </div>
 
 
@@ -126,10 +132,16 @@
         if (window.location.hash === "#accountcreated") {
             $("#accountcreated").removeClass("hidden");
             window.location.hash = "";
-        } else if (window.location.hash === "#passwordresetsuccess") {
+        }
+        else if (window.location.hash === "#passwordresetsuccess") {
             $("#passwordresetsuccess").removeClass("hidden");
             window.location.hash = "";
         }
+        else if (window.location.hash === "#emailverified") {
+            $("#emailverified").removeClass("hidden");
+            window.location.hash = "";
+        }
+
         function getQuery(name) {
             var url = window.location.href;
             name = name.replace(/[\[\]]/g, "\\$&");
@@ -155,15 +167,25 @@
             firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
                 $("#password").val("");
                 $("#accountcreated").addClass("hidden");
+                $("#accountinvalid").addClass("hidden");
                 $("#error").removeClass("hidden");
             }).then(function() {
                 firebase.auth().onAuthStateChanged(function(user) {
                     if (user) {
-                        window.location.href = getQuery("redir") || "/collection/";
+                        if (user.emailVerified) {
+                            window.location.href = getQuery("redir") || "/collection/";
+                        }
+                        else {
+                            $("#password").val("");
+                            $("#accountcreated").addClass("hidden");
+                            $("#error").addClass("hidden");
+                            $("#accountinvalid").removeClass("hidden");
+                        }
                     }
                     else {
                         $("#password").val("");
                         $("#accountcreated").addClass("hidden");
+                        $("#accountinvalid").addClass("hidden");
                         $("#error").removeClass("hidden");
                     }
                 });
