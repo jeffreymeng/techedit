@@ -155,6 +155,7 @@
                         if (user.emailVerified) {
                             $("#password").val("");
                             $("#unknownerror").addClass("hidden");
+                            $("#success").addClass("hidden");
                             $("#error").removeClass("hidden");
                         }
                         else {
@@ -187,6 +188,7 @@
                     else {
                         $("#password").val("");
                         $("#unknownerror").addClass("hidden");
+                        $("#success").addClass("hidden");
                         $("#error").removeClass("hidden");
                     }
                 });

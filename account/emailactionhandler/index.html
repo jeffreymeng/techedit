@@ -174,7 +174,7 @@
                 });
             }
             else if (getQuery("mode") === "verifyEmail") {
-                auth.applyActionCode(getQuery("oobCode")).then(function(resp) {
+                firebase.auth().applyActionCode(getQuery("oobCode")).then(function(resp) {
                     window.location.href = "/account/login/#accountcreated";
                 }).catch(function(error) {
                     $("#loading").addClass("hidden");
