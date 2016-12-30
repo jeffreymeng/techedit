@@ -150,6 +150,8 @@
             }).then(function() {
                 firebase.auth().onAuthStateChanged(function(user) {
                     if (user) {
+                        console.log(user);
+                        console.log(user.emailVerified);
                         if (user.emailVerified) {
                             $("#password").val("");
                             $("#unknownerror").addClass("hidden");
