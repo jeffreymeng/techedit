@@ -287,7 +287,7 @@
         Mousetrap.bind(['command+s', 'ctrl+s'], function(e) {
             return false;
         });
-        
+
         getFirepadRef(function(firepadRef, snapshot) {
             console.log(firepadRef);
             if (!firepadRef) {
@@ -391,6 +391,19 @@
 
                                 $("#addtocollection-modal").modal("show");
                             }
+                            $("#addtocollection-remove").click(function() {
+                                $("#addtocollection-modal").modal("hide");
+                                $("#removefromcollection-modal").modal("show");
+                                $("#removefromcollection-btn").click(function() {
+                                    firebase.database().ref("/u/" + user.uid + "/collections/" + id + "/").set(null).catch(function() {
+                                        $("#removefromcollection-modal").modal("hide");
+                                        $("#addtocollection-error").removeClass("hidden");
+                                    }).then(function() {
+                                        $("#removefromcollection-modal").modal("hide");
+                                        $("#addtocollection-success").removeClass("hidden");
+                                    });
+                                });
+                            });
                             $("#addtocollection-save").click(function() {
                                 var nameregex = /^[a-zA-Z0-9\-_\/\. ]{1,60}$/;
                                 var descriptionregex = /^[a-zA-Z0-9\-_\/\. ]{1,2000}$/;
@@ -432,6 +445,7 @@
 
                             window.location.href = "/account/login/?redir=" + encodeURIComponent("https://techedit.jeffkmeng.com" + window.location.pathname + window.location.search + "#addtocollection");
                         });
+
 
                     }
                 });
@@ -527,8 +541,28 @@
                     <textarea id="addtocollection-description" class="form-control"></textarea>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="addtocollection-remove">Remove From Collection</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="addtocollection-save">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="removefromcollection-modal" tabindex="-1" role="dialog" aria-labelledby="removefromcollection-modal-label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="removefromcollection-modal-label">Are You Sure?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>You are reoving this file from your collection. This change cannot be reverted. You can always this file back to your collection,
+                        <b>but your name and description will be lost forever!</b></p>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-danger" id="removefromcollection-btn">Yes, I'm sure I want to remove this file from my collection</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
