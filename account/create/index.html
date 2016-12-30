@@ -159,49 +159,51 @@
                 $("#weakpassword").addClass("hidden");
                 $("#nomatch").removeClass("hidden");
             }
-            firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-                if (error.code === "auth/weak-password") {
-                    $("#password").val("");
-                    $("#confirmpassword").val("");
-                    $("#unknownerror").addClass("hidden");
-                    $("#error").addClass("hidden");
-                    $("#nomatch").addClass("hidden");
-                    $("#weakpassword").removeClass("hidden");
-                }
-                else {
-                    $("#password").val("");
-                    $("#confirmpassword").val("");
-                    $("#unknownerror").addClass("hidden");
-                    $("#nomatch").addClass("hidden");
-                    $("#weakpassword").addClass("hidden");
-                    $("#error").removeClass("hidden");
-                }
-            }).then(function() {
-                firebase.auth().onAuthStateChanged(function(user) {
-                    if (user) {
-                        firebase.auth().signOut().then(function() {
-                            window.location.href = "/account/login/#accountcreated";
-                        }, function(error) {
+            else {
+                firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+                    if (error.code === "auth/weak-password") {
+                        $("#password").val("");
+                        $("#confirmpassword").val("");
+                        $("#unknownerror").addClass("hidden");
+                        $("#error").addClass("hidden");
+                        $("#nomatch").addClass("hidden");
+                        $("#weakpassword").removeClass("hidden");
+                    }
+                    else {
+                        $("#password").val("");
+                        $("#confirmpassword").val("");
+                        $("#unknownerror").addClass("hidden");
+                        $("#nomatch").addClass("hidden");
+                        $("#weakpassword").addClass("hidden");
+                        $("#error").removeClass("hidden");
+                    }
+                }).then(function() {
+                    firebase.auth().onAuthStateChanged(function(user) {
+                        if (user) {
+                            firebase.auth().signOut().then(function() {
+
+                            }, function(error) {
+                                $("#password").val("");
+                                $("#confirmpassword").val("");
+                                $("#nomatch").addClass("hidden");
+                                $("#weakpassword").addClass("hidden");
+                                $("#error").addCass("hidden");
+                                $("#unknownerror").removeClass("hidden");
+                            });
+                        }
+                        else {
                             $("#password").val("");
                             $("#confirmpassword").val("");
                             $("#nomatch").addClass("hidden");
                             $("#weakpassword").addClass("hidden");
                             $("#error").addCass("hidden");
                             $("#unknownerror").removeClass("hidden");
-                        });
-                    }
-                    else {
-                        $("#password").val("");
-                        $("#confirmpassword").val("");
-                        $("#nomatch").addClass("hidden");
-                        $("#weakpassword").addClass("hidden");
-                        $("#error").addCass("hidden");
-                        $("#unknownerror").removeClass("hidden");
-                    }
+                        }
+                    });
+
+
                 });
-
-
-            });
+            }
         }
     </script>
 </body>
