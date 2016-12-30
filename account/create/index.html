@@ -186,7 +186,7 @@
                             user.sendEmailVerification().then(function() {
                                 firebase.auth().signOut().then(function() {
                                     $("#main").addClass("hidden");
-                                    $("#success-email").val(email);
+                                    $("#success-email").html(email);
                                     $("#success").removeClass("hidden");
                                 }, function(error) {
                                     $("#password").val("");
