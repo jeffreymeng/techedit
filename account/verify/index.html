@@ -81,8 +81,7 @@
         <div class="col-lg-12 text-center">
             <div class="alert alert-success hidden" id="success" role="alert">The email address verification email has been sent.</div>
             <div class="alert alert-danger hidden" id="error" role="alert">Error: No unverified user could be found with the combiation of email address and password given. You can try entering your password again, <a href="/account/create/" class="alert-link">
-                Creating an account</a>, or <a href="/account/reset/" class="alert-link">Resetting your password</a>. Or you can <a href="/account/login" class="alert-link">Login</a> if you already verified
-                your email.</div>
+                Creating an account</a>, or <a href="/account/reset/" class="alert-link">Resetting your password</a>. Or you can <a href="/account/login" class="alert-link">Login</a> if you already verified your email.</div>
             <div class="alert alert-danger hidden" id="unknownerror" role="alert">Error: Unknown error occured.</div>
             <h1>Verify your email</h1>
             <hr>
@@ -145,7 +144,8 @@
             var password = $("#password").val();
             firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
                 $("#password").val("");
-
+                $("#unknownerror").addClass("hidden");
+                $("#success").addClass("hidden");
                 $("#error").removeClass("hidden");
             }).then(function() {
                 firebase.auth().onAuthStateChanged(function(user) {
