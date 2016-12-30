@@ -78,7 +78,7 @@
 
 
 
-        <div class="col-lg-12 text-center">
+        <div class="col-lg-12 text-center" id="main">
             <div class="alert alert-danger hidden" id="error" role="alert">Error: The email given is badly formatted, or already in use.</div>
             <div class="alert alert-danger hidden" id="nomatch" role="alert">Error: The passwords don't match.</div>
             <div class="alert alert-danger hidden" id="weakpassword" role="alert">Error: The password used is too weak. Try adding captial letters, numbers, and at least 8 charcters in tottal.</div>
@@ -98,7 +98,10 @@
             <hr>
             <p id="option-bar">Or: <a href="/account/login/">Login</a> | <a href="/account/reset/">Reset your password</a> | <a href="/account/verify/">Send another email address verification email</a></p>
         </div>
-
+        <div id="success">
+            <h1>Success! An account has been created.</h1>
+            <p>A activation email was sent to <b id="success-email"></b>. Follow the link and your email will be verified and your account will be created.</p>
+        </div>
 
 
         <!-- /.row -->
@@ -180,16 +183,21 @@
                 }).then(function() {
                     firebase.auth().onAuthStateChanged(function(user) {
                         if (user) {
-                            firebase.auth().signOut().then(function() {
-
-                            }, function(error) {
-                                $("#password").val("");
-                                $("#confirmpassword").val("");
-                                $("#nomatch").addClass("hidden");
-                                $("#weakpassword").addClass("hidden");
-                                $("#error").addCass("hidden");
-                                $("#unknownerror").removeClass("hidden");
+                            user.sendEmailVerification().then(function() {
+                                firebase.auth().signOut().then(function() {
+                                    $("#main").addClass("hidden");
+                                    $("#success-email").val(email);
+                                    $("#success").removeClass("hidden");
+                                }, function(error) {
+                                    $("#password").val("");
+                                    $("#confirmpassword").val("");
+                                    $("#nomatch").addClass("hidden");
+                                    $("#weakpassword").addClass("hidden");
+                                    $("#error").addCass("hidden");
+                                    $("#unknownerror").removeClass("hidden");
+                                });
                             });
+
                         }
                         else {
                             $("#password").val("");
