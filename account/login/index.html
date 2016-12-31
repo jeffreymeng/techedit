@@ -12,7 +12,10 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+    <!-- Social Button CSS -->
+    <link rel="stylesheet" href="/css/bootstrap-social.css">
     <!-- Custom CSS -->
     <style>
         body {
@@ -79,15 +82,12 @@
 
 
         <div class="col-lg-12 text-center">
-            <div class="alert alert-danger hidden" id="error" role="alert">Error: No user could be found with the combiation of email address
-            and password given. You can try entering your password again, <a href="/account/create/" class="alert-link">
+            <div class="alert alert-danger hidden" id="error" role="alert">Error: No user could be found with the combiation of email address and password given. You can try entering your password again, <a href="/account/create/" class="alert-link">
                 Creating an account</a>, or <a href="/account/reset/" class="alert-link">Resetting your password</a>.</div>
-            <div class="alert alert-danger hidden" id="accountinvalid" role="alert">The account used to login has not been activated yet.
-            You need to follow a link on a password reset email to activate your account. You can try <a href="/account/verify" class="alert-link">Verifying your email again</a>.</div>
+            <div class="alert alert-danger hidden" id="accountinvalid" role="alert">The account used to login has not been activated yet. You need to follow a link on a password reset email to activate your account. You can try <a href="/account/verify" class="alert-link">Verifying your email again</a>.</div>
 
             <div class="alert alert-success hidden" id="accountcreated" role="alert">Your account was created and activated successfully. You may now login.</div>
-            <div class="alert alert-success hidden" id="passwordresetsuccess" role="alert">Your account password was changed successfully.
-            You may now login.</div>
+            <div class="alert alert-success hidden" id="passwordresetsuccess" role="alert">Your account password was changed successfully. You may now login.</div>
 
             <h1>Login to Techedit</h1>
             <hr>
@@ -98,6 +98,14 @@
             <input type="password" id="password" class="form-control">
             <br><br>
             <button class="btn btn-primary form-control" id="login">Login</button>
+            <hr>
+            <p class="text-center">Or:</p>
+            <a class="btn btn-block btn-social btn-google" id="google-login">
+                <span class="fa fa-google"></span> Login with Google
+            </a>
+            <a class="btn btn-block btn-social btn-github" id="github-login">
+                <span class="fa fa-github"></span> Login with Github
+            </a>
             <hr>
             <p id="option-bar">Or: <a href="/account/create/">Create an account</a> | <a href="/account/reset/">Reset your password</a> | <a href="/account/verify/">Send another email address verification email</a></p>
         </div>

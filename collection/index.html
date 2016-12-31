@@ -9,7 +9,8 @@
 
 
     <title>Techedit</title>
-
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="/font-awesome/font-awesome.min.css">
     <!-- Bootstrap Core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
 
@@ -179,8 +180,8 @@
                 firebase.database().ref("/u/" + user.uid + "/collections/").once("value").then(function(snapshot) {
                     var data = snapshot.val();
                     if (data === null) {
-$("#files").append("<li>You have not added anything to your collection yet. To add a file to your collection, go to a file, and click the" + 
-"add to collection button, right below the file settings.</li>");
+$("#files").append("<li>You have not added anything to your collection yet. To add a file to your collection, go to a file, and click the " + 
+"<b>add to collection</b> button, right below the file settings.</li>");
                     }
                     else {
                         for (var key in data) {
