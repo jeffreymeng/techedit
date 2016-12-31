@@ -14,7 +14,7 @@ firebase.auth().onAuthStateChanged(function(user) {
         $("#nav-collection").addClass("hidden");
         $("#nav-logout").addClass("hidden");
         $("#nav-login-link").click(function() {
-            if (window.location.pathname !== "/account/logout/" || window.location.pathname !== "/account/logout/index.html") {
+            if (window.location.pathname !== "/account/logout/" || window.location.pathname !== "/account/logout/index.html" || window.location.pathname !== "/account/login/" || window.location.pathname !== "/account/login/index.html") {
                 window.location.href = "/account/login/?redir=" + encodeURIComponent(window.location.href);
             } else {
                 window.location.href = "/account/login/";
