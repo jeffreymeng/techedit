@@ -273,6 +273,7 @@
 						$("#login-update-success").removeClass("hidden");
 						displayLinkedAccounts(user);
 					}, function(error) {
+						console.log(error);
 						$(".alert").addClass("hidden");
 						$("#login-update-error").removeClass("hidden");
 						displayLinkedAccounts(user);
