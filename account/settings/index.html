@@ -85,8 +85,10 @@
 			<h1>Account Settings</h1>
 			<hr>
 			<h3>Login Methods</h3>
-			<div class="alert alert-success hidden" role="alert" id="login-update-success">Successfully updated your login methods.</div>
-			<div class="alert alert-danger hidden" role="alert" id="login-update-error">There was an error while updating your login methods.</div>
+			<div class="alert alert-success hidden" role="alert" id="link-update-success">Successfully updated your login methods.</div>
+			<div class="alert alert-danger hidden" role="alert" id="link-update-error">There was an error while updating your login methods.</div>
+			<div class="alert alert-danger hidden" role="alert" id="link-account-in-use">The login method is already in use with another account.
+				<!-- <a href="/support/account/login-methods/#error-login-method-already-in-use">Learn More</a>. --></div>
 
 			<div id="login-methods">
 
@@ -97,6 +99,8 @@
 					<input class="form-control" type="text" id="password-link-email">
 					<label for="password-link-password">Password for adding email/password login:</label>
 					<input class="form-control" type="password" id="password-link-password">
+					<label for="password-link-password">Confirm password for adding email/password login:</label>
+					<input class="form-control" type="password" id="password-link-confirm-password">
 					<br>
 					<button class="btn btn-primary link-login form-control" id="password-link-btn">Add email/password login</button>
 				</div>
@@ -174,14 +178,14 @@
 			var data;
 			var providersLeft = ["password", "google.com", "github.com"];
 			$("#login-methods").html("");
-			for (i = 0; i < providersLeft.length; i++) {
-				$("#" + providersLeft[i] + "-login").addClass("hidden");
-			}
+			$("#password-link").addClass("hidden");
+			$("#github-link").addClass("hidden");
+			$("#google-link").addClass("hidden");
 			if (user.providerData.length > 1) {
 				for (var i = 0; i < user.providerData.length; i++) {
 					data = user.providerData[i];
 					removeElementFromArrayByValue(providersLeft, data.providerId);
-					$("#login-methods").append("<p><b>" + data.providerId + "</b> | <a class='unlink-btn' id='unlink-" + data.providerId + "' Remove this method</a></p>");
+					$("#login-methods").append("<p><b>" + data.providerId + "</b> | <a class='unlink-btn' id='unlink-" + data.providerId + "'>Remove this method</a></p>");
 
 
 				}
@@ -220,18 +224,18 @@
 					unlinkProviderFull = "password";
 				}
 				confirmAction("Are you sure you want to remove the " + unlinkProvider + " login method form your account?",
-				"This means that in the future, if you try to login with this provider, the account and data will not be shared with this account.",
-				function() {
-					user.unlink(unlinkProviderFull).then(function() {
-						displayLinkedAccounts(user);
-						$(".alert").addClass("hidden");
-						$("#login-update-success").removeClass("hidden");
-					}, function(error) {
-						displayLinkedAccounts(user);
-						$(".alert").addClass("hidden");
-						$("#login-update-error").removeClass("hidden");
+					"This means that in the future, if you try to login with this provider, the account and data will not be shared with this account.",
+					function() {
+						user.unlink(unlinkProviderFull).then(function() {
+							displayLinkedAccounts(user);
+							$(".alert").addClass("hidden");
+							$("#login-update-success").removeClass("hidden");
+						}, function(error) {
+							displayLinkedAccounts(user);
+							$(".alert").addClass("hidden");
+							$("#login-update-error").removeClass("hidden");
+						});
 					});
-				});
 
 			});
 			$(".link-login").click(function() {
@@ -246,13 +250,20 @@
 					//linkProviderFull = "google.com";
 					firebase.auth().currentUser.linkWithPopup(linkProvider).then(function(result) {
 						$(".alert").addClass("hidden");
-						$("#login-update-success").removeClass("hidden");
+						$("#link-update-success").removeClass("hidden");
 						displayLinkedAccounts(user);
 					}).catch(function(error) {
-						console.log(error);
-						$(".alert").addClass("hidden");
-						$("#login-update-error").removeClass("hidden");
-						displayLinkedAccounts(user);
+						//console.log(error);
+						if (error.code === "auth/email-already-in-use" || error.code === "auth/credential-already-in-use") {
+							$(".alert").addClass("hidden");
+							$("#link-account-in-use").removeClass("hidden");
+							displayLinkedAccounts(user);
+						}
+						else {
+							$(".alert").addClass("hidden");
+							$("#link-update-error").removeClass("hidden");
+							displayLinkedAccounts(user);
+						}
 					});
 				}
 				else if (id === "github-link") {
@@ -261,13 +272,20 @@
 					//linkProviderFull = "github.com";
 					firebase.auth().currentUser.linkWithPopup(linkProvider).then(function(result) {
 						$(".alert").addClass("hidden");
-						$("#login-update-success").removeClass("hidden");
+						$("#link-update-success").removeClass("hidden");
 						displayLinkedAccounts(user);
 					}).catch(function(error) {
-						console.log(error);
-						$(".alert").addClass("hidden");
-						$("#login-update-error").removeClass("hidden");
-						displayLinkedAccounts(user);
+						//console.log(error);
+						if (error.code === "auth/email-already-in-use" || error.code === "auth/credential-already-in-use") {
+							$(".alert").addClass("hidden");
+							$("#link-account-in-use").removeClass("hidden");
+							displayLinkedAccounts(user);
+						}
+						else {
+							$(".alert").addClass("hidden");
+							$("#link-update-error").removeClass("hidden");
+							displayLinkedAccounts(user);
+						}
 					});
 				}
 				else {
@@ -276,18 +294,26 @@
 					//linkProviderFull = "password";
 					firebase.auth().currentUser.link(linkProvider).then(function(user) {
 						$(".alert").addClass("hidden");
-						$("#login-update-success").removeClass("hidden");
+						$("#link-update-success").removeClass("hidden");
 						displayLinkedAccounts(user);
 					}, function(error) {
-						console.log(error);
-						$(".alert").addClass("hidden");
-						$("#login-update-error").removeClass("hidden");
-						displayLinkedAccounts(user);
+						//console.log(error);
+						if (error.code === "auth/email-already-in-use" || error.code === "auth/credential-already-in-use") {
+							$(".alert").addClass("hidden");
+							$("#link-account-in-use").removeClass("hidden");
+							displayLinkedAccounts(user);
+						}
+						else {
+							$(".alert").addClass("hidden");
+							$("#link-update-error").removeClass("hidden");
+							displayLinkedAccounts(user);
+						}
 					});
 				}
 
 			});
 		}
+
 		function confirmAction(title, text, callback) {
 			$("#confirm-modal-label").html(title);
 			$("#confirm-modal-text").html(title);
