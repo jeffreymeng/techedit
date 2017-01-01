@@ -223,15 +223,15 @@
 			});
 			$(".link-login").click(function() {
 				var linkProvider;
-				var linkProviderName;
-				var linkProviderFull;
+				//var linkProviderName;
+				//var linkProviderFull;
 				var id = $(this).attr("id");
 				if (id === "google-link") {
 					linkProvider = new firebase.auth.GoogleAuthProvider();
 
-					linkProviderName = "google";
-					linkProviderFull = "google.com";
-					auth.currentUser.linkWithPopup(linkProvider).then(function(result) {
+					//linkProviderName = "google";
+					//linkProviderFull = "google.com";
+					firebase.auth().currentUser.linkWithPopup(linkProvider).then(function(result) {
 						$(".alert").addClass("hidden");
 						$("#login-update-success").removeClass("hidden");
 						displayLinkedAccounts(user);
@@ -243,9 +243,9 @@
 				}
 				else if (id === "github-link") {
 					linkProvider = new firebase.auth.GithubAuthProvider();
-					linkProviderName = "github";
-					linkProviderFull = "github.com";
-					auth.currentUser.linkWithPopup(linkProvider).then(function(result) {
+					//linkProviderName = "github";
+					//linkProviderFull = "github.com";
+					firebase.auth().currentUser.linkWithPopup(linkProvider).then(function(result) {
 						$(".alert").addClass("hidden");
 						$("#login-update-success").removeClass("hidden");
 						displayLinkedAccounts(user);
@@ -257,9 +257,9 @@
 				}
 				else {
 					linkProvider = firebase.auth.EmailAuthProvider.credential($("#password-link-email").val(), $("#password-link-password").val());
-					linkProviderName = "password";
-					linkProviderFull = "password";
-					auth.currentUser.link(linkProvider).then(function(user) {
+					//linkProviderName = "password";
+					//linkProviderFull = "password";
+					firebase.auth().currentUser.link(linkProvider).then(function(user) {
 						$(".alert").addClass("hidden");
 						$("#login-update-success").removeClass("hidden");
 						displayLinkedAccounts(user);
