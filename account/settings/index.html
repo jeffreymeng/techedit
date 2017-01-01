@@ -85,11 +85,11 @@
 			<h1>Account Settings</h1>
 			<hr>
 			<h3>Login Methods</h3>
-			<div class="alert alert-success hidden" role="alert" id="link-update-success">Successfully updated your login methods.</div>
+			<div class="alert alert-success hidden" role="alert" id="link-update-success">Successfully updated your login methods. If you added an email/password login method, then you will need to verify your email before you can login with it.</div>
 			<div class="alert alert-danger hidden" role="alert" id="link-update-error">There was an error while updating your login methods.</div>
 			<div class="alert alert-danger hidden" role="alert" id="link-account-in-use">The login method is already in use with another account.
 				<!-- <a href="/support/account/login-methods/#error-login-method-already-in-use">Learn More</a>. --></div>
-<div class="alert alert-danger hidden" role="alert" id="link-account-in-use">The passwords don't match!</div>
+			<div class="alert alert-danger hidden" role="alert" id="link-account-in-use">The passwords don't match!</div>
 			<div id="login-methods">
 
 			</div>
@@ -290,18 +290,24 @@
 				}
 				else {
 					if ($("#password-link-password").val() !== $("#password-link-confirm-password").val()) {
-$(".alert").addClass("hidden");
-								$("#link-password-nomatch").removeClass("hidden");
-								displayLinkedAccounts(user);
+						$(".alert").addClass("hidden");
+						$("#link-password-nomatch").removeClass("hidden");
+						displayLinkedAccounts(user);
 					}
 					else {
 						linkProvider = firebase.auth.EmailAuthProvider.credential($("#password-link-email").val(), $("#password-link-password").val());
 						//linkProviderName = "password";
 						//linkProviderFull = "password";
 						firebase.auth().currentUser.link(linkProvider).then(function(user) {
-							$(".alert").addClass("hidden");
-							$("#link-update-success").removeClass("hidden");
-							displayLinkedAccounts(user);
+							user.sendEmailVerification().then(function() {
+								$(".alert").addClass("hidden");
+								$("#link-update-success").removeClass("hidden");
+								displayLinkedAccounts(user);
+							}).catch(function() {
+								$(".alert").addClass("hidden");
+								$("#link-update-error").removeClass("hidden");
+								displayLinkedAccounts(user);
+							});
 						}, function(error) {
 							//console.log(error);
 							if (error.code === "auth/email-already-in-use" || error.code === "auth/credential-already-in-use") {
