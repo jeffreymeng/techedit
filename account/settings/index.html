@@ -190,7 +190,13 @@
 
 			}
 			for (i = 0; i < providersLeft.length; i++) {
-				$("#" + providersLeft[i] + "-login").removeClass("hidden");
+				if (providersLeft[i] === "google.com") {
+					$("#google-link").removeClass("hidden");
+				} else if (providersLeft[i] === "google.com") {
+					$("#github-link").removeClass("hidden");
+				} else {
+					$("#password-link").removeClass("hidden");
+				}
 			}
 			$(".unlink-btn").click(function() {
 				var unlinkProvider;
