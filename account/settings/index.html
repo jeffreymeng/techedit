@@ -189,7 +189,7 @@
 			else {
 				data = user.providerData[0];
 				removeElementFromArrayByValue(providersLeft, data.providerId);
-				$("#login-methods").append("<p><b>" + data.providerId + "</b></p>");
+				$("#login-methods").append("<p><b>" + data.providerId === "password" ? "email/password" : data.providerId.replace(".com", "") + "</b></p>");
 
 			}
 			for (i = 0; i < providersLeft.length; i++) {
