@@ -274,11 +274,11 @@
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
         */
-        //encoede URI to prevent errors. A valid file id does not have and charcers that are not url safe.
+        //encoede URI to prevent errors. A valid file id does not have any charcers that are not url safe.
         var id = encodeURIComponent(window.location.pathname.substring(1).split("/")[1]);
         if (window.location.pathname.substring(1).split("/")[0] !== "f" && window.location.pathname.substring(1).split("/")[0] !== null) {
-            if (window.location.pathname.substring(1).split("/")[0].length === 6) {
-                $("#error-404-file-id").text(id);
+            if (window.location.pathname.substring(1).split("/")[0].length === 6) {//if it looks like a file url without the /f/
+                $("#error-404-file-id").text(window.location.pathname.substring(1).split("/")[0]);
                 $("#error-404-file-id-link").attr("href", id);
             }
         } else {
