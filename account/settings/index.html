@@ -332,7 +332,7 @@
 		function confirmAction(title, text, callback) {
 			$("#confirm-modal-label").html(title);
 			$("#confirm-modal-text").html(title);
-			$("#confirm-modal-btn").on("click", calback);
+			$("#confirm-modal-btn").on("click", callback);
 			$(".confirm-modal-close").off("click", callback);
 			$("#confirm-modal").modal("show");
 			
