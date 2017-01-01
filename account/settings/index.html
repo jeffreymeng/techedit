@@ -230,11 +230,13 @@
 							displayLinkedAccounts(user);
 							$(".alert").addClass("hidden");
 							$("#login-update-success").removeClass("hidden");
+							$("#confirm-modal").modal("hide");
 						}, function(error) {
 							console.log(error);
 							displayLinkedAccounts(user);
 							$(".alert").addClass("hidden");
 							$("#login-update-error").removeClass("hidden");
+							$("#confirm-modal").modal("hide");
 						});
 					});
 
@@ -335,7 +337,7 @@
 			$("#confirm-modal-btn").on("click", callback);
 			$(".confirm-modal-close").off("click", callback);
 			$("#confirm-modal").modal("show");
-			
+
 		}
 	</script>
 	<!-- Modal -->
@@ -351,7 +353,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default confirm-modal-close" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-primary confirm-modal-close" id="confirm-modal-btn" data-dismiss="modal">Yes, I am sure</button>
+					<button type="button" class="btn btn-primary confirm-modal-close" id="confirm-modal-btn">Yes, I am sure</button>
 				</div>
 			</div>
 		</div>
