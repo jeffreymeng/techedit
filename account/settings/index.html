@@ -303,13 +303,14 @@
 								$(".alert").addClass("hidden");
 								$("#link-update-success").removeClass("hidden");
 								displayLinkedAccounts(user);
-							}).catch(function() {
+							}).catch(function(error) {
+								console.log(error);
 								$(".alert").addClass("hidden");
 								$("#link-update-error").removeClass("hidden");
 								displayLinkedAccounts(user);
 							});
 						}, function(error) {
-							//console.log(error);
+							console.log(error);
 							if (error.code === "auth/email-already-in-use" || error.code === "auth/credential-already-in-use") {
 								$(".alert").addClass("hidden");
 								$("#link-account-in-use").removeClass("hidden");
@@ -330,9 +331,13 @@
 		function confirmAction(title, text, callback) {
 			$("#confirm-modal-label").html(title);
 			$("#confirm-modal-text").html(title);
-			$("#confirm-modal-btn").on("click", callback);
-			$(".confirm-modal-close").off("click", callback);
+			$("#confirm-modal-btn").on("click", clickfunction);
+			$(".confirm-modal-close").off("click", clickfunction);
 			$("#confirm-modal").modal("show");
+			var clickfunction = function() {
+				callback();
+				$("#confirm-modal").modal("hide");
+			};
 		}
 	</script>
 	<!-- Modal -->
