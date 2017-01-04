@@ -59,6 +59,20 @@
     <link href="/css/bootstrap-select.min.css" rel="stylesheet">
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+    <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+    <script type="text/javascript">
+        window.cookieconsent_options = {
+            "message": "Techedit uses cookies(pieces of text stored on your browser's cache) to ensure you get the best experience on our website.",
+            "dismiss": "Got it!",
+            "learnMore": "More info",
+            "link": "",
+            "theme": "light-bottom"
+        };
+    </script>
+
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.10/cookieconsent.min.js"></script>
+    <!-- End Cookie Consent plugin -->
+
 </head>
 
 <body>
@@ -90,8 +104,15 @@
                     <li id="nav-login" class="hidden">
                         <a id="nav-login-link">Login</a>
                     </li>
-                    <p id="nav-logout" class="navbar-text navbar-right hidden">You are logged in. <a id="nav-logout-link" class="navbar-link">Logout</a></p>
+                    <li class="dropdown hidden" id="nav-account">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your Account <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a id="nav-logout-link" class="navbar-link">Logout</a></li>
 
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Account Settings</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -107,7 +128,8 @@
             <div class="col-lg-12">
                 <h1>Error: File not found</h1>
                 <p>The file requested does not exist.</p>
-                <p id="view-file-text">Were you trying to view a file? try <a id="error-404-file-id-link">https://techedit.jeffkmeng.com/f/<span id="error-404-file-id">&lt;your file ID&gt;</span></a></b></p>
+                <p id="view-file-text">Were you trying to view a file? try <a id="error-404-file-id-link">https://techedit.jeffkmeng.com/f/<span id="error-404-file-id">&lt;your file ID&gt;</span></a></b>
+                </p>
             </div>
 
         </div>
@@ -277,16 +299,18 @@
         //encoede URI to prevent errors. A valid file id does not have any charcers that are not url safe.
         var id = encodeURIComponent(window.location.pathname.substring(1).split("/")[1]);
         if (window.location.pathname.substring(1).split("/")[0] !== "f" && window.location.pathname.substring(1).split("/")[0] !== null) {
-            if (window.location.pathname.substring(1).split("/")[0].length === 6) {//if it looks like a file url without the /f/
+            if (window.location.pathname.substring(1).split("/")[0].length === 6) { //if it looks like a file url without the /f/
                 $("#error-404-file-id").text(window.location.pathname.substring(1).split("/")[0]);
                 $("#error-404-file-id-link").attr("href", window.location.pathname.substring(1).split("/")[0]);
-            } else {
+            }
+            else {
                 $("#view-file-text").addClass("hidden");
             }
-        } else {
+        }
+        else {
             $("#view-file-text").addClass("hidden");
         }
-        
+
         /* var clipboard = */
         new Clipboard(".clipboard-btn");
         //// Initialize Firebase.

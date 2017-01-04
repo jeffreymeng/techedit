@@ -6,7 +6,7 @@ firebase.auth().onAuthStateChanged(function(user) {
         $("#nav-logout-link").click(function() {
             window.location.href = "/account/logout/?redir=" + encodeURIComponent(window.location.href);
         });
-        $("#nav-logout").removeClass("hidden");
+        $("#nav-account").removeClass("hidden");
 
     }
     else {
