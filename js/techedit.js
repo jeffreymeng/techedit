@@ -12,7 +12,7 @@ firebase.auth().onAuthStateChanged(function(user) {
     else {
 
         $("#nav-collection").addClass("hidden");
-        $("#nav-logout").addClass("hidden");
+        $("#nav-account").addClass("hidden");
         $("#nav-login-link").click(function() {
 
             if (window.location.pathname === "/account/logout/" || window.location.pathname === "/account/logout/index.html" || window.location.pathname === "/account/login/" || window.location.pathname === "/account/login/index.html") {
