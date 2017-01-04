@@ -279,7 +279,9 @@
         if (window.location.pathname.substring(1).split("/")[0] !== "f" && window.location.pathname.substring(1).split("/")[0] !== null) {
             if (window.location.pathname.substring(1).split("/")[0].length === 6) {//if it looks like a file url without the /f/
                 $("#error-404-file-id").text(window.location.pathname.substring(1).split("/")[0]);
-                $("#error-404-file-id-link").attr("href", id);
+                $("#error-404-file-id-link").attr("href", window.location.pathname.substring(1).split("/")[0]);
+            } else {
+                $("#view-file-text").addClass("hidden");
             }
         } else {
             $("#view-file-text").addClass("hidden");
