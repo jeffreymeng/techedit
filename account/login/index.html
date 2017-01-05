@@ -67,37 +67,37 @@
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="/new/">New File</a>
-                    </li>
-                    <li>
-                        <a href="/edit/">Edit File</a>
-                    </li>
-                    <li id="nav-collection" class="hidden">
-                        <a id="nav-collection-link" href="/collection/">My Collection</a>
-                    </li>
-                    <li id="nav-login" class="hidden">
-                        <a id="nav-login-link">Login</a>
-                    </li>
-                    <li class="dropdown hidden" id="nav-account">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your Account <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a id="nav-logout-link">Logout</a></li>
+				<ul class="nav navbar-nav">
+					<li>
+						<a href="/new/">New File</a>
+					</li>
+					<li>
+						<a href="/edit/">Edit File</a>
+					</li>
+					<li id="nav-collection" class="hidden">
+						<a id="nav-collection-link" href="/collection/">My Collection</a>
+					</li>
+					<li id="nav-login" class="hidden">
+						<a id="nav-login-link">Login</a>
+					</li>
+					<li class="dropdown hidden" id="nav-account">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your Account <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a id="nav-logout-link">Logout</a></li>
 
-                            <li role="separator" class="divider"></li>
-                            <li><a href="/account/settings/">Account Settings</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" id="nav-account">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/support/">Support Portal</a></li>
-                            <li><a href="/support/contact/">Contact</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+							<li role="separator" class="divider"></li>
+							<li><a href="/account/settings/">Account Settings</a></li>
+						</ul>
+					</li>
+					<li class="dropdown" id="nav-account">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="/support/">Support Portal</a></li>
+							<li><a href="/support/contact/">Contact</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container -->
@@ -108,7 +108,7 @@
 
 
 
-		<div class="col-lg-12 text-center">
+		<div class="col-lg-12 text-center" id="main">
 			<div class="alert alert-danger hidden" id="error" role="alert">Error: No user could be found with the combiation of email address and password given. You can try entering your password again, <a href="/account/create/" class="alert-link">
 				Creating an account</a>, or <a href="/account/reset/" class="alert-link">Resetting your password</a>.</div>
 			<div class="alert alert-danger hidden" id="accountinvalid" role="alert">The account used to login has not been activated yet. You need to follow a link on a password reset email to activate your account. You can try <a href="/account/verify" class="alert-link">Verifying your email again</a>.</div>
@@ -138,6 +138,13 @@
 			<hr>
 			<p id="option-bar">Or: <a href="/account/create/">Create an account</a> | <a href="/account/reset/">Reset your password</a> | <a href="/account/verify/">Send another email address verification email</a></p>
 		</div>
+		<div class="col-lg-12 text-center hidden" id="loggedin">
+			<h1>Login to Techedit</h1>
+			<hr>
+			<p>
+				You are already logged in. If you want to login again, or swich accounts, you can <a id="loggedin-logout">Logout</a>, then come back to login.
+			</p>
+		</div>
 
 
 
@@ -166,19 +173,6 @@
 	<script src="/js/techedit.js"></script>
 	<script>
 		/* global $ firebase */
-		if (window.location.hash === "#accountcreated") {
-			$("#accountcreated").removeClass("hidden");
-			window.location.hash = "";
-		}
-		else if (window.location.hash === "#passwordresetsuccess") {
-			$("#passwordresetsuccess").removeClass("hidden");
-			window.location.hash = "";
-		}
-		else if (window.location.hash === "#emailverified") {
-			$("#emailverified").removeClass("hidden");
-			window.location.hash = "";
-		}
-
 		function getQuery(name) {
 			var url = window.location.href;
 			name = name.replace(/[\[\]]/g, "\\$&");
@@ -188,50 +182,77 @@
 			if (!results[2]) return '';
 			return decodeURIComponent(results[2].replace(/\+/g, " "));
 		}
-
-		$("#login").click(login);
-		$(".social-login").click(function() {
-			var id = $(this).attr("id");
-			var provider;
-			if (id === "google-login") {
-				provider = new firebase.auth.GoogleAuthProvider();
-
-			}
-			else if (id === "github-login") {
-				provider = new firebase.auth.GithubAuthProvider();
-			}
-			else {
-				//error
-				return;
-			}
-			if (provider) {
-				firebase.auth().signInWithPopup(provider).then(function(result) {
-					window.location.href = getQuery("redir") || "/collection/";
-				}).catch(function(error) {
-					if (error.code === "auth/popup-blocked") {
-						$("#socialloginerror").addClass("hidden");
-						$("#accountcreated").addClass("hidden");
-						$("#accountinvalid").addClass("hidden");
-						$("#error").addClass("hidden");
-						$("#popupdenied").removeClass("hidden");
-					}
-					else {
-
-						$("#accountcreated").addClass("hidden");
-						$("#accountinvalid").addClass("hidden");
-						$("#error").addClass("hidden");
-						$("#popupdenied").addClass("hidden");
-						$("#socialloginerror").removeClass("hidden");
-					}
+		firebase.auth().onAuthStateChanged(function(user) {
+			if (user) {
+				$("#main").addClass("hidden");
+				$("#loggedin").removeClass("hidden");
+				$("#loggedin-logout").click(function() {
+					window.location.href = "/logout/?ref=" + encodeURIComponent(window.location.href);
 				});
 			}
-		});
+			else {
+				if (window.location.hash === "#accountcreated") {
+					$("#accountcreated").removeClass("hidden");
+					window.location.hash = "";
+				}
+				else if (window.location.hash === "#passwordresetsuccess") {
+					$("#passwordresetsuccess").removeClass("hidden");
+					window.location.hash = "";
+				}
+				else if (window.location.hash === "#emailverified") {
+					$("#emailverified").removeClass("hidden");
+					window.location.hash = "";
+				}
 
-		$(document).keypress(function(e) {
-			var key = e.which;
-			if (key == 13) // the enter key code
-			{
-				login();
+
+
+				$("#login").click(login);
+				$(".social-login").click(function() {
+					var id = $(this).attr("id");
+					var provider;
+					if (id === "google-login") {
+						provider = new firebase.auth.GoogleAuthProvider();
+
+					}
+					else if (id === "github-login") {
+						provider = new firebase.auth.GithubAuthProvider();
+					}
+					else {
+						//error
+						return;
+					}
+					if (provider) {
+						firebase.auth().signInWithPopup(provider).then(function(result) {
+							window.location.href = getQuery("redir") || "/collection/";
+						}).catch(function(error) {
+							if (error.code === "auth/popup-blocked") {
+								$("#socialloginerror").addClass("hidden");
+								$("#accountcreated").addClass("hidden");
+								$("#accountinvalid").addClass("hidden");
+								$("#error").addClass("hidden");
+								$("#popupdenied").removeClass("hidden");
+							}
+							else {
+
+								$("#accountcreated").addClass("hidden");
+								$("#accountinvalid").addClass("hidden");
+								$("#error").addClass("hidden");
+								$("#popupdenied").addClass("hidden");
+								$("#socialloginerror").removeClass("hidden");
+							}
+						});
+					}
+				});
+
+				$(document).keypress(function(e) {
+					var key = e.which;
+					if (key == 13) // the enter key code
+					{
+						login();
+					}
+				});
+
+
 			}
 		});
 
