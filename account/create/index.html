@@ -178,7 +178,7 @@
                 $("#main").addClass("hidden");
                 $("#loggedin").removeClass("hidden");
                 $("#loggedin-logout").click(function() {
-                    window.location.href = "/logout/?redir=" + encodeURIComponent(window.location.href);
+                    window.location.href = "/account/logout/?redir=" + encodeURIComponent(window.location.href);
                 });
             }
             else {
