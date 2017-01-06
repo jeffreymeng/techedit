@@ -238,10 +238,7 @@
 
 		firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
-				$('#myTabs a').click(function(e) {
-					e.preventDefault()
-					$(this).tab('show')
-				});
+			
 				displayLinkedAccounts(user);
 				updateEmail(user);
 				updatePassword(user);
