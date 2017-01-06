@@ -116,6 +116,7 @@
 			<div class="alert alert-danger hidden" id="popupdenied" role="alert">Popup denied by browser. Please allow the login popup to be displayed to login.</div>
 
 			<div class="alert alert-success hidden" id="accountcreated" role="alert">Your account was created and activated successfully. You may now login.</div>
+			<div class="alert alert-success hidden" id="passwordchanged" role="alert">Your password was changed successfully. You may now login.</div>
 			<div class="alert alert-success hidden" id="passwordresetsuccess" role="alert">Your account password was changed successfully. You may now login.</div>
 			<div class="alert alert-success hidden" id="recoveremailsuccess" role="alert">Your account email was reverted successfully. You may now login. After logging in, you may want to change your password(Click on account in the navagiation bar, then settings), since your accout may have been compromised if someone else was able to
 				gain access to your account and change your email.</div>
@@ -215,6 +216,10 @@
 					$("#emailchangesuccess").removeClass("hidden");
 					window.location.hash = "";
 				}
+				else if (window.location.hash === "#passwordchanged") {
+					$("#passwordchanged").removeClass("hidden");
+					window.location.hash = "";
+				}
 
 
 
@@ -238,18 +243,12 @@
 							window.location.href = getQuery("redir") || "/collection/";
 						}).catch(function(error) {
 							if (error.code === "auth/popup-blocked") {
-								$("#socialloginerror").addClass("hidden");
-								$("#accountcreated").addClass("hidden");
-								$("#accountinvalid").addClass("hidden");
-								$("#error").addClass("hidden");
+								$(".alert").addClass("hidden");
 								$("#popupdenied").removeClass("hidden");
 							}
 							else {
 
-								$("#accountcreated").addClass("hidden");
-								$("#accountinvalid").addClass("hidden");
-								$("#error").addClass("hidden");
-								$("#popupdenied").addClass("hidden");
+								$(".alert").addClass("hidden");
 								$("#socialloginerror").removeClass("hidden");
 							}
 						});
@@ -274,10 +273,7 @@
 			firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
 				//console.log(2);
 				$("#password").val("");
-				$("#accountcreated").addClass("hidden");
-				$("#accountinvalid").addClass("hidden");
-				$("#socialloginerror").addClass("hidden");
-				$("#popupdenied").addClass("hidden");
+				$(".alert").addClass("hidden");
 				$("#error").removeClass("hidden");
 			}).then(function() {
 				var invalid = false;
@@ -294,10 +290,7 @@
 								$("#loggedin").addClass("hidden");
 								$("#main").removeClass("hidden");
 								$("#password").val("");
-								$("#accountcreated").addClass("hidden");
-								$("#error").addClass("hidden");
-								$("#socialloginerror").addClass("hidden");
-								$("#popupdenied").addClass("hidden");
+								$(".alert").addClass("hidden");
 								$("#accountinvalid").removeClass("hidden");
 							});
 						}
@@ -306,10 +299,7 @@
 						//console.log(3);
 						if (!invalid) {
 							$("#password").val("");
-							$("#accountcreated").addClass("hidden");
-							$("#accountinvalid").addClass("hidden");
-							$("#socialloginerror").addClass("hidden");
-							$("#popupdenied").addClass("hidden");
+							$(".alert").addClass("hidden");
 							$("#error").removeClass("hidden");
 						}
 						else {
