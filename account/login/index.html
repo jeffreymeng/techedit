@@ -283,12 +283,14 @@
 							window.location.href = getQuery("redir") || "/collection/";
 						}
 						else {
-							$("#password").val("");
-							$("#accountcreated").addClass("hidden");
-							$("#error").addClass("hidden");
-							$("#socialloginerror").addClass("hidden");
-							$("#popupdenied").addClass("hidden");
-							$("#accountinvalid").removeClass("hidden");
+							firebase.auth().signOut().then(function() {
+								$("#password").val("");
+								$("#accountcreated").addClass("hidden");
+								$("#error").addClass("hidden");
+								$("#socialloginerror").addClass("hidden");
+								$("#popupdenied").addClass("hidden");
+								$("#accountinvalid").removeClass("hidden");
+							});
 						}
 					}
 					else {
