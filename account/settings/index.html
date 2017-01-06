@@ -67,37 +67,37 @@
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="/new/">New File</a>
-                    </li>
-                    <li>
-                        <a href="/edit/">Edit File</a>
-                    </li>
-                    <li id="nav-collection" class="hidden">
-                        <a id="nav-collection-link" href="/collection/">My Collection</a>
-                    </li>
-                    <li id="nav-login" class="hidden">
-                        <a id="nav-login-link">Login</a>
-                    </li>
-                    <li class="dropdown hidden" id="nav-account">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your Account <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a id="nav-logout-link">Logout</a></li>
+				<ul class="nav navbar-nav">
+					<li>
+						<a href="/new/">New File</a>
+					</li>
+					<li>
+						<a href="/edit/">Edit File</a>
+					</li>
+					<li id="nav-collection" class="hidden">
+						<a id="nav-collection-link" href="/collection/">My Collection</a>
+					</li>
+					<li id="nav-login" class="hidden">
+						<a id="nav-login-link">Login</a>
+					</li>
+					<li class="dropdown hidden" id="nav-account">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your Account <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a id="nav-logout-link">Logout</a></li>
 
-                            <li role="separator" class="divider"></li>
-                            <li><a href="/account/settings/">Account Settings</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" id="nav-account">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/support/">Support Portal</a></li>
-                            <li><a href="/support/contact/">Contact</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+							<li role="separator" class="divider"></li>
+							<li><a href="/account/settings/">Account Settings</a></li>
+						</ul>
+					</li>
+					<li class="dropdown" id="nav-account">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="/support/">Support Portal</a></li>
+							<li><a href="/support/contact/">Contact</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container -->
@@ -111,37 +111,52 @@
 		<div class="col-lg-12 text-center">
 			<h1>Account Settings</h1>
 			<hr>
-			<h3>Login Methods</h3>
-			<div class="alert alert-success hidden" role="alert" id="link-update-success">Successfully updated your login methods. If you added an email/password login method, then you will need to verify your email before you can login with it.</div>
-			<div class="alert alert-danger hidden" role="alert" id="link-update-error">There was an error while updating your login methods.</div>
-			<div class="alert alert-danger hidden" role="alert" id="link-account-in-use">The login method is already in use with another account.
-				<!-- <a href="/support/account/login-methods/#error-login-method-already-in-use">Learn More</a>. --></div>
-			<div class="alert alert-danger hidden" role="alert" id="link-account-in-use">The passwords don't match!</div>
 			<div id="login-methods">
+				<h3>Login Methods</h3>
+				<div class="alert alert-success hidden" role="alert" id="link-update-success">Successfully updated your login methods. If you added an email/password login method, then you will need to verify your email before you can login with it.</div>
+				<div class="alert alert-danger hidden" role="alert" id="link-update-error">There was an error while updating your login methods.</div>
+				<div class="alert alert-danger hidden" role="alert" id="link-account-in-use">The login method is already in use with another account.
+					<!-- <a href="/support/account/login-methods/#error-login-method-already-in-use">Learn More</a>. --></div>
+				<div class="alert alert-danger hidden" role="alert" id="link-account-in-use">The passwords don't match!</div>
+				<div id="login-methods">
 
-			</div>
-			<div id="link-buttons">
-				<div id="password-link" class="hidden">
-					<label for="password-link-email">Email for adding email/password login:</label>
-					<input class="form-control" type="text" id="password-link-email">
-					<label for="password-link-password">Password for adding email/password login:</label>
-					<input class="form-control" type="password" id="password-link-password">
-					<label for="password-link-password">Confirm password for adding email/password login:</label>
-					<input class="form-control" type="password" id="password-link-confirm-password">
-					<br>
-					<button class="btn btn-primary link-login form-control" id="password-link-btn">Add email/password login</button>
 				</div>
-				<br>
-				<a class="hidden btn btn-block btn-social btn-google link-login" id="google-link">
-					<span class="fa fa-google"></span> Add Google login
-				</a>
-				<br>
-				<a class="hidden btn btn-block btn-social btn-github link-login" id="github-link">
-					<span class="fa fa-github"></span> Add Github login
-				</a>
+				<div id="link-buttons">
+					<div id="password-link" class="hidden">
+						<label for="password-link-email">Email for adding email/password login:</label>
+						<input class="form-control" type="text" id="password-link-email">
+						<label for="password-link-password">Password for adding email/password login:</label>
+						<input class="form-control" type="password" id="password-link-password">
+						<label for="password-link-password">Confirm password for adding email/password login:</label>
+						<input class="form-control" type="password" id="password-link-confirm-password">
+						<br>
+						<button class="btn btn-primary link-login form-control" id="password-link-btn">Add email/password login</button>
+					</div>
+					<br>
+					<a class="hidden btn btn-block btn-social btn-google link-login" id="google-link">
+						<span class="fa fa-google"></span> Add Google login
+					</a>
+					<br>
+					<a class="hidden btn btn-block btn-social btn-github link-login" id="github-link">
+						<span class="fa fa-github"></span> Add Github login
+					</a>
+				</div>
 			</div>
-			<h3>Change Your Email</h3>
-			<input type="text" id="change-email-email">
+			<div class="hidden" id="update-email">
+				<div class="alert alert-success hidden" role="alert" id="update-email-success">Successfully updated your email.</div>
+				<div class="alert alert-danger hidden" role="alert" id="update-email-error">Error updating your email. The email may already be in use, or may be badly formatted.</div>
+
+				<h3>Update Your account email address</h3>
+				<label for="update-email-email">Old Email:</label>
+				<input class="form-control" type="text" id="update-email-email">
+				<label for="update-email-email">Password:</label>
+
+				<input class="form-control" type="text" id="update-email-password">
+				<label for="update-email-email">New Email:</label>
+
+				<input class="form-control" type="text" id="update-email-new-email">
+			</div>
+
 			<!-- 
 			TODO:
 			Link Accounts    DONE
@@ -188,6 +203,7 @@
 		firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
 				displayLinkedAccounts(user);
+				updateEmail(user);
 			}
 			else {
 				window.location.href = "/account/login/?redir=" + encodeURIComponent(window.location.href);
@@ -201,6 +217,47 @@
 				array.splice(index, 1);
 			}
 			return array;
+		}
+
+		function updateEmail(user) {
+
+			for (var i = 0; i < user.providerData.length; i++) {
+				if (user.providerData[i].providerId === "password") {
+					$("#update-email-btn").click(function() {
+						reauthenticate(user, $("#update-email-email").val(), $("#update-email-password").val(), function() {
+							var user = firebase.auth().currentUser;
+
+							user.updateEmail($("#update-email-new-email").val()).then(function() {
+								$(".alert").addClass("hidden");
+								$("#update-email-success").removeClass("hidden");
+								firebase.auth().onAuthStateChanged(function(user) {
+									if (user) {
+										console.log(user);
+									}
+								});
+							}, function(error) {
+								$(".alert").addClass("hidden");
+								$("#update-email-error").removeClass("hidden");
+								console.log(error);
+							});
+						});
+					});
+				}
+
+			}
+
+		}
+
+		function reauthenticate(user, email, password, callback) {
+			var credential = firebase.auth.EmailAuthProvider.credential(
+				email,
+				password
+			);
+			user.reauthenticate(credential).then(function() {
+				console.log("reauthentication success!");
+			}, function(error) {
+				console.log(error);
+			});
 		}
 
 		function displayLinkedAccounts(user) {
