@@ -223,6 +223,7 @@
 
 			for (var i = 0; i < user.providerData.length; i++) {
 				if (user.providerData[i].providerId === "password") {
+					$("#update-email").removeClass("hidden");
 					$("#update-email-btn").click(function() {
 						reauthenticate(user, $("#update-email-email").val(), $("#update-email-password").val(), function() {
 							var user = firebase.auth().currentUser;
