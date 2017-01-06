@@ -231,8 +231,8 @@
 					$("#update-email-btn").click(function() {
 
 						confirmAction("Are you sure you want to change your Login email?",
-							"You will not be able to login with the old email anymore. You will only be able to login with the new email. " +
-							"You will recive an email in your old email account with a link to revert this action.",
+							"You will not be able to login with the old email anymore. You will only be able to login with the new email and you will need to verify the new email before you can login with it." +
+							"You will also recive an email in your old email account with a link to revert this action.",
 							function() {
 								$("#confirm-modal").modal("hide");
 								if ($("#update-email-email").val().replace(" ") !== "" && $("#update-email-email").val().replace(" ") !== null && $("#update-email-password").val().replace(" ") !== "" && $("#update-email-password").val().replace(" ") !== null && $("#update-email-new-email").val().replace(" ") !== "" && $("#update-email-new-email").val().replace(" ") !== null) {
@@ -240,31 +240,22 @@
 										var user = firebase.auth().currentUser;
 
 										user.updateEmail($("#update-email-new-email").val()).then(function() {
-											$(".alert").addClass("hidden");
-											$("#update-email-success").removeClass("hidden");
-											firebase.auth().onAuthStateChanged(function(user) {
-												if (user) {
-													console.log(user);
-												}
+											user.sendEmailVerification().then(function() {
+												firebase.auth().signOut().then(function() {
+													window.locatin.href = "/account/login#emailchangesuccess";
+												}, function(error) {
+													$(".alert").addClass("hidden");
+													$("#update-email-error").removeClass("hidden");
+													console.log(error);
+												});
 											});
-										}, function(error) {
-											$(".alert").addClass("hidden");
-											$("#update-email-error").removeClass("hidden");
-											console.log(error);
 										});
 									});
 								}
+
 								else {
 									$(".alert").addClass("hidden");
 									$("#update-email-error").removeClass("hidden");
-									console.log($("#update-email-email").val().replace(" ") !== "" && $("#update-email-email").val().replace(" ") !== null && $("#update-email-password").val().replace(" ") !== "" && $("#update-email-password").val().replace(" ") !== null && $("#update-email-new-email").val().replace(" ") !== "" && $("#update-email-new-email").val().replace(" ") !== null);
-									console.log($("#update-email-email").val().replace(" ") !== "" && $("#update-email-email").val().replace(" ") !== null);
-									console.log($("#update-email-password").val().replace(" ") !== "" && $("#update-email-password").val().replace(" ") !== null);
-									console.log($("#update-email-new-email").val().replace(" ") !== "" && $("#update-email-new-email").val().replace(" ") !== null);
-									console.log($("#update-email-email").val());
-									console.log($("#update-email-password").val());
-									console.log($("#update-email-new-email").val());
-
 
 								}
 							});
@@ -285,7 +276,7 @@
 				callback();
 				//console.log("reauthentication success!");
 			}, function(error) {
-				console.log(error);
+				//console.log(error);
 			});
 		}
 

@@ -117,7 +117,9 @@
 
 			<div class="alert alert-success hidden" id="accountcreated" role="alert">Your account was created and activated successfully. You may now login.</div>
 			<div class="alert alert-success hidden" id="passwordresetsuccess" role="alert">Your account password was changed successfully. You may now login.</div>
-			<div class="alert alert-success hidden" id="recoveremailsuccess" role="alert">Your account email was reverted successfully. You may now login. After logging in, you may want to change your password(Click on account in the navagiation bar, then settings), since your accout may have been compromised if someone else was able to gain access to your account and change your email.</div>
+			<div class="alert alert-success hidden" id="recoveremailsuccess" role="alert">Your account email was reverted successfully. You may now login. After logging in, you may want to change your password(Click on account in the navagiation bar, then settings), since your accout may have been compromised if someone else was able to
+				gain access to your account and change your email.</div>
+			<div class="alert alert-success hidden" id="emailchangesuccess" role="alert">Your account email was changed successfully. If you have not yet verified your email, you will need to do that before you can login. You can <a href="/account/verify">send another verification email</a> if you wish..</div>
 			<h1>Login to Techedit</h1>
 			<hr>
 
@@ -202,8 +204,13 @@
 				else if (window.location.hash === "#emailverified") {
 					$("#emailverified").removeClass("hidden");
 					window.location.hash = "";
-				}else if (window.location.hash === "#recoveremailsuccess") {
+				}
+				else if (window.location.hash === "#recoveremailsuccess") {
 					$("#recoveremailsuccess").removeClass("hidden");
+					window.location.hash = "";
+				}
+				else if (window.location.hash === "#emailchangesuccess") {
+					$("#emailchangesuccess").removeClass("hidden");
 					window.location.hash = "";
 				}
 
