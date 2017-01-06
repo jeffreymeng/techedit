@@ -152,10 +152,10 @@
 				<br>
 				<label for="update-email-email">Old Email:</label>
 				<input class="form-control" type="text" id="update-email-email">
-				<label for="update-email-email">Password:</label>
+				<label for="update-email-password">Password:</label>
 
 				<input class="form-control" type="password" id="update-email-password">
-				<label for="update-email-email">New Email:</label>
+				<label for="update-email-new-email">New Email:</label>
 
 				<input class="form-control" type="text" id="update-email-new-email">
 				<button id="update-email-btn" class="form-control btn btn-primary">Update Email</button>
@@ -234,9 +234,14 @@
 							"You will not be able to login with the old email anymore. You will only be able to login with the new email. " +
 							"You will recive an email in your old email account with a link to revert this action.",
 							function() {
+								$("#confirm-modal").modal("hide");
 								if ($("#update-email-email").val().replace(" ") !== "" && $("#update-email-email").val().replace(" ") !== null && $("#update-email-password").val().replace(" ") !== "" && $("#update-email-password").val().replace(" ") !== null && $("#update-email-new-email").val().replace(" ") !== "" && $("#update-email-new-email").val().replace(" ") !== null) {
 									$(".alert").addClass("hidden");
 									$("#update-email-error").removeClass("hidden");
+									console.log($("#update-email-email").val().replace(" ") !== "" && $("#update-email-email").val().replace(" ") !== null && $("#update-email-password").val().replace(" ") !== "" && $("#update-email-password").val().replace(" ") !== null && $("#update-email-new-email").val().replace(" ") !== "" && $("#update-email-new-email").val().replace(" ") !== null);
+									console.log($("#update-email-email").val().replace(" ") !== "" && $("#update-email-email").val().replace(" ") !== null);
+									console.log($("#update-email-password").val().replace(" ") !== "" && $("#update-email-password").val().replace(" ") !== null);
+									console.log($("#update-email-new-email").val().replace(" ") !== "" && $("#update-email-new-email").val().replace(" ") !== null);
 								}
 								else {
 									reauthenticate(user, $("#update-email-email").val(), $("#update-email-password").val(), function() {
@@ -330,17 +335,18 @@
 				confirmAction("Are you sure you want to remove the " + unlinkProvider + " login method form your account?",
 					"This means that in the future, if you try to login with this provider, the account and data will not be shared with this account.",
 					function() {
+						$("#confirm-modal").modal("hide");
 						user.unlink(unlinkProviderFull).then(function() {
 							displayLinkedAccounts(user);
 							$(".alert").addClass("hidden");
 							$("#login-update-success").removeClass("hidden");
-							$("#confirm-modal").modal("hide");
+
 						}, function(error) {
 							console.log(error);
 							displayLinkedAccounts(user);
 							$(".alert").addClass("hidden");
 							$("#login-update-error").removeClass("hidden");
-							$("#confirm-modal").modal("hide");
+
 						});
 					});
 
