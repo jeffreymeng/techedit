@@ -193,6 +193,8 @@
 				});
 			}
 			else {
+				$("#loggedin").addClass("hidden");
+				$("#main").removeClass("hidden");
 				if (window.location.hash === "#accountcreated") {
 					$("#accountcreated").removeClass("hidden");
 					window.location.hash = "";
@@ -284,6 +286,8 @@
 						}
 						else {
 							firebase.auth().signOut().then(function() {
+								$("#loggedin").addClass("hidden");
+								$("#main").removeClass("hidden");
 								$("#password").val("");
 								$("#accountcreated").addClass("hidden");
 								$("#error").addClass("hidden");
