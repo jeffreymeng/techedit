@@ -280,15 +280,17 @@
 				$("#popupdenied").addClass("hidden");
 				$("#error").removeClass("hidden");
 			}).then(function() {
+				var invalid = false;
 				firebase.auth().onAuthStateChanged(function(user) {
 					if (user) {
 						if (user.emailVerified) {
 							window.location.href = getQuery("redir") || "/collection/";
 						}
 						else {
-							
+
 							firebase.auth().signOut().then(function() {
 								console.log(1);
+								invalid = true;
 								$("#loggedin").addClass("hidden");
 								$("#main").removeClass("hidden");
 								$("#password").val("");
@@ -302,12 +304,17 @@
 					}
 					else {
 						console.log(3);
-						$("#password").val("");
-						$("#accountcreated").addClass("hidden");
-						$("#accountinvalid").addClass("hidden");
-						$("#socialloginerror").addClass("hidden");
-						$("#popupdenied").addClass("hidden");
-						$("#error").removeClass("hidden");
+						if (!invalid) {
+							$("#password").val("");
+							$("#accountcreated").addClass("hidden");
+							$("#accountinvalid").addClass("hidden");
+							$("#socialloginerror").addClass("hidden");
+							$("#popupdenied").addClass("hidden");
+							$("#error").removeClass("hidden");
+						}
+						else {
+							invalid = false;
+						}
 					}
 				});
 
