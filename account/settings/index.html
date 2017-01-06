@@ -225,23 +225,29 @@
 				if (user.providerData[i].providerId === "password") {
 					$("#update-email").removeClass("hidden");
 					$("#update-email-btn").click(function() {
-						reauthenticate(user, $("#update-email-email").val(), $("#update-email-password").val(), function() {
-							var user = firebase.auth().currentUser;
+						confirmAction("Are you sure you want to change your Login email?",
+							"You will not be able to login with the old email anymore. You will only be able to login with the new email. " +
+							"You will recive an email in your old email account with a link to revert this action.",
+							function() {
+								reauthenticate(user, $("#update-email-email").val(), $("#update-email-password").val(), function() {
+									var user = firebase.auth().currentUser;
 
-							user.updateEmail($("#update-email-new-email").val()).then(function() {
-								$(".alert").addClass("hidden");
-								$("#update-email-success").removeClass("hidden");
-								firebase.auth().onAuthStateChanged(function(user) {
-									if (user) {
-										console.log(user);
-									}
+									user.updateEmail($("#update-email-new-email").val()).then(function() {
+										$(".alert").addClass("hidden");
+										$("#update-email-success").removeClass("hidden");
+										firebase.auth().onAuthStateChanged(function(user) {
+											if (user) {
+												console.log(user);
+											}
+										});
+									}, function(error) {
+										$(".alert").addClass("hidden");
+										$("#update-email-error").removeClass("hidden");
+										console.log(error);
+									});
 								});
-							}, function(error) {
-								$(".alert").addClass("hidden");
-								$("#update-email-error").removeClass("hidden");
-								console.log(error);
 							});
-						});
+
 					});
 				}
 
