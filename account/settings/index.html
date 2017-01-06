@@ -111,6 +111,7 @@
 		<div class="col-lg-12 text-center">
 			<h1>Account Settings</h1>
 			<hr>
+
 			<div id="login-methods-div">
 
 				<div class="alert alert-success hidden" role="alert" id="link-update-success">Successfully updated your login methods. If you added an email/password login method, then you will need to verify your email before you can login with it.</div>
@@ -141,11 +142,13 @@
 					</a>
 				</div>
 			</div>
+			<hr>
 			<div class="hidden" id="update-email">
 				<div class="alert alert-success hidden" role="alert" id="update-email-success">Successfully updated your email.</div>
-				<div class="alert alert-danger hidden" role="alert" id="update-email-error">Error updating your email. The email may already be in use, or may be badly formatted.</div>
+				<div class="alert alert-danger hidden" role="alert" id="update-email-error">Error updating your email. The email may already be in use, or may be badly formatted. </div>
 
 				<h3>Update Your account email address</h3>
+				<b>All email address update fields are required.</b>
 				<label for="update-email-email">Old Email:</label>
 				<input class="form-control" type="text" id="update-email-email">
 				<label for="update-email-email">Password:</label>
@@ -225,27 +228,34 @@
 				if (user.providerData[i].providerId === "password") {
 					$("#update-email").removeClass("hidden");
 					$("#update-email-btn").click(function() {
+
 						confirmAction("Are you sure you want to change your Login email?",
 							"You will not be able to login with the old email anymore. You will only be able to login with the new email. " +
 							"You will recive an email in your old email account with a link to revert this action.",
 							function() {
-								reauthenticate(user, $("#update-email-email").val(), $("#update-email-password").val(), function() {
-									var user = firebase.auth().currentUser;
+								if ($("#update-email-email").val().replace(" ") !== "" && $("#update-email-email").val().replace(" ") !== null && $("#update-email-password").val().replace(" ") !== "" && $("#update-email-password").val().replace(" ") !== null && $("#update-email-new-email").val().replace(" ") !== "" && $("#update-email-new-email").val().replace(" ") !== null) {
+									$(".alert").addClass("hidden");
+									$("#update-email-error").removeClass("hidden");
+								}
+								else {
+									reauthenticate(user, $("#update-email-email").val(), $("#update-email-password").val(), function() {
+										var user = firebase.auth().currentUser;
 
-									user.updateEmail($("#update-email-new-email").val()).then(function() {
-										$(".alert").addClass("hidden");
-										$("#update-email-success").removeClass("hidden");
-										firebase.auth().onAuthStateChanged(function(user) {
-											if (user) {
-												console.log(user);
-											}
+										user.updateEmail($("#update-email-new-email").val()).then(function() {
+											$(".alert").addClass("hidden");
+											$("#update-email-success").removeClass("hidden");
+											firebase.auth().onAuthStateChanged(function(user) {
+												if (user) {
+													console.log(user);
+												}
+											});
+										}, function(error) {
+											$(".alert").addClass("hidden");
+											$("#update-email-error").removeClass("hidden");
+											console.log(error);
 										});
-									}, function(error) {
-										$(".alert").addClass("hidden");
-										$("#update-email-error").removeClass("hidden");
-										console.log(error);
 									});
-								});
+								}
 							});
 
 					});
