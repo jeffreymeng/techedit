@@ -285,7 +285,9 @@
 							window.location.href = getQuery("redir") || "/collection/";
 						}
 						else {
+							
 							firebase.auth().signOut().then(function() {
+								console.log(1);
 								$("#loggedin").addClass("hidden");
 								$("#main").removeClass("hidden");
 								$("#password").val("");
