@@ -111,77 +111,89 @@
 		<div class="col-lg-12 text-center">
 			<h1>Account Settings</h1>
 			<hr>
+			<div>
 
-			<div id="login-methods-div">
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active"><a href="#login-methods" aria-controls="home" role="tab" data-toggle="tab">Login Methods</a></li>
+					<li role="presentation" class="hidden" id="update-email-tab"><a href="#update-email" aria-controls="profile" role="tab" data-toggle="tab">Update email</a></li>
+					<li role="presentation" class="hidden" id="update-password-tab"><a href="#update-password" aria-controls="messages" role="tab" data-toggle="tab">Update password</a></li>
+				</ul>
 
-				<div class="alert alert-success hidden" role="alert" id="link-update-success">Successfully updated your login methods. If you added an email/password login method, then you will need to verify your email before you can login with it.</div>
-				<div class="alert alert-danger hidden" role="alert" id="link-update-error">There was an error while updating your login methods.</div>
-				<div class="alert alert-danger hidden" role="alert" id="link-account-in-use">The login method is already in use with another account.
-					<!-- <a href="/support/account/login-methods/#error-login-method-already-in-use">Learn More</a>. --></div>
-				<div class="alert alert-danger hidden" role="alert" id="link-account-in-use">The passwords don't match!</div>
-				<h3>Login Methods</h3>
-				<div id="login-methods"></div>
-				<div id="link-buttons">
-					<div id="password-link" class="hidden">
-						<label for="password-link-email">Email for adding email/password login:</label>
-						<input class="form-control" type="text" id="password-link-email">
-						<label for="password-link-password">Password for adding email/password login:</label>
-						<input class="form-control" type="password" id="password-link-password">
-						<label for="password-link-password">Confirm password for adding email/password login:</label>
-						<input class="form-control" type="password" id="password-link-confirm-password">
-						<br>
-						<button class="btn btn-primary link-login form-control" id="password-link-btn">Add email/password login</button>
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="login-methods-div">
+						<div class="alert alert-success hidden" role="alert" id="link-update-success">Successfully updated your login methods. If you added an email/password login method, then you will need to verify your email before you can login with it.</div>
+						<div class="alert alert-danger hidden" role="alert" id="link-update-error">There was an error while updating your login methods.</div>
+						<div class="alert alert-danger hidden" role="alert" id="link-account-in-use">The login method is already in use with another account.
+							<!-- <a href="/support/account/login-methods/#error-login-method-already-in-use">Learn More</a>. --></div>
+						<div class="alert alert-danger hidden" role="alert" id="link-account-in-use">The passwords don't match!</div>
+						<h3>Login Methods</h3>
+						<div id="login-methods"></div>
+						<div id="link-buttons">
+							<div id="password-link" class="hidden">
+								<label for="password-link-email">Email for adding email/password login:</label>
+								<input class="form-control" type="text" id="password-link-email">
+								<label for="password-link-password">Password for adding email/password login:</label>
+								<input class="form-control" type="password" id="password-link-password">
+								<label for="password-link-password">Confirm password for adding email/password login:</label>
+								<input class="form-control" type="password" id="password-link-confirm-password">
+								<br>
+								<button class="btn btn-primary link-login form-control" id="password-link-btn">Add email/password login</button>
+							</div>
+							<br>
+							<a class="hidden btn btn-block btn-social btn-google link-login" id="google-link">
+								<span class="fa fa-google"></span> Add Google login
+							</a>
+							<br>
+							<a class="hidden btn btn-block btn-social btn-github link-login" id="github-link">
+								<span class="fa fa-github"></span> Add Github login
+							</a>
+						</div>
 					</div>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="update-email">
+					<div class="alert alert-success hidden" role="alert" id="update-email-success">Successfully updated your email.</div>
+					<div class="alert alert-danger hidden" role="alert" id="update-email-reauth-error">Error. The email/current - password comboniation could not be found.</div>
+					<div class="alert alert-danger hidden" role="alert" id="update-email-error">Error updating your email. The email may already be in use, or may be badly formatted. </div>
+
+					<h3>Update Your account email address</h3>
+					<b>All email address update fields are required.</b>
 					<br>
-					<a class="hidden btn btn-block btn-social btn-google link-login" id="google-link">
-						<span class="fa fa-google"></span> Add Google login
-					</a>
+					<label for="update-email-email">Current Email:</label>
+					<input class="form-control" type="text" id="update-email-email">
+					<label for="update-email-password">Password:</label>
+
+					<input class="form-control" type="password" id="update-email-password">
+					<label for="update-email-new-email">New Email:</label>
+
+					<input class="form-control" type="text" id="update-email-new-email">
+					<button id="update-email-btn" class="form-control btn btn-primary">Update Email</button>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="update-password">
+					<div class="alert alert-success hidden" role="alert" id="update-password-success">Successfully updated your password.</div>
+					<div class="alert alert-danger hidden" role="alert" id="update-password-reauth-error">Error. The email/current - password comboniation could not be found.</div>
+					<div class="alert alert-danger hidden" role="alert" id="update-password-error">Error updating your password. The password may not be strong enough, or some other error occured.</div>
+					<div class="alert alert-danger hidden" role="alert" id="update-password-nomatch">Error updating your password. The passwords do not match.</div>
+					<h3>Update Your account password</h3>
+					<b>All password update fields are required.</b>
 					<br>
-					<a class="hidden btn btn-block btn-social btn-github link-login" id="github-link">
-						<span class="fa fa-github"></span> Add Github login
-					</a>
+					<label for="update-password-email">Email:</label>
+					<input class="form-control" type="text" id="update-password-email">
+					<label for="update-password-password">Current Password:</label>
+					<input class="form-control" type="password" id="update-password-password">
+					<label for="update-password-new-password">New Password:</label>
+					<input class="form-control" type="password" id="update-password-new-password">
+					<label for="update-password-confirm-password">Confirm New Password:</label>
+					<input class="form-control" type="password" id="update-password-confirm-password">
+					<button id="update-password-btn" class="form-control btn btn-primary">Update Password</button>
 				</div>
 			</div>
-			<hr>
-			<div class="hidden" id="update-email">
-				<div class="alert alert-success hidden" role="alert" id="update-email-success">Successfully updated your email.</div>
-				<div class="alert alert-danger hidden" role="alert" id="update-email-reauth-error">Error. The email/current - password comboniation could not be found.</div>
-				<div class="alert alert-danger hidden" role="alert" id="update-email-error">Error updating your email. The email may already be in use, or may be badly formatted. </div>
 
-				<h3>Update Your account email address</h3>
-				<b>All email address update fields are required.</b>
-				<br>
-				<label for="update-email-email">Current Email:</label>
-				<input class="form-control" type="text" id="update-email-email">
-				<label for="update-email-password">Password:</label>
+		</div>
 
-				<input class="form-control" type="password" id="update-email-password">
-				<label for="update-email-new-email">New Email:</label>
 
-				<input class="form-control" type="text" id="update-email-new-email">
-				<button id="update-email-btn" class="form-control btn btn-primary">Update Email</button>
-			</div>
-			<hr>
-			<div class="hidden" id="update-password">
-				<div class="alert alert-success hidden" role="alert" id="update-password-success">Successfully updated your password.</div>
-				<div class="alert alert-danger hidden" role="alert" id="update-password-reauth-error">Error. The email/current - password comboniation could not be found.</div>
-				<div class="alert alert-danger hidden" role="alert" id="update-password-error">Error updating your password. The password may not be strong enough, or some other error occured.</div>
-				<div class="alert alert-danger hidden" role="alert" id="update-password-nomatch">Error updating your password. The passwords do not match.</div>
-				<h3>Update Your account password</h3>
-				<b>All password update fields are required.</b>
-				<br>
-				<label for="update-password-email">Email:</label>
-				<input class="form-control" type="text" id="update-password-email">
-				<label for="update-password-password">Current Password:</label>
-				<input class="form-control" type="password" id="update-password-password">
-				<label for="update-password-new-password">New Password:</label>
-				<input class="form-control" type="password" id="update-password-new-password">
-				<label for="update-password-confirm-password">Confirm New Password:</label>
-				<input class="form-control" type="password" id="update-password-confirm-password">
-				<button id="update-password-btn" class="form-control btn btn-primary">Update Password</button>
-			</div>
-
-			<!-- 
+		<!-- 
 			TODO:
 			Link Accounts    DONE
 			Unlink Accounts  DONE
@@ -190,11 +202,11 @@
 			Delete Account
 			Clear Collection
 			-->
-		</div>
+	</div>
 
 
 
-		<!-- /.row -->
+	<!-- /.row -->
 
 	</div>
 	<!-- /.container -->
@@ -249,6 +261,7 @@
 			for (var i = 0; i < user.providerData.length; i++) {
 				if (user.providerData[i].providerId === "password") {
 					$("#update-email").removeClass("hidden");
+					$("#update-email-tab").removeClass("hidden");
 					$("#update-email-btn").click(function() {
 
 						confirmAction("Are you sure you want to change your Login email?",
@@ -290,6 +303,7 @@
 			for (var i = 0; i < user.providerData.length; i++) {
 				if (user.providerData[i].providerId === "password") {
 					$("#update-password").removeClass("hidden");
+					$("#update-password-tab").removeClass("hidden");
 					$("#update-password-btn").click(function() {
 
 						confirmAction("Are you sure you want to change your password?",
@@ -341,7 +355,7 @@
 				//console.log("reauthentication success!");
 			}, function(error) {
 				$(".alert").addClass("hidden");
-				
+
 				$("#" + errorid).removeClass("hidden");
 				console.log(error);
 			});
