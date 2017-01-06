@@ -151,43 +151,44 @@
 							</a>
 						</div>
 					</div>
-				</div>
-				<div role="tabpanel" class="tab-pane fade" id="update-email">
-					<div class="alert alert-success hidden" role="alert" id="update-email-success">Successfully updated your email.</div>
-					<div class="alert alert-danger hidden" role="alert" id="update-email-reauth-error">Error. The email/current - password comboniation could not be found.</div>
-					<div class="alert alert-danger hidden" role="alert" id="update-email-error">Error updating your email. The email may already be in use, or may be badly formatted. </div>
+					<div role="tabpanel" class="tab-pane fade" id="update-email">
+						<div class="alert alert-success hidden" role="alert" id="update-email-success">Successfully updated your email.</div>
+						<div class="alert alert-danger hidden" role="alert" id="update-email-reauth-error">Error. The email/current - password comboniation could not be found.</div>
+						<div class="alert alert-danger hidden" role="alert" id="update-email-error">Error updating your email. The email may already be in use, or may be badly formatted. </div>
 
-					<h3>Update Your account email address</h3>
-					<b>All email address update fields are required.</b>
-					<br>
-					<label for="update-email-email">Current Email:</label>
-					<input class="form-control" type="text" id="update-email-email">
-					<label for="update-email-password">Password:</label>
+						<h3>Update Your account email address</h3>
+						<b>All email address update fields are required.</b>
+						<br>
+						<label for="update-email-email">Current Email:</label>
+						<input class="form-control" type="text" id="update-email-email">
+						<label for="update-email-password">Password:</label>
 
-					<input class="form-control" type="password" id="update-email-password">
-					<label for="update-email-new-email">New Email:</label>
+						<input class="form-control" type="password" id="update-email-password">
+						<label for="update-email-new-email">New Email:</label>
 
-					<input class="form-control" type="text" id="update-email-new-email">
-					<button id="update-email-btn" class="form-control btn btn-primary">Update Email</button>
+						<input class="form-control" type="text" id="update-email-new-email">
+						<button id="update-email-btn" class="form-control btn btn-primary">Update Email</button>
+					</div>
+					<div role="tabpanel" class="tab-pane fade" id="update-password">
+						<div class="alert alert-success hidden" role="alert" id="update-password-success">Successfully updated your password.</div>
+						<div class="alert alert-danger hidden" role="alert" id="update-password-reauth-error">Error. The email/current - password comboniation could not be found.</div>
+						<div class="alert alert-danger hidden" role="alert" id="update-password-error">Error updating your password. The password may not be strong enough, or some other error occured.</div>
+						<div class="alert alert-danger hidden" role="alert" id="update-password-nomatch">Error updating your password. The passwords do not match.</div>
+						<h3>Update Your account password</h3>
+						<b>All password update fields are required.</b>
+						<br>
+						<label for="update-password-email">Email:</label>
+						<input class="form-control" type="text" id="update-password-email">
+						<label for="update-password-password">Current Password:</label>
+						<input class="form-control" type="password" id="update-password-password">
+						<label for="update-password-new-password">New Password:</label>
+						<input class="form-control" type="password" id="update-password-new-password">
+						<label for="update-password-confirm-password">Confirm New Password:</label>
+						<input class="form-control" type="password" id="update-password-confirm-password">
+						<button id="update-password-btn" class="form-control btn btn-primary">Update Password</button>
+					</div>
 				</div>
-				<div role="tabpanel" class="tab-pane fade" id="update-password">
-					<div class="alert alert-success hidden" role="alert" id="update-password-success">Successfully updated your password.</div>
-					<div class="alert alert-danger hidden" role="alert" id="update-password-reauth-error">Error. The email/current - password comboniation could not be found.</div>
-					<div class="alert alert-danger hidden" role="alert" id="update-password-error">Error updating your password. The password may not be strong enough, or some other error occured.</div>
-					<div class="alert alert-danger hidden" role="alert" id="update-password-nomatch">Error updating your password. The passwords do not match.</div>
-					<h3>Update Your account password</h3>
-					<b>All password update fields are required.</b>
-					<br>
-					<label for="update-password-email">Email:</label>
-					<input class="form-control" type="text" id="update-password-email">
-					<label for="update-password-password">Current Password:</label>
-					<input class="form-control" type="password" id="update-password-password">
-					<label for="update-password-new-password">New Password:</label>
-					<input class="form-control" type="password" id="update-password-new-password">
-					<label for="update-password-confirm-password">Confirm New Password:</label>
-					<input class="form-control" type="password" id="update-password-confirm-password">
-					<button id="update-password-btn" class="form-control btn btn-primary">Update Password</button>
-				</div>
+
 			</div>
 
 		</div>
@@ -238,7 +239,7 @@
 
 		firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
-			
+
 				displayLinkedAccounts(user);
 				updateEmail(user);
 				updatePassword(user);
