@@ -254,7 +254,7 @@
 						confirmAction("Are you sure you want to change your Login email?",
 							"You will not be able to login with the old email anymore. You will only be able to login with the new email and you will need to verify the new email before you can login with it." +
 							"You will also recive an email in your old email account with a link to revert this action. This will only affect email/password login",
-							"#update-email-reauth-error",
+							"update-email-reauth-error",
 							function() {
 								$("#confirm-modal").modal("hide");
 								if ($("#update-email-email").val().replace(" ") !== "" && $("#update-email-email").val().replace(" ") !== null && $("#update-email-password").val().replace(" ") !== "" && $("#update-email-password").val().replace(" ") !== null && $("#update-email-new-email").val().replace(" ") !== "" && $("#update-email-new-email").val().replace(" ") !== null) {
@@ -294,7 +294,7 @@
 
 						confirmAction("Are you sure you want to change your password?",
 							"You will not be able to login with the old password anymore. You can reset your password at any time by clicking on the reset your password link on the login page. This will only affect email/password login.",
-							"#update-password-reauth-error",
+							"update-password-reauth-error",
 							function() {
 								$("#confirm-modal").modal("hide");
 								if ($("#update-password-email").val().replace(" ") !== "" && $("#update-password-email").val().replace(" ") !== null && $("#update-password-password").val().replace(" ") !== "" && $("#update-password-password").val().replace(" ") !== null && $("#update-password-new-password").val().replace(" ") !== "" && $("#update-password-new-password").val().replace(" ") !== null) {
@@ -341,8 +341,9 @@
 				//console.log("reauthentication success!");
 			}, function(error) {
 				$(".alert").addClass("hidden");
-				$(errorid).removeClass("hidden");
-				//console.log(error);
+				
+				$("#" + errorid).removeClass("hidden");
+				console.log(error);
 			});
 		}
 
