@@ -163,6 +163,7 @@
 			<hr>
 			<div class="hidden" id="update-password">
 				<div class="alert alert-success hidden" role="alert" id="update-password-success">Successfully updated your password.</div>
+				<div class="alert alert-danger hidden" role="alert" id="update-password-reauth-error">Error. The email/current - password comboniation could not be found.</div>
 				<div class="alert alert-danger hidden" role="alert" id="update-password-error">Error updating your password. The password may not be strong enough, or some other error occured.</div>
 				<div class="alert alert-danger hidden" role="alert" id="update-password-nomatch">Error updating your password. The passwords do not match.</div>
 				<h3>Update Your account password</h3>
@@ -173,9 +174,9 @@
 				<label for="update-password-password">Current Password:</label>
 				<input class="form-control" type="password" id="update-password-password">
 				<label for="update-password-new-password">New Password:</label>
-				<input class="form-control" type="text" id="update-password-new-password">
+				<input class="form-control" type="password" id="update-password-new-password">
 				<label for="update-password-confirm-password">Confirm New Password:</label>
-				<input class="form-control" type="text" id="update-password-confirm-password">
+				<input class="form-control" type="password" id="update-password-confirm-password">
 				<button id="update-password-btn" class="form-control btn btn-primary">Update Email</button>
 			</div>
 
@@ -252,6 +253,7 @@
 						confirmAction("Are you sure you want to change your Login email?",
 							"You will not be able to login with the old email anymore. You will only be able to login with the new email and you will need to verify the new email before you can login with it." +
 							"You will also recive an email in your old email account with a link to revert this action. This will only affect email/password login",
+							"#update-email-reauth-error",
 							function() {
 								$("#confirm-modal").modal("hide");
 								if ($("#update-email-email").val().replace(" ") !== "" && $("#update-email-email").val().replace(" ") !== null && $("#update-email-password").val().replace(" ") !== "" && $("#update-email-password").val().replace(" ") !== null && $("#update-email-new-email").val().replace(" ") !== "" && $("#update-email-new-email").val().replace(" ") !== null) {
@@ -291,6 +293,7 @@
 
 						confirmAction("Are you sure you want to change your password?",
 							"You will not be able to login with the old password anymore. You can reset your password at any time by clicking on the reset your password link on the login page. This will only affect email/password login.",
+							"#update-password-reauth-error",
 							function() {
 								$("#confirm-modal").modal("hide");
 								if ($("#update-password-email").val().replace(" ") !== "" && $("#update-password-email").val().replace(" ") !== null && $("#update-password-password").val().replace(" ") !== "" && $("#update-password-password").val().replace(" ") !== null && $("#update-password-new-password").val().replace(" ") !== "" && $("#update-password-new-password").val().replace(" ") !== null) {
@@ -327,7 +330,7 @@
 
 		}
 
-		function reauthenticate(user, email, password, callback) {
+		function reauthenticate(user, email, password, errorid, callback) {
 			var credential = firebase.auth.EmailAuthProvider.credential(
 				email,
 				password
@@ -336,6 +339,8 @@
 				callback();
 				//console.log("reauthentication success!");
 			}, function(error) {
+				$(".alert").addClass("hidden");
+				$(errorid).removeClass("hidden");
 				//console.log(error);
 			});
 		}

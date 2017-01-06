@@ -171,15 +171,18 @@
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
-
-
+var showloggedin = true
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
+                if (showloggedin) {
                 $("#main").addClass("hidden");
                 $("#loggedin").removeClass("hidden");
                 $("#loggedin-logout").click(function() {
                     window.location.href = "/account/logout/?redir=" + encodeURIComponent(window.location.href);
                 });
+                } else {
+                    showloggedin = true;
+                }
             }
             else {
                 $("#create").click(login);
@@ -229,6 +232,7 @@
                         if (user) {
                             user.sendEmailVerification().then(function() {
                                 firebase.auth().signOut().then(function() {
+                                    showloggedin = false;
                                     $("#main").addClass("hidden");
                                     $("#success-email").html(email);
                                     $("#success").removeClass("hidden");
