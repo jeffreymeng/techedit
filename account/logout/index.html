@@ -150,7 +150,11 @@
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
+        
         firebase.auth().signOut().then(function() {
+            if (getQuery("continue") !== null) {
+                window.location.href = getQuery("continue");
+            }
             $("#login").click(function() {
                 window.location.href = "/account/login/?redir=" + encodeURIComponent(getQuery("redir") || "");
             });

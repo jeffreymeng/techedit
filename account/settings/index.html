@@ -241,13 +241,9 @@
 
 										user.updateEmail($("#update-email-new-email").val()).then(function() {
 											user.sendEmailVerification().then(function() {
-												firebase.auth().signOut().then(function() {
-													window.location.href = "/account/login#emailchangesuccess";
-												}, function(error) {
-													$(".alert").addClass("hidden");
-													$("#update-email-error").removeClass("hidden");
-													console.log(error);
-												});
+												
+													window.location.href = "/account/logout?continue=" + encodeURIComponent("https://techedit.jeffkmeng.com/account/login#emailchangesuccess");
+											
 											});
 										});
 									});
