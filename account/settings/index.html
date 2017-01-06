@@ -115,9 +115,9 @@
 
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs" role="tablist">
-					<li role="presentation" class="active"><a href="#login-methods" aria-controls="home" role="tab" data-toggle="tab">Login Methods</a></li>
-					<li role="presentation" class="hidden" id="update-email-tab"><a href="#update-email" aria-controls="profile" role="tab" data-toggle="tab">Update email</a></li>
-					<li role="presentation" class="hidden" id="update-password-tab"><a href="#update-password" aria-controls="messages" role="tab" data-toggle="tab">Update password</a></li>
+					<li role="presentation" class="active"><a href="#login-methods-div" aria-controls="login-methods-div" role="tab" data-toggle="tab">Login Methods</a></li>
+					<li role="presentation" class="hidden" id="update-email-tab"><a href="#update-email" aria-controls="update-email" role="tab" data-toggle="tab">Update email</a></li>
+					<li role="presentation" class="hidden" id="update-password-tab"><a href="#update-password" aria-controls="update-password" role="tab" data-toggle="tab">Update password</a></li>
 				</ul>
 
 				<!-- Tab panes -->
@@ -238,6 +238,10 @@
 
 		firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
+				$('#myTabs a').click(function(e) {
+					e.preventDefault()
+					$(this).tab('show')
+				});
 				displayLinkedAccounts(user);
 				updateEmail(user);
 				updatePassword(user);
