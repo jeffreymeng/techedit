@@ -282,7 +282,8 @@
 				password
 			);
 			user.reauthenticate(credential).then(function() {
-				console.log("reauthentication success!");
+				callback();
+				//console.log("reauthentication success!");
 			}, function(error) {
 				console.log(error);
 			});
