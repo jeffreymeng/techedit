@@ -191,13 +191,16 @@
 					<div role="tabpanel" class="tab-pane fade" id="collection">
 						<h1>Collection Settings</h1>
 						<a id="export-collection">Export Collection</a>
+						<br>
+						
+						<hr>
+						<button class="form-control btn btn-danger">Clear your collection</button>
 					</div>
 				</div>
 
 			</div>
 
 		</div>
-		<p><a id="export-download">Export your collection(as raw JSON data).</a></p>
 
 		<!-- 
 			TODO:
@@ -273,7 +276,12 @@
 				$("#collection-export").attr("download", "techedit-collection-export.json");
 			});
 			$("#collection-delete").click(function() {
-				confirmAction("Are you sure you want to clear your entire collection?", "This will delete the entire collection. This action is not reversible, and once deleted, your data cannot be recovered.");
+				confirmAction("Are you sure you want to clear your entire collection?", 
+				"This will delete all your collected files. This action is not reversible, and once deleted, your data cannot be recovered. Once you clear your collection,"
+				+ "Your collection will be empty. You can still add files to your collection. You can export your collection before deleting.(Click on cancel, then the export collection link.)",
+				function(){
+					firebase.database().ref("/u/" + user.uid + "/collections/").set(null);
+				});
 			});
 
 
