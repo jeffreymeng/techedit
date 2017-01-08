@@ -118,6 +118,7 @@
 					<li role="presentation" class="active"><a href="#login-methods-div" aria-controls="login-methods-div" role="tab" data-toggle="tab">Login Methods</a></li>
 					<li role="presentation" class="hidden" id="update-email-tab"><a href="#update-email" aria-controls="update-email" role="tab" data-toggle="tab">Update email</a></li>
 					<li role="presentation" class="hidden" id="update-password-tab"><a href="#update-password" aria-controls="update-password" role="tab" data-toggle="tab">Update password</a></li>
+					<li role="presentation" class="hidden" id="collection-tab"><a href="#collection" aria-controls="collection" role="tab" data-toggle="tab">Collection Settings</a></li>
 				</ul>
 
 				<!-- Tab panes -->
@@ -187,12 +188,16 @@
 						<input class="form-control" type="password" id="update-password-confirm-password">
 						<button id="update-password-btn" class="form-control btn btn-primary">Update Password</button>
 					</div>
+					<div role="tabpanel" class="tab-pane fade" id="collection">
+						<h1>Collection Settings</h1>
+						<a id="export-collection">Export Collection</a>
+					</div>
 				</div>
 
 			</div>
 
 		</div>
-
+		<p><a id="export-download">Export your collection(as raw JSON data).</a></p>
 
 		<!-- 
 			TODO:
@@ -243,6 +248,8 @@
 				displayLinkedAccounts(user);
 				updateEmail(user);
 				updatePassword(user);
+
+				collectionSettings(user);
 			}
 			else {
 				window.location.href = "/account/login/?redir=" + encodeURIComponent(window.location.href);
@@ -258,6 +265,20 @@
 			return array;
 		}
 
+		function collectionSettings(user) {
+
+			firebase.database().ref("/u/" + user.uid + "/collections/").on("value", function(snapshot) {
+				var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(snapshot.val(), null, 2));
+				$("#collection-export").attr("href", dataStr);
+				$("#collection-export").attr("download", "techedit-collection-export.json");
+			});
+			$("#collection-delete").click(function() {
+				confirmAction("Are you sure you want to clear your entire collection?", "This will delete the entire collection. This action is not reversible, and once deleted, your data cannot be recovered.");
+			});
+
+
+		}
+
 		function updateEmail(user) {
 
 			for (var i = 0; i < user.providerData.length; i++) {
@@ -268,11 +289,11 @@
 						confirmAction("Are you sure you want to change your Login email?",
 							"You will not be able to login with the old email anymore. You will only be able to login with the new email and you will need to verify the new email before you can login with it." +
 							"You will also recive an email in your old email account with a link to revert this action. This will only affect email/password login",
-							"update-email-reauth-error",
+
 							function() {
 								$("#confirm-modal").modal("hide");
 								if ($("#update-email-email").val().replace(" ") !== "" && $("#update-email-email").val().replace(" ") !== null && $("#update-email-password").val().replace(" ") !== "" && $("#update-email-password").val().replace(" ") !== null && $("#update-email-new-email").val().replace(" ") !== "" && $("#update-email-new-email").val().replace(" ") !== null) {
-									reauthenticate(user, $("#update-email-email").val(), $("#update-email-password").val(), function() {
+									reauthenticate(user, $("#update-email-email").val(), $("#update-email-password").val(), "update-email-reauth-error", function() {
 										var user = firebase.auth().currentUser;
 
 										user.updateEmail($("#update-email-new-email").val()).then(function() {
@@ -308,12 +329,12 @@
 
 						confirmAction("Are you sure you want to change your password?",
 							"You will not be able to login with the old password anymore. You can reset your password at any time by clicking on the reset your password link on the login page. This will only affect email/password login.",
-							"update-password-reauth-error",
+
 							function() {
 								$("#confirm-modal").modal("hide");
 								if ($("#update-password-email").val().replace(" ") !== "" && $("#update-password-email").val().replace(" ") !== null && $("#update-password-password").val().replace(" ") !== "" && $("#update-password-password").val().replace(" ") !== null && $("#update-password-new-password").val().replace(" ") !== "" && $("#update-password-new-password").val().replace(" ") !== null) {
 									if ($("#update-password-new-password").val() === $("#update-password-confirm-password").val()) {
-										reauthenticate(user, $("#update-password-email").val(), $("#update-password-password").val(), function() {
+										reauthenticate(user, $("#update-password-email").val(), $("#update-password-password").val(), "update-password-reauth-error", function() {
 											var user = firebase.auth().currentUser;
 											user.updatePassword($("#update-password-new-password")).then(function() {
 												window.location.href = "/account/logout?continue=" + encodeURIComponent("https://techedit.jeffkmeng.com/account/login#passwordchanged");
