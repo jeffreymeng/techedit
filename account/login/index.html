@@ -192,6 +192,7 @@
 				$("#loggedin-logout").click(function() {
 					window.location.href = "/account/logout/?redir=" + encodeURIComponent(window.location.href);
 				});
+				
 			}
 			else {
 				$("#loggedin").addClass("hidden");
@@ -286,8 +287,8 @@
 						if (user.emailVerified) {
 							for (var i = 0; i < user.providerData.length; i++) {
 								if (user.providerData[i].email !== null) {
-									firebase.database.ref("/u/" + user.uid + "/email/").set(user.providerData[i].email);
-									firebase.database.ref("/u/" + user.uid + "/status/").set("active");
+									firebase.database().ref("/u/" + user.uid + "/email/").set(user.providerData[i].email);
+									firebase.database().ref("/u/" + user.uid + "/status/").set("active");
 								}
 							}
 							window.location.href = getQuery("redir") || "/collection/";
