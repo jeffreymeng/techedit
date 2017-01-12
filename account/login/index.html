@@ -142,7 +142,7 @@
 			<p id="option-bar">Or: <a href="/account/create/">Create an account</a> | <a href="/account/reset/">Reset your password</a> | <a href="/account/verify/">Send another email address verification email</a></p>
 		</div>
 		<div class="col-lg-12 text-center hidden" id="loggedin">
-			<h1>Login to Techedit</h1>
+			<h1 id="header">Login to Techedit</h1>
 			<hr>
 			<p>
 				You are already logged in. If you want to login again, or swich accounts, you can <a id="loggedin-logout">Logout</a>, then come back to login.
@@ -218,6 +218,10 @@
 				}
 				else if (window.location.hash === "#passwordchanged") {
 					$("#passwordchanged").removeClass("hidden");
+					window.location.hash = "";
+				}
+				else if (window.location.hash === "#reauth") {
+					$("#header").html("Re-Login to Techedit");
 					window.location.hash = "";
 				}
 
