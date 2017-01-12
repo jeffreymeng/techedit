@@ -348,7 +348,7 @@
 							function() {
 								$("#confirm-modal").modal("hide");
 								var user = firebase.auth().currentUser;
-								user.updatePassword($("#update-password-new-password")).then(function() {
+								user.updatePassword($("#update-password-new-password").val()).then(function() {
 									window.location.href = "/account/logout?continue=" + encodeURIComponent("https://techedit.jeffkmeng.com/account/login#passwordchanged");
 
 								}, function(error) {
