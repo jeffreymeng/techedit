@@ -389,23 +389,29 @@
 			});
 
 			$(".social-login").click(function() {
+				console.log("sl-1");
 				var id = $(this).attr("id");
 				var provider;
 				if (id === "google-login") {
+					console.log("sl-google")
 					provider = new firebase.auth.GoogleAuthProvider();
 
 				}
 				else if (id === "github-login") {
+					console.log("sl-github")
 					provider = new firebase.auth.GithubAuthProvider();
 				}
 				else {
+					console.log("sl-error")
 					//error
 					return;
 				}
 				if (provider) {
+					console.log(2)
 					firebase.auth().signInWithPopup(provider).then(function(result) {
 						// GET CREDENTAL
 						user.reauthenticate(result.credential).then(function() {
+							console.log(3)
 							$("#confirm-modal").modal("hide");
 							callback();
 							//console.log("reauthentication success!");
@@ -625,7 +631,7 @@
 					<label for="password">Current Password:</label>
 					<input type="password" id="confirm-modal-password" class="form-control">
 					<br><br>
-					<button class="btn btn-primary form-control" id="login">I am sure. Re-Login</button>
+					<button class="btn btn-primary form-control" id="confirm-modal-login">I am sure. Re-Login</button>
 					<hr>
 					<p class="text-center">Or:</p>
 					<a class="btn btn-block btn-social btn-google social-login" id="confirm-modal-google-login">
