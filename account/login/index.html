@@ -282,8 +282,11 @@
 				$("#error").removeClass("hidden");
 			}).then(function() {
 				var invalid = false;
+				console.log(7);
 				firebase.auth().onAuthStateChanged(function(user) {
+					console.log(6);
 					if (user) {
+						console.log(5);
 						if (user.emailVerified) {
 							console.log(1);
 							for (var i = 0; i < user.providerData.length; i++) {
