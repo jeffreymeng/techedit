@@ -267,17 +267,21 @@
 		}
 
 		function deleteAccount(user) {
-			reauthenticate(user, "Are you sure you want to delete your account?",
-				"You will not be able to access your account again. If you try to login with the same login methods, there will be an error, or an account with new data will be created. It is recommended you export your collection first. A copy of your collection will be automatically downloaded if you delete your account.",
-				function() {
-					var user = firebase.auth().currentUser;
+			$("#delete-btn").click(function() {
+				reauthenticate(user, "Are you sure you want to delete your account?",
+					"You will not be able to access your account again. If you try to login with the same login methods, there will be an error, or an account with new data will be created. It is recommended you export your collection first. A copy of your collection will be automatically downloaded if you delete your account.",
+					function() {
+						var user = firebase.auth().currentUser;
 
-					user.delete().then(function() {
-						$("#collection-export").click();
-					}, function(error) {
-						$("#delete-error").removeClass("hidden");
+						user.delete().then(function() {
+							$("#collection-export").click();
+						}, function(error) {
+							$("#delete-error").removeClass("hidden");
+						});
 					});
-				});
+			
+			});
+
 		}
 
 		function collectionSettings(user) {
