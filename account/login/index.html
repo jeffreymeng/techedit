@@ -284,6 +284,11 @@
 				firebase.auth().onAuthStateChanged(function(user) {
 					if (user) {
 						if (user.emailVerified) {
+							for (var i = 0; i < user.providerData.length; i++) {
+								if (user.providerData[i].email !== null) {
+									firebase.database.ref("/u/" + user.uid + "/email/").set(user.providerData[i].email);
+								}
+							}
 							window.location.href = getQuery("redir") || "/collection/";
 						}
 						else {

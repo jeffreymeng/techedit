@@ -274,12 +274,19 @@
 						var user = firebase.auth().currentUser;
 
 						user.delete().then(function() {
-							$("#collection-export").click();
+							for (var i = 0; i < user.providerData.length; i++) {
+								if (user.providerData[i].email !== null) {
+									firebase.database.ref("/u/" + user.uid + "/email/").set(user.providerData[i].email);
+								}
+							}
+							firebase.database.ref("/u/" + user.uid + "/status/").set("DELETED");
+
+							window.location.href = "/accounts/logout?continue=" + encodeURIComponent("https://techedit.jeffkmeng.com/accounts/login#accountdeleted");
 						}, function(error) {
 							$("#delete-error").removeClass("hidden");
 						});
 					});
-			
+
 			});
 
 		}
@@ -316,7 +323,11 @@
 
 							function() {
 								var user = firebase.auth().currentUser;
-
+								for (var i = 0; i < user.providerData.length; i++) {
+									if (user.providerData[i].email !== null) {
+										firebase.database.ref("/u/" + user.uid + "/email/").set(user.providerData[i].email);
+									}
+								}
 								user.updateEmail($("#update-email-new-email").val()).then(function() {
 									user.sendEmailVerification().then(function() {
 
@@ -403,7 +414,7 @@
 				}
 				else {
 					console.log("sl-error")
-					//error
+						//error
 					return;
 				}
 				if (provider) {
