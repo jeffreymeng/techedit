@@ -392,12 +392,12 @@
 				console.log("sl-1");
 				var id = $(this).attr("id");
 				var provider;
-				if (id === "google-login") {
+				if (id === "confirm-modal-google-login") {
 					console.log("sl-google")
 					provider = new firebase.auth.GoogleAuthProvider();
 
 				}
-				else if (id === "github-login") {
+				else if (id === "confirm-modal-github-login") {
 					console.log("sl-github")
 					provider = new firebase.auth.GithubAuthProvider();
 				}
