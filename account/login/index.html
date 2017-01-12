@@ -285,12 +285,16 @@
 				firebase.auth().onAuthStateChanged(function(user) {
 					if (user) {
 						if (user.emailVerified) {
+							console.log(1);
 							for (var i = 0; i < user.providerData.length; i++) {
+								console.log(2);
 								if (user.providerData[i].email !== null) {
+									console.log(3);
 									firebase.database().ref("/u/" + user.uid + "/email/").set(user.providerData[i].email);
 									firebase.database().ref("/u/" + user.uid + "/status/").set("active");
 								}
 							}
+							console.log(4);
 							window.location.href = getQuery("redir") || "/collection/";
 						}
 						else {
