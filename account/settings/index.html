@@ -391,7 +391,7 @@
 						for (key in data) {
 							if (data.hasOwnProperty(key)) {
 								value = data[key];
-								firebase.database().ref(user.uid + "/collections/" + key + "/").once("value").then(function(snapshot) {
+								firebase.database().ref("/u/" + user.uid + "/collections/" + key + "/").once("value").then(function(snapshot) {
 									if (snapshot.val() === null) {
 
 										console.log("set " + user.uid + "/collections/" + key + "/ to:");
