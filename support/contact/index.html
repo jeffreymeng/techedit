@@ -20,8 +20,9 @@
             padding-top: 70px;
             /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
         }
+        
         .hidden {
-            display:none;
+            display: none;
         }
     </style>
 
@@ -110,8 +111,9 @@
                 <div class="alert alert-danger hidden" role="alert" id="subject-format-error">Error: The Subject field be at least 8 charcters long, but less than 45 charcters.</div>
                 <div class="alert alert-danger hidden" role="alert" id="email-format-error">Error: The Email Address given is badly formatted.</div>
                 <div class="alert alert-danger hidden" role="alert" id="message-format-error">Error: The Message given must be at least 15 charcters, and at most 500 charcters.</div>
+                <div class="alert alert-success hidden" role="alert" id="message-format-error">Success! Your message was sent. You should recieve an message in less than 10 days.</div>
 
-                <h1 class="text-center">Contact Techedit</h1> 
+                <h1 class="text-center">Contact Techedit</h1>
                 <label for="subject">Full Name:</label>
                 <input class="form-control" id="name" type="text">
 
@@ -124,7 +126,7 @@
 
                 <button class="form-contol btn btn-primary" id="submit">Submit Message</button>
 
-                
+
             </div>
 
 
@@ -154,36 +156,41 @@
     </script>
     <script src="/js/techedit.js"></script>
     <script>
-    /* global $ firebase */
-    if (!$("#name").val().match(/^[a-z\u00C0-\u02AB'´`]+\.?\s([a-z\u00C0-\u02AB'´`]+\.?\s?)+$/i)) {
-        $(".alert").addClass("hidden");
-        $("#name-format-error").removeClass("hidden");
-    } else if (!$("#subject").val().length > 8 || !$("#subject").val().length < 45) {
-        $(".alert").addClass("hidden");
-        $("#subject-format-error").removeClass("hidden");
-    } else if (!$("#email").val().match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
-        $(".alert").addClass("hidden");
-        $("#email-format-error").removeClass("hidden");
-    } else if (!$("#message").val().length > 15 || !$("#message").val().length < 300) {
-        $(".alert").addClass("hidden");
-        $("#message-format-error").removeClass("hidden");
-    } else {
-        $("#submit").click(function(){
-            firebase.database().ref("/support/messages/").push({
-                name:$("#name").val(),
-                subject:$("#subject").val(),
-                email:$("#email").val(),
-                message:$("#message").val()
-                
-            });
+        /* global $ firebase */
+        $("#submit").click(function() {
+            if (!$("#name").val().match(/^[a-z\u00C0-\u02AB'´`]+\.?\s([a-z\u00C0-\u02AB'´`]+\.?\s?)+$/i)) {
+                $(".alert").addClass("hidden");
+                $("#name-format-error").removeClass("hidden");
+            }
+            else if (!$("#subject").val().length > 8 || !$("#subject").val().length < 45) {
+                $(".alert").addClass("hidden");
+                $("#subject-format-error").removeClass("hidden");
+            }
+            else if (!$("#email").val().match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+                $(".alert").addClass("hidden");
+                $("#email-format-error").removeClass("hidden");
+            }
+            else if (!$("#message").val().length > 15 || !$("#message").val().length < 300) {
+                $(".alert").addClass("hidden");
+                $("#message-format-error").removeClass("hidden");
+            }
+            else {
+                firebase.database().ref("/support/messages/").push({
+                    name: $("#name").val(),
+                    subject: $("#subject").val(),
+                    email: $("#email").val(),
+                    message: $("#message").val()
+
+                });
+
+                $(".alert").addClass("hidden");
+                $("#name").val("");
+                $("#subject").val("");
+                $("#email").val("");
+                $("#message").val("");
+                $("#success").removeClass("hidden");
+            }
         });
-        $(".alert").addClass("hidden");
-        $("#name").val("");
-        $("#subject").val("");
-        $("#email").val("");
-        $("#message").val("");
-        $("#success").removeClass("hidden");
-    }
     </script>
 </body>
 
