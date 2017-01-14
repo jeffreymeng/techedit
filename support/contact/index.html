@@ -158,19 +158,19 @@
     <script>
         /* global $ firebase */
         $("#submit").click(function() {
-            if (!$("#name").val().match(/^[a-z\u00C0-\u02AB'´`]+\.?\s([a-z\u00C0-\u02AB'´`]+\.?\s?)+$/i)) {
+            if (!($("#name").val().match(/^[a-z\u00C0-\u02AB'´`]+\.?\s([a-z\u00C0-\u02AB'´`]+\.?\s?)+$/i))) {
                 $(".alert").addClass("hidden");
                 $("#name-format-error").removeClass("hidden");
             }
-            else if (!$("#subject").val().length > 8 || !$("#subject").val().length < 45) {
+            else if (!($("#subject").val().length > 8) || !($("#subject").val().length < 45)) {
                 $(".alert").addClass("hidden");
                 $("#subject-format-error").removeClass("hidden");
             }
-            else if (!$("#email").val().match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+            else if (!($("#email").val().match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))) {
                 $(".alert").addClass("hidden");
                 $("#email-format-error").removeClass("hidden");
             }
-            else if (!$("#message").val().length > 15 || !$("#message").val().length < 300) {
+            else if (!($("#message").val().length > 15) || !($("#message").val().length < 300)) {
                 $(".alert").addClass("hidden");
                 $("#message-format-error").removeClass("hidden");
             }
