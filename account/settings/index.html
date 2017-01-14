@@ -400,6 +400,10 @@
 									}
 									else {
 										$("#import-modal-loading").addClass("hidden");
+										$("#import-modal-conflict-imported-name").html(value.name);
+										$("#import-modal-conflict-imported-description").html(value.description);
+										$("#import-modal-conflict-user-name").html(data.val().name);
+										$("#import-modal-conflict-user-description").html(data.val().description);
 										$("#import-modal-conflict").removeClass("hidden");
 										console.log("conflict when setting " + user.uid + "/collections/" + key + "/ to:");
 										console.log(value);
@@ -783,11 +787,11 @@
 					<input type="file" id="import-file" accept="application/json">
 
 				</div>
-				<div class="modal-body" id="import-modal-loading">
+				<div class="modal-body hidden" id="import-modal-loading">
 					<p>Loading...</p>
 
 				</div>
-				<div class="modal-body" id="import-modal-conflict">
+				<div class="modal-body hidden" id="import-modal-conflict">
 					<h4>A file in the imported collection also exists in your collection!</h4>
 					<p><b>File Id</b>:<span id="import-modal-conflict-file-id"></span></p>
 					<p>Imported Collection file name:<br><span id="import-modal-conflict-imported-name"></span><br> Imported Collection file description:<br><span id="import-modal-conflict-imported-description"></span>
