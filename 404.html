@@ -485,7 +485,7 @@
                         $("#addtocollection").html("Login to Add To Collection");
                         $("#addtocollection").click(function() {
 
-                            window.location.href = "/account/login/?redir=" + encodeURIComponent("https://techedit.jeffkmeng.com" + window.location.pathname + window.location.search + "#addtocollection");
+                            window.location.href = "/account/login/?redir=" + encodeURIComponent(window.location.pathname + window.location.search + "#addtocollection");
                         });
 
 
