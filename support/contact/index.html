@@ -20,6 +20,9 @@
             padding-top: 70px;
             /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
         }
+        .hidden {
+            display:none;
+        }
     </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -103,16 +106,25 @@
         <div class="row">
 
             <div class="col-lg-12">
-                <p>This page is currently under development.</p>
-                <!-- <h1 class="text-center">Contact Techedit</h1> 
-                <label for="subject">Subject:</label>
-                <input class="form-control" id="subject" type="text">
-                <label for="email">Email Address:</label>
-                <input class="form-control" id="email" type="text">
-                <label for="subject">Subject:</label>
-                <textarea class="form-control" id="subject"></textarea>
+                <div class="alert alert-danger hidden" role="alert" id="name-format-error">Error: The Full Name field should contain a valid full name, such as John Smith.</div>
+                <div class="alert alert-danger hidden" role="alert" id="subject-format-error">Error: The Subject field be at least 8 charcters long, but less than 45 charcters.</div>
+                <div class="alert alert-danger hidden" role="alert" id="email-format-error">Error: The Email Address given is badly formatted.</div>
+                <div class="alert alert-danger hidden" role="alert" id="message-format-error">Error: The Message given must be at least 15 charcters, and at most 500 charcters.</div>
 
-                -->
+                <h1 class="text-center">Contact Techedit</h1> 
+                <label for="subject">Full Name:</label>
+                <input class="form-control" id="name" type="text">
+
+                <label for="subject">Subject(Max 45 charcters, including spaces):</label>
+                <input class="form-control" id="subject" type="text">
+                <label for="email">Email Address(Use the one associated with your account, if you have one):</label>
+                <input class="form-control" id="email" type="text">
+                <label for="message">Message(Max 500 charcters, including spaces):</label>
+                <textarea class="form-control" id="message" rows="7"></textarea>
+
+                <button class="form-contol btn btn-primary" id="submit">Submit Message</button>
+
+                
             </div>
 
 
@@ -141,7 +153,38 @@
         firebase.initializeApp(config);
     </script>
     <script src="/js/techedit.js"></script>
-
+    <script>
+    /* global $ firebase */
+    if (!$("#name").val().match(/^[a-z\u00C0-\u02AB'´`]+\.?\s([a-z\u00C0-\u02AB'´`]+\.?\s?)+$/i)) {
+        $(".alert").addClass("hidden");
+        $("#name-format-error").removeClass("hidden");
+    } else if (!$("#subject").val().length > 8 || !$("#subject").val().length < 45) {
+        $(".alert").addClass("hidden");
+        $("#subject-format-error").removeClass("hidden");
+    } else if (!$("#email").val().match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+        $(".alert").addClass("hidden");
+        $("#email-format-error").removeClass("hidden");
+    } else if (!$("#message").val().length > 15 || !$("#message").val().length < 300) {
+        $(".alert").addClass("hidden");
+        $("#message-format-error").removeClass("hidden");
+    } else {
+        $("#submit").click(function(){
+            firebase.database().ref("/support/messages/").push({
+                name:$("#name").val(),
+                subject:$("#subject").val(),
+                email:$("#email").val(),
+                message:$("#message").val()
+                
+            });
+        });
+        $(".alert").addClass("hidden");
+        $("#name").val("");
+        $("#subject").val("");
+        $("#email").val("");
+        $("#message").val("");
+        $("#success").removeClass("hidden");
+    }
+    </script>
 </body>
 
 </html>

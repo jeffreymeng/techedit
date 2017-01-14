@@ -402,8 +402,8 @@
 										$("#import-modal-loading").addClass("hidden");
 										$("#import-modal-conflict-imported-name").html(value.name);
 										$("#import-modal-conflict-imported-description").html(value.description);
-										$("#import-modal-conflict-user-name").html(data.val().name);
-										$("#import-modal-conflict-user-description").html(data.val().description);
+										$("#import-modal-conflict-user-name").html(snapshot.val().name);
+										$("#import-modal-conflict-user-description").html(snapshot.val().description);
 										$("#import-modal-conflict").removeClass("hidden");
 										console.log("conflict when setting " + user.uid + "/collections/" + key + "/ to:");
 										console.log(value);
