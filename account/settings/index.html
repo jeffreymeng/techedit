@@ -111,7 +111,8 @@
 		<div class="col-lg-12 text-center">
 			<h1>Account Settings</h1>
 			<hr>
-			<div>
+			<p id="loading">Loading...</p>
+			<div id="main" class="hidden">
 
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs" role="tablist">
@@ -267,6 +268,8 @@
 					var anchor = window.location.hash || $("a[data-toggle='tab']").first().attr("href");
 					$("a[href='" + anchor + "']").tab("show");
 				});
+				$("#loading").addClass("hidden");
+				$("#main").removeClass("hidden");
 			}
 			else {
 				window.location.href = "/account/login/?redir=" + encodeURIComponent(window.location.href);
