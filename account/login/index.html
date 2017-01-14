@@ -145,7 +145,9 @@
 			<h1 id="header">Login to Techedit</h1>
 			<hr>
 			<p>
-				You are logged in. If you want to login again, or swich accounts, you can <a id="loggedin-logout">Logout</a>, then come back to login.
+				You are logged in. If you want to login again, or swich accounts, you can <a id="loggedin-logout">Logout</a>, then come back to login.<br>
+				If you got to this page after logging in, your login url may have been broken(<a href="/support/broken-login-url/">See support page for more info</a>). If this happend, just click <a href="/collection">here</a> to go to your collection, or use a link 
+				in the navbar above. The broken login url does not mean that you are not logged in. You are still logged in. If the login url is broken, do not click the logout link above. Inetead, use this <a href="/account/logout">link</a> to logout.
 			</p>
 		</div>
 
@@ -192,7 +194,7 @@
 				$("#loggedin-logout").click(function() {
 					window.location.href = "/account/logout/?redir=" + encodeURIComponent(window.location.href);
 				});
-				
+
 			}
 			else {
 				$("#loggedin").addClass("hidden");
@@ -282,26 +284,25 @@
 				$("#error").removeClass("hidden");
 			}).then(function() {
 				var invalid = false;
-				console.log(7);
+				//console.log(7);
 				firebase.auth().onAuthStateChanged(function(user) {
-					console.log(6);
+					//console.log(6);
 					if (user) {
-						console.log(5);
+						//console.log(5);
 						if (user.emailVerified) {
-							console.log(1);
+							//console.log(1);
 							for (var i = 0; i < user.providerData.length; i++) {
 								console.log(2);
 								if (user.providerData[i].email !== null) {
-									console.log(3);
+									//console.log(3);
 									firebase.database().ref("/u/" + user.uid + "/email/").set(user.providerData[i].email);
 									firebase.database().ref("/u/" + user.uid + "/status/").set("active");
 								}
 							}
-							console.log(4);
-							console.log(getQuery("redir"));
-							alert(getQuery("redir"));
-							console.log(getQuery("redir") || "/collection/");
-							window.location.href = getQuery("redir") || "/collection/";
+
+							window.location.href = "https://techedit.jeffkmeng.com" + getQuery("redir") || "/collection/";
+
+
 						}
 						else {
 
