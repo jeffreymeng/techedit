@@ -189,7 +189,7 @@
 						<hr>
 						<button class="form-control btn btn-danger" id="collection-clear">Clear your collection</button>
 						<hr>
-						
+
 					</div>
 					<div role="tabpanel" class="tab-pane fade" id="delete">
 						<div class="alert alert-success hidden" role="alert" id="delete-error">An unknown error occured. Please try again.</div>
@@ -310,7 +310,7 @@
 						firebase.database().ref("/u/" + user.uid + "/collections/").set(null);
 					});
 			});
-			$("#import-collection-link").click(function(){
+			$("#import-collection-link").click(function() {
 				$("#import-modal").modal("show");
 			});
 			$("#import-collection-btn").click(function() {
@@ -335,11 +335,55 @@
 
 			function processFile(e) {
 				var file = e.target.result,
-					result;
-				if (file && file.length) {
-					result = JSON.parse(file);
-					console.log(result);
+					data;
 
+				if (file && file.length) {
+					data = JSON.parse(file);
+					console.log(data);
+					var value;
+					var error = false;
+					for (var key in data) {
+						if (data.hasOwnProperty(key)) {
+							value = data[key];
+							console.log(key + " -> " + value);
+
+
+							if (key.match(/[123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ]{6}/g) && Object.prototype.toString.call(value) === '[object Object]') {
+								if (value.name !== null && value.description !== null) {
+
+								}
+								else {
+
+									$(".alert").addClass("hidden");
+									$("#import-file-not-formatted").removeClass("hidden");
+									error = true;
+								}
+							}
+							else {
+								$(".alert").addClass("hidden");
+								$("#import-file-not-formatted").removeClass("hidden");
+								error = true;
+							}
+
+
+
+						}
+					}
+					console.log(error);
+					/*
+					if (!error) {
+						for (var key in data) {
+							if (data.hasOwnProperty(key)) {
+								value = data[key];
+								firebase.database().ref(user.uid + "/collections/" + key + "/").once("value").then(function(snapshot) {
+									if (snapshot.val() === null) {
+										firebase.database
+									}
+								});
+							}
+						}
+					}
+					*/
 				}
 			}
 
