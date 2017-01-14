@@ -133,9 +133,11 @@
         <div class="row">
 
             <div class="col-lg-12">
+                <div class="alert alert-success hidden" role="alert" id="e404-remove">If you are logged in, and the entry exists in your collection, then the entry was deleted from your collection.</div>
                 <h1>Error: File not found</h1>
                 <p>The file requested does not exist.</p>
-                <p id="view-file-text">Were you trying to view a file? try <a id="error-404-file-id-link">https://techedit.jeffkmeng.com/f/<span id="error-404-file-id">&lt;your file ID&gt;</span></a></b>
+                <p id="view-file-text">Were you trying to view a file? try <a id="error-404-file-id-link">https://techedit.jeffkmeng.com/f/<span id="error-404-file-id">&lt;your file ID&gt;</span></a></b><br> If you imported a collection previously, and got here from a link
+                    in your collection, that file may have been corrupted. You can try<a id="error404-removefromcollection">deleting a corrupted collection file</a>.
                 </p>
             </div>
 
@@ -406,7 +408,11 @@
                 /* global firebase $ */
                 firebase.auth().onAuthStateChanged(function(user) {
                     if (user) {
-
+                        $("#error404-removefromcollection").click(function() {
+                            $(".alert").addClass("hidden");
+                            $("#e404-remove").removeClass("hidden");
+                            firebase.database.ref("/u/" + user.uid + "/collection/" + id + "/").set(null);
+                        });
 
 
                         firebase.database().ref("/u/" + user.uid + "/collections/" + id + "/").once("value").then(function(data) {
@@ -482,6 +488,11 @@
 
                     }
                     else {
+                        $("#error404-removefromcollection").click(function() {
+                            $(".alert").addClass("hidden");
+                            $("#e404-remove").removeClass("hidden");
+                            firebase.database.ref("/u/" + user.uid + "/collection/" + id + "/").set(null);
+                        });
                         $("#addtocollection").html("Login to Add To Collection");
                         $("#addtocollection").click(function() {
 
