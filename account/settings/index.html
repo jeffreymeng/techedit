@@ -184,11 +184,12 @@
 						<h1>Collection Settings</h1>
 						<a id="collection-export">Export Collection</a>
 						<br>
+						<a id="import-collection-link">Import Collection</a>
 
 						<hr>
 						<button class="form-control btn btn-danger" id="collection-clear">Clear your collection</button>
 						<hr>
-						<a id="import-collection">Import Collection</a>
+						
 					</div>
 					<div role="tabpanel" class="tab-pane fade" id="delete">
 						<div class="alert alert-success hidden" role="alert" id="delete-error">An unknown error occured. Please try again.</div>
@@ -309,7 +310,9 @@
 						firebase.database().ref("/u/" + user.uid + "/collections/").set(null);
 					});
 			});
-
+			$("#import-collection-link").click(function(){
+				$("#import-modal").modal("show");
+			});
 			$("#import-collection-btn").click(function() {
 				if (!window.FileReader) {
 					$(".alert").addClass("hidden");
