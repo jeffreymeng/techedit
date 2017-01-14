@@ -245,7 +245,20 @@
 	<script src="/js/techedit.js"></script>
 	<script>
 		/* global $ firebase */
+		$('#myTab a').click(function(e) {
+			e.preventDefault();
+			$(this).tab('show');
+		});
 
+		// store the currently selected tab in the hash value
+		$("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
+			var id = $(e.target).attr("href").substr(1);
+			window.location.hash = id;
+		});
+
+		// on load of the page: switch to the currently selected tab
+		var hash = window.location.hash;
+		$('#myTab a[href="' + hash + '"]').tab('show');
 		firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
 
@@ -371,21 +384,22 @@
 						}
 					}
 					console.log(error);
-					
+
 					if (!error) {
 						for (key in data) {
 							if (data.hasOwnProperty(key)) {
 								value = data[key];
 								firebase.database().ref(user.uid + "/collections/" + key + "/").once("value").then(function(snapshot) {
 									if (snapshot.val() === null) {
-										
+
 										console.log("set " + user.uid + "/collections/" + key + "/ to:");
 										console.log(value);
 										//firebase.database().ref(user.uid + "/collections/" + key + "/").set(value);
-									} else {
+									}
+									else {
 										$("#import-modal-loading").addClass("hidden");
 										$("#import-modal-conflict").removeClass("hidden");
-										console.log("conflict when setting "  + user.uid + "/collections/" + key + "/ to:");
+										console.log("conflict when setting " + user.uid + "/collections/" + key + "/ to:");
 										console.log(value);
 										console.log("already defined.");
 										console.log(snapshot.val());
@@ -394,7 +408,7 @@
 							}
 						}
 					}
-					
+
 				}
 			}
 
@@ -774,16 +788,14 @@
 				<div class="modal-body" id="import-modal-conflict">
 					<h4>A file in the imported collection also exists in your collection!</h4>
 					<p><b>File Id</b>:<span id="import-modal-conflict-file-id"></span></p>
-					<p>Imported Collection file name:<br><span id="import-modal-conflict-imported-name"></span><br>
-					Imported Collection file description:<br><span id="import-modal-conflict-imported-description"></span>
+					<p>Imported Collection file name:<br><span id="import-modal-conflict-imported-name"></span><br> Imported Collection file description:<br><span id="import-modal-conflict-imported-description"></span>
 					</p>
-					<p>Your Collection file name:<br><span id="import-modal-conflict-user-name"></span><br>
-					Your Collection file description:<br><span id="import-modal-conflict-user-description"></span>
-					<hr>
-					<button id="import-modal-conflict-keep" class="btn btn-primary form-control">Keep using your own collection file data</button>
-					<button id="import-modal-conflict-keep-all" class="btn btn-primary form-control">Keep using your own collection file data for all future files</button>
-					<button id="import-modal-conflict-overwrite" class="btn btn-danger form-control">Overwrite using imported collection file data</button>
-					<button id="import-modal-conflict-overwrite-all" class="btn btn-danger form-control">Overwrite using imported collection file data for all future files</button>
+					<p>Your Collection file name:<br><span id="import-modal-conflict-user-name"></span><br> Your Collection file description:<br><span id="import-modal-conflict-user-description"></span>
+						<hr>
+						<button id="import-modal-conflict-keep" class="btn btn-primary form-control">Keep using your own collection file data</button>
+						<button id="import-modal-conflict-keep-all" class="btn btn-primary form-control">Keep using your own collection file data for all future files</button>
+						<button id="import-modal-conflict-overwrite" class="btn btn-danger form-control">Overwrite using imported collection file data</button>
+						<button id="import-modal-conflict-overwrite-all" class="btn btn-danger form-control">Overwrite using imported collection file data for all future files</button>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
