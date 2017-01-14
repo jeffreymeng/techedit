@@ -115,7 +115,7 @@
 
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs" role="tablist">
-					<li role="presentation" class="active"><a href="#login-methods-div" aria-controls="login-methods-div" role="tab" data-toggle="tab">Login Methods</a></li>
+					<li role="presentation" class="active"><a href="#login-methods" aria-controls="login-methods" role="tab" data-toggle="tab">Login Methods</a></li>
 					<li role="presentation" class="hidden" id="update-email-tab"><a href="#update-email" aria-controls="update-email" role="tab" data-toggle="tab">Update email</a></li>
 					<li role="presentation" class="hidden" id="update-password-tab"><a href="#update-password" aria-controls="update-password" role="tab" data-toggle="tab">Update password</a></li>
 					<li role="presentation" id="collection-tab"><a href="#collection" aria-controls="collection" role="tab" data-toggle="tab">Collection Settings</a></li>
@@ -124,14 +124,14 @@
 
 				<!-- Tab panes -->
 				<div class="tab-content">
-					<div role="tabpanel" class="tab-pane fade in active" id="login-methods-div">
+					<div role="tabpanel" class="tab-pane fade in active" id="login-methods">
 						<div class="alert alert-success hidden" role="alert" id="link-update-success">Successfully updated your login methods. If you added an email/password login method, then you will need to verify your email before you can login with it.</div>
 						<div class="alert alert-danger hidden" role="alert" id="link-update-error">There was an error while updating your login methods.</div>
 						<div class="alert alert-danger hidden" role="alert" id="link-account-in-use">The login method is already in use with another account.
 							<!-- <a href="/support/account/login-methods/#error-login-method-already-in-use">Learn More</a>. --></div>
 						<div class="alert alert-danger hidden" role="alert" id="link-account-in-use">The passwords don't match!</div>
 						<h3>Login Methods</h3>
-						<div id="login-methods"></div>
+						<div id="login-methods-valid"></div>
 						<div id="link-buttons">
 							<div id="password-link" class="hidden">
 								<label for="password-link-email">Email for adding email/password login:</label>
@@ -553,7 +553,7 @@
 		function displayLinkedAccounts(user) {
 			var data;
 			var providersLeft = ["password", "google.com", "github.com"];
-			$("#login-methods").html("");
+			$("#login-methods-valid").html("");
 			$("#password-link").addClass("hidden");
 			$("#github-link").addClass("hidden");
 			$("#google-link").addClass("hidden");
@@ -561,7 +561,7 @@
 				for (var i = 0; i < user.providerData.length; i++) {
 					data = user.providerData[i];
 					removeElementFromArrayByValue(providersLeft, data.providerId);
-					$("#login-methods").append("<p><b>" + data.providerId + "</b> | <a class='unlink-btn' id='unlink-" + data.providerId + "'>Remove this method</a></p>");
+					$("#login-methods-valid").append("<p><b>" + data.providerId + "</b> | <a class='unlink-btn' id='unlink-" + data.providerId + "'>Remove this method</a></p>");
 
 
 				}
@@ -569,7 +569,7 @@
 			else {
 				data = user.providerData[0];
 				removeElementFromArrayByValue(providersLeft, data.providerId);
-				$("#login-methods").append("<p><b>" + data.providerId === "password" ? "email/password" : data.providerId.replace(".com", "") + "</b></p>");
+				$("#login-methods-valid").append("<p><b>" + data.providerId === "password" ? "email/password" : data.providerId.replace(".com", "") + "</b></p>");
 
 			}
 			for (i = 0; i < providersLeft.length; i++) {
