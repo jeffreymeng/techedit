@@ -183,13 +183,9 @@
 					</div>
 					<div role="tabpanel" class="tab-pane fade" id="collection">
 						<h1>Collection Settings</h1>
-						<a id="collection-export">Export Collection</a>
-						<br>
-						<a id="import-collection-link">Import Collection</a>
-
 						<hr>
 						<button class="form-control btn btn-danger" id="collection-clear">Clear your collection</button>
-						<hr>
+
 
 					</div>
 					<div role="tabpanel" class="tab-pane fade" id="delete">
@@ -204,15 +200,6 @@
 
 		</div>
 
-		<!-- 
-			TODO:
-			Link Accounts    DONE
-			Unlink Accounts  DONE
-			Change Email     DONE
-			Change Password  DONE
-			Delete Account
-			Clear Collection DONE
-			-->
 	</div>
 
 
@@ -254,7 +241,7 @@
 				updateEmail(user);
 				updatePassword(user);
 
-				collectionSettings(user);
+				clearCollection(user);
 				deleteAccount(user);
 				$(document).ready(function() {
 					if (window.location.hash) {
@@ -310,113 +297,17 @@
 
 		}
 
-		function collectionSettings(user) {
+		function clearCollection(user) {
 
-			firebase.database().ref("/u/" + user.uid + "/collections/").on("value", function(snapshot) {
-				var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(snapshot.val(), null, 2));
-				$("#collection-export").attr("href", dataStr);
-				$("#collection-export").attr("download", "techedit-collection-export.json");
-			});
 			$("#collection-clear").click(function() {
 				confirmAction("Are you sure you want to clear your entire collection?",
 					"This will delete all your collected files. This action is not reversible, and once deleted, your data cannot be recovered. Once you clear your collection," +
-					"Your collection will be empty. You can still add files to your collection. You can export your collection before deleting.(Click on cancel, then the export collection link.)",
+					"Your collection will be empty. You can still add files to your collection, and the files themselves will still exist.",
 					function() {
 						firebase.database().ref("/u/" + user.uid + "/collections/").set(null);
 					});
 			});
-			$("#import-collection-link").click(function() {
-				$("#import-modal").modal("show");
-			});
-			$("#import-collection-btn").click(function() {
-				if (!window.FileReader) {
-					$(".alert").addClass("hidden");
-					$("#import-file-not-supported").removeClass("hidden");
-				}
-				var input = $("#import-file").get(0);
 
-				// Create a reader object
-				var reader = new FileReader();
-				if (input.files.length) {
-					var textFile = input.files[0];
-					reader.readAsText(textFile);
-					$(reader).on('load', processFile);
-				}
-				else {
-					$(".alert").addClass("hidden");
-					$("#import-file-not-formatted").removeClass("hidden");
-				}
-			});
-
-			function processFile(e) {
-				var file = e.target.result,
-					data;
-				$("#import-modal-main").addClass("hidden");
-				$("#import-modal-loading").removeClass("hidden");
-				if (file && file.length) {
-					data = JSON.parse(file);
-					console.log(data);
-					var value;
-					var error = false;
-					for (var key in data) {
-						if (data.hasOwnProperty(key)) {
-							value = data[key];
-							console.log(key + " -> " + value);
-
-
-							if (key.match(/[123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ]{6}/g) && Object.prototype.toString.call(value) === '[object Object]') {
-								if (value.name !== null && value.description !== null) {
-									continue;
-								}
-								else {
-
-									$(".alert").addClass("hidden");
-									$("#import-file-not-formatted").removeClass("hidden");
-									error = true;
-								}
-							}
-							else {
-								$(".alert").addClass("hidden");
-								$("#import-file-not-formatted").removeClass("hidden");
-								error = true;
-							}
-
-
-
-						}
-					}
-					console.log(error);
-
-					if (!error) {
-						for (key in data) {
-							if (data.hasOwnProperty(key)) {
-								value = data[key];
-								firebase.database().ref("/u/" + user.uid + "/collections/" + key + "/").once("value").then(function(snapshot) {
-									if (snapshot.val() === null) {
-
-										console.log("set " + user.uid + "/collections/" + key + "/ to:");
-										console.log(value);
-										//firebase.database().ref(user.uid + "/collections/" + key + "/").set(value);
-									}
-									else {
-										$("#import-modal-loading").addClass("hidden");
-										$("#import-modal-conflict-imported-name").html(value.name);
-										$("#import-modal-conflict-imported-description").html(value.description);
-										$("#import-modal-conflict-user-name").html(snapshot.val().name);
-										$("#import-modal-conflict-user-description").html(snapshot.val().description);
-										$("#import-modal-conflict").removeClass("hidden");
-										console.log("conflict when setting " + user.uid + "/collections/" + key + "/ to:");
-										console.log(value);
-										console.log("already defined.");
-										console.log(snapshot.val());
-									}
-								});
-							}
-						}
-					}
-
-				}
-			}
 
 		}
 
@@ -768,48 +659,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="import-modal" tabindex="-1" role="dialog" aria-labelledby="import-modal-label">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="import-modal-label">Import Collection</h4>
-				</div>
-				<div class="modal-body" id="import-modal-main">
-					<p>
-						Importing a collection will add all the names, descriptions, and file id's stored in a techedit collection export file. If there are overlapping files that exist in both your collection and the export, you will be asked which one to use.
-						<b>If you are sure you would like to import a collection from a file, select a </b><code>json</code><b> file below.</b>
-					</p>
-					<hr>
-					<div class="alert alert-danger hidden" role="alert" id="import-file-not-supported">Error. Your browser does not support this. Please try again on a diffrent browser.(We recommend Google Chrome or Firefox)</div>
-					<div class="alert alert-danger hidden" role="alert" id="import-file-not-formatted">Error. The file given was not formatted properlly, or does not exist..</div>
-					<label for="import-file">Techedit Export File</label>
-					<input type="file" id="import-file" accept="application/json">
 
-				</div>
-				<div class="modal-body hidden" id="import-modal-loading">
-					<p>Loading...</p>
-
-				</div>
-				<div class="modal-body hidden" id="import-modal-conflict">
-					<h4>A file in the imported collection also exists in your collection!</h4>
-					<p><b>File Id</b>:<span id="import-modal-conflict-file-id"></span></p>
-					<p>Imported Collection file name:<br><span id="import-modal-conflict-imported-name"></span><br> Imported Collection file description:<br><span id="import-modal-conflict-imported-description"></span>
-					</p>
-					<p>Your Collection file name:<br><span id="import-modal-conflict-user-name"></span><br> Your Collection file description:<br><span id="import-modal-conflict-user-description"></span>
-						<hr>
-						<button id="import-modal-conflict-keep" class="btn btn-primary form-control">Keep using your own collection file data</button>
-						<button id="import-modal-conflict-keep-all" class="btn btn-primary form-control">Keep using your own collection file data for all future files</button>
-						<button id="import-modal-conflict-overwrite" class="btn btn-danger form-control">Overwrite using imported collection file data</button>
-						<button id="import-modal-conflict-overwrite-all" class="btn btn-danger form-control">Overwrite using imported collection file data for all future files</button>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-primary" id="import-collection-btn">Import Collection</button>
-				</div>
-			</div>
-		</div>
-	</div>
 </body>
 
 </html>
