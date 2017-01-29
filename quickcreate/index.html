@@ -1,0 +1,57 @@
+<p>Loading...</p>
+<script>
+    /* global $ firebase localStorage */
+
+
+    function getFileID(callback, count) {
+        if (!count) {
+            count = 0;
+        }
+        //some error, generated 100 random ID's and still didn't work.
+        if (count > 100) {
+            callback(false);
+        }
+        else {
+            // no captial I, lowercase l, captial o, and no zero(0) to prevent confusion(in the url bar both look the same)
+            // generates 6 digit random ID from pool of 22 chars, not including the following four charcters: IlO0
+            var chars = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
+            var result = "";
+            for (var i = 6; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+            //var invalid = true;
+
+            firebase.database().ref("/f/" + result).once("value").then(function(snapshot) {
+                if (snapshot.val() === null) {
+
+                    callback(result);
+                }
+                else {
+                    getFileID(callback, count + 1);
+                }
+            });
+        }
+
+    }
+
+
+
+    getFileID(function(key) {
+        if (!key) {
+            alert("An unknown error occured. Please try again later. You will be redirected back to the home page.");
+            window.location.href = "/index.html";
+        }
+        else {
+            firebase.database().ref("/f/" + key + "/valid").set(true).then(function() {
+                firebase.database().ref("/f/" + key + "/info/").set({
+                    language: "text",
+                    
+                    name: "Untitled File"
+                }).then(function() {
+                    localStorage.setItem("techedit-opts-local-theme", $("#theme").val());
+
+                    window.location.href = "https://techedit.jeffkmeng.com/f/" + key;
+                });
+            });
+
+        }
+    });
+</script>
