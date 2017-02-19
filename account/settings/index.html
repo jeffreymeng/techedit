@@ -286,7 +286,7 @@
 								}
 							}
 							firebase.database.ref("/u/" + user.uid + "/status/").set("DELETED");
-
+							firebase.database.ref("/u/" + user.uid + "/deleted-date/").set(new Date().getTime())
 							window.location.href = "/accounts/logout?continue=" + encodeURIComponent("https://techedit.jeffkmeng.com/accounts/login#accountdeleted");
 						}, function(error) {
 							$("#delete-error").removeClass("hidden");
