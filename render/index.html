@@ -24,7 +24,6 @@
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-    firebase.initializeApp(config);
 
     var rootRef = firebase.database().ref("/f/" + getQuery("id"));
     var firepadRef = rootRef.push();
