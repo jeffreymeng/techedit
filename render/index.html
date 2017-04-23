@@ -24,7 +24,7 @@
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-
+    console.log(getQuery("id"));
     var rootRef = firebase.database().ref("/f/" + getQuery("id") + "/");
     var firepadRef = rootRef.push();
     var headless = new Firepad.Headless(firepadRef);
