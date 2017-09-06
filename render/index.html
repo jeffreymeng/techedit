@@ -26,7 +26,7 @@
 
     console.log(getQuery("id"));
     var rootRef = firebase.database().ref("/f/" + getQuery("id") + "/");
-    var firepadRef = rootRef.push();
+    var firepadRef = rootRef//.push();
     var headless = new Firepad.Headless(firepadRef);
     headless.getText(function(text) {
         console.log(text);
