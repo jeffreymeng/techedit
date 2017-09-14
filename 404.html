@@ -104,7 +104,27 @@ Save theme based on file/account?
     <!-- Firepad -->
     <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.css" />
     <script src="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.min.js"></script>
-
+    <script>
+        /* global firebase Firepad getQuery*/
+        if (window.location.href.substring(1).split("/")[0] === "r")
+        var rootRef = firebase.database().ref("/f/" + window.location.href.substring(1).split("/")[0] === "r" + "/");
+        var headless = new Firepad.Headless(rootRef);
+        rootRef.once("value").then(function(snapshot) {
+            if (snapshot.val().info.language === "html" || snapshot.val.info.language === "js") {
+                headless.getText(function(text) {
+                    //console.log(text);
+                    if (snapshot.val().info.language === "html") {
+                        document.write(text);
+                    }
+                    else if (snapshot.val().info.language === "javascript") {
+                        document.write("<script>" + text + "<\/script>");
+                    }
+                    
+                });
+                headless.dispose();
+            }
+        });
+    </script>
 
 </head>
 
@@ -160,27 +180,7 @@ Save theme based on file/account?
         </div>
         <!-- /.container -->
     </nav>
-    <script>
-        /* global firebase Firepad getQuery*/
-        if (window.location.href.substring(1).split("/")[0] === "r")
-        var rootRef = firebase.database().ref("/f/" + getQuery("id") + "/");
-        var headless = new Firepad.Headless(rootRef);
-        rootRef.once("value").then(function(snapshot) {
-            if (snapshot.val().info.language === "html" || snapshot.val.info.language === "js") {
-                headless.getText(function(text) {
-                    //console.log(text);
-                    if (snapshot.val().info.language === "html") {
-                        document.write(text);
-                    }
-                    else if (snapshot.val().info.language === "javascript") {
-                        document.write("<script>" + text + "<\/script>");
-                    }
-                    
-                });
-                headless.dispose();
-            }
-        });
-    </script>
+
     <!-- Page Content -->
     <div class="container hidden" id="error404">
 
