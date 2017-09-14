@@ -1,5 +1,5 @@
 <script src="https://www.gstatic.com/firebasejs/3.7.8/firebase.js"></script>
-
+Loading...
 <!-- Firepad -->
 <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.css" />
 <script src="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.min.js"></script>
@@ -26,11 +26,18 @@
 
     console.log(getQuery("id"));
     var rootRef = firebase.database().ref("/f/" + getQuery("id") + "/");
-    var firepadRef = rootRef//.push();
-    var headless = new Firepad.Headless(firepadRef);
-    headless.getText(function(text) {
-        console.log(text);
-        document.write(text);
+    var headless = new Firepad.Headless(rootRef);
+    rootRef.once("value").then(function(snapshot) {
+        if (snapshot.val().info.language === "html") {
+            headless.getText(function(text) {
+                //console.log(text);
+                document.write(text);
+            });
+            headless.dispose();
+        } else if (snapshot.val().info.language === "html") {
+            
+        }
     });
-    headless.dispose();
+
+    
 </script>

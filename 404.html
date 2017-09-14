@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 <!-- See http://www.firepad.io/docs/ for detailed embedding docs. -->
+<!--
+TODO:
+add user list
+render as html(switch views button and full screen)
+Comments/Chat?
+Use bootstrap 4 cards instead?
+Save theme based on file/account?
+-->
 <html>
 
 <head>
@@ -7,7 +15,26 @@
     <title>Techedit - View File</title>
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/3.6.3/firebase.js"></script>
+    <script>
+        var config = {
+            apiKey: "AIzaSyBQ2E4ISQoIcRsDxfPxzDjbJwmD-r98JYw",
+            authDomain: "techedit-63e7f.firebaseapp.com",
+            databaseURL: "https://techedit-63e7f.firebaseio.com",
+            storageBucket: "techedit-63e7f.appspot.com",
+            messagingSenderId: "609280907475"
+        };
+        firebase.initializeApp(config);
 
+        function getQuery(name) {
+            var url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+    </script>
     <!-- ACE and its JavaScript mode and theme files -->
     <script src="/js/ace/ace.js"></script>
 
@@ -20,37 +47,37 @@
         html {
             height: 100%;
         }
-        
+
         .powered-by-firepad {
             display: none;
         }
-        
+
         body {
             margin: 0;
             height: 100%;
             position: relative;
         }
-        
+
         #firepad-container {
             height: 550px;
         }
-        
+
         #page {
             margin-top: 75px;
         }
-        
+
         #filename {
             overflow-x: scroll;
         }
-        
+
         #error404 {
             margin-top: 75px;
         }
-        
+
         #loading {
             margin-top: 75px;
         }
-        
+
         .hidden {
             display: none;
         }
@@ -72,10 +99,17 @@
 
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.10/cookieconsent.min.js"></script>
     <!-- End Cookie Consent plugin -->
+    <script src="https://www.gstatic.com/firebasejs/3.7.8/firebase.js"></script>
+    Loading...
+    <!-- Firepad -->
+    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.css" />
+    <script src="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.min.js"></script>
+
 
 </head>
 
 <body>
+
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -126,7 +160,27 @@
         </div>
         <!-- /.container -->
     </nav>
-
+    <script>
+        /* global firebase Firepad getQuery*/
+        if (window.location.href.substring(1).split("/")[0] === "r")
+        var rootRef = firebase.database().ref("/f/" + getQuery("id") + "/");
+        var headless = new Firepad.Headless(rootRef);
+        rootRef.once("value").then(function(snapshot) {
+            if (snapshot.val().info.language === "html" || snapshot.val.info.language === "js") {
+                headless.getText(function(text) {
+                    //console.log(text);
+                    if (snapshot.val().info.language === "html") {
+                        document.write(text);
+                    }
+                    else if (snapshot.val().info.language === "javascript") {
+                        document.write("<script>" + text + "<\/script>");
+                    }
+                    
+                });
+                headless.dispose();
+            }
+        });
+    </script>
     <!-- Page Content -->
     <div class="container hidden" id="error404">
 
@@ -139,6 +193,23 @@
                 <p id="view-file-text">Were you trying to view a file? try <a id="error-404-file-id-link">https://techedit.jeffkmeng.com/f/<span id="error-404-file-id">&lt;your file ID&gt;</span></a></b><br> If you imported a collection previously, and got here from a link
                     in your collection, that file may have been corrupted. You can try<a id="error404-removefromcollection">deleting a corrupted collection file</a>.
                 </p>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="container hidden" id="link-download">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <h1>Download File: "<span id="link-download-file-name"></span>"</h1>
+                <p>You have been given a download link for an .<span id="link-download-file-extention"></span> file.</p>
+                <button class="form-control btn btn-primary">Download File</button>
+                <br>
+                <br>
+                <p><a href>You can also view this file on Techedit by clicking here</a>.</p>
             </div>
 
         </div>
@@ -242,7 +313,8 @@
 				</select>
 
                 <hr>
-                <button id="addtocollection" class="form-control btn btn-primary">Loading add to collection...</button>
+                <button id="addtocollection" class="form-control btn btn-primary">Loading add to collection button...</button>
+                <a id="renderfile" class="form-control btn btn-primary hidden" href target="_blank">Render File Button Error</a>
                 <hr>
                 <div class="input-group">
                     <span class="input-group-addon"><span class="name">File ID</span></span>
@@ -404,6 +476,12 @@
                     localStorage.setItem("techedit-opts-local-theme", theme);
                     $("#opt-theme").selectpicker("val", theme);
                 });
+                if (data.info.language === "html" || data.info.language === "js") {
+                    $("#renderfile").attr("href", "https://techedit.jeffkmeng.com/render/?id=" + id);
+                    $("#renderfile").removeClass("hidden");
+                }
+
+
                 $("#update").click(updateInfo);
                 /* global firebase $ */
                 firebase.auth().onAuthStateChanged(function(user) {
@@ -568,7 +646,8 @@
 
                     name: $("#opt-filename").val()
                 });
-
+                session.setMode("ace/mode/" + $("#opt-filetype").val());
+                $("#filename").html($("#opt-filename").val());
 
 
 
