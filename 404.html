@@ -107,7 +107,7 @@ Save theme based on file/account?
     <script>
         /* global firebase Firepad getQuery*/
         if (window.location.href.substring(1).split("/")[0] === "r")
-        var rootRef = firebase.database().ref("/f/" + window.location.href.substring(1).split("/")[0] === "r" + "/");
+        var rootRef = firebase.database().ref("/f/" + window.location.href.substring(1).split("/")[1] + "/");
         var headless = new Firepad.Headless(rootRef);
         rootRef.once("value").then(function(snapshot) {
             if (snapshot.val().info.language === "html" || snapshot.val.info.language === "js") {
