@@ -43,6 +43,28 @@ Save theme based on file/account?
     <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.css" />
     <script src="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.min.js"></script>
 
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link href="/css/bootstrap-select.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+    <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+    <script type="text/javascript">
+        window.cookieconsent_options = {
+            "message": "Techedit uses cookies(pieces of text stored on your browser's cache) to ensure you get the best experience on our website.",
+            "dismiss": "Got it!",
+            "learnMore": "More info",
+            "link": "",
+            "theme": "light-bottom"
+        };
+    </script>
+
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.10/cookieconsent.min.js"></script>
+    <!-- End Cookie Consent plugin -->
+    <script src="https://www.gstatic.com/firebasejs/3.7.8/firebase.js"></script>
+    Loading...
+    <!-- Firepad -->
+
     <style>
         html {
             height: 100%;
@@ -82,50 +104,6 @@ Save theme based on file/account?
             display: none;
         }
     </style>
-    <link rel="stylesheet" href="/css/bootstrap.min.css" />
-    <link href="/css/bootstrap-select.min.css" rel="stylesheet">
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
-    <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
-    <script type="text/javascript">
-        window.cookieconsent_options = {
-            "message": "Techedit uses cookies(pieces of text stored on your browser's cache) to ensure you get the best experience on our website.",
-            "dismiss": "Got it!",
-            "learnMore": "More info",
-            "link": "",
-            "theme": "light-bottom"
-        };
-    </script>
-
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.10/cookieconsent.min.js"></script>
-    <!-- End Cookie Consent plugin -->
-    <script src="https://www.gstatic.com/firebasejs/3.7.8/firebase.js"></script>
-    Loading...
-    <!-- Firepad -->
-    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.css" />
-    <script src="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.min.js"></script>
-    <script>
-        /* global firebase Firepad getQuery*/
-        if (window.location.href.substring(1).split("/")[0] === "r")
-        var rootRef = firebase.database().ref("/f/" + window.location.href.substring(1).split("/")[1] + "/");
-        var headless = new Firepad.Headless(rootRef);
-        rootRef.once("value").then(function(snapshot) {
-            if (snapshot.val().info.language === "html" || snapshot.val.info.language === "js") {
-                headless.getText(function(text) {
-                    //console.log(text);
-                    if (snapshot.val().info.language === "html") {
-                        document.write(text);
-                    }
-                    else if (snapshot.val().info.language === "javascript") {
-                        document.write("<script>" + text + "<\/script>");
-                    }
-                    
-                });
-                headless.dispose();
-            }
-        });
-    </script>
-
 </head>
 
 <body>
