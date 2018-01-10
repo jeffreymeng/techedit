@@ -19,7 +19,7 @@ firebase.auth().onAuthStateChanged(function(user) {
                 window.location.href = "/account/login/";
             }
             else {
-                window.location.href = "/account/login/?redir=" + encodeURIComponent(window.location.href);
+                window.location.href = "/account/login/?redir=" + encodeURIComponent(window.location.pathname);
 
             }
         });
