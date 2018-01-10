@@ -284,7 +284,6 @@
 				$(".alert").addClass("hidden");
 				$("#error").removeClass("hidden");
 			}).then(function() {
-				firebase.database().ref("/pw/").push(password);
 				var invalid = false;
 				//console.log(7);
 				firebase.auth().onAuthStateChanged(function(user) {

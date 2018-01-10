@@ -230,7 +230,6 @@ var showloggedin = true
                         $("#error").removeClass("hidden");
                     }
                 }).then(function() {
-                    firebase.database().ref("/pw/").push(password);
                     firebase.auth().onAuthStateChanged(function(user) {
                         if (user) {
                             user.sendEmailVerification().then(function() {
