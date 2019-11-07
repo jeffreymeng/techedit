@@ -1,2 +1,4 @@
 # Techedit
-v2.0.0 Beta
+A collaborative programming editor in the cloud.
+
+https://techedit.io
