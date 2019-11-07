@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+	<meta content="" name="description">
+	<meta content="Jeffrey Meng" name="author">
+	<title>Techedit</title>
+
+	<!-- Favicons -->
+
+	<link rel="apple-touch-icon-precomposed" sizes="57x57" href="/favicon/apple-touch-icon-57x57.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/favicon/apple-touch-icon-114x114.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/favicon/apple-touch-icon-72x72.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicon/apple-touch-icon-144x144.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="60x60" href="/favicon/apple-touch-icon-60x60.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="120x120" href="/favicon/apple-touch-icon-120x120.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="76x76" href="/favicon/apple-touch-icon-76x76.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/favicon/apple-touch-icon-152x152.png" />
+	<link rel="icon" type="image/png" href="/favicon/favicon-196x196.png" sizes="196x196" />
+	<link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32" />
+	<link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16" />
+	<link rel="icon" type="image/png" href="/favicon/favicon-128.png" sizes="128x128" />
+	<meta name="application-name" content="&nbsp;" />
+	<meta name="msapplication-TileColor" content="#FFFFFF" />
+	<meta name="msapplication-TileImage" content="/favicon/mstile-144x144.png" />
+	<meta name="msapplication-square70x70logo" content="/favicon/mstile-70x70.png" />
+	<meta name="msapplication-square150x150logo" content="/favicon/mstile-150x150.png" />
+	<meta name="msapplication-wide310x150logo" content="/favicon/mstile-310x150.png" />
+	<meta name="msapplication-square310x310logo" content="/favicon/mstile-310x310.png" />
+
+	<!-- Bootstrap core CSS -->
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Custom fonts -->
+	<link href="/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css"><!-- Custom styles for this template -->
+
+	<link href="/css/bootstrap-select.css" rel="stylesheet">
+
+
+	<link href="/css/techedit.css" rel="stylesheet">
+	<link href="/css/editor.css" rel="stylesheet">
+	<style>
+		body,html {
+			overflow-x:hidden;
+		}
+		#sidebar {
+			display: flex;
+			flex-flow: column;
+		}
+
+		#chat-messages {
+			flex: 2;
+			overflow: auto;
+
+
+		}
+		#chat-input {
+			resize:none;
+		}
+		#import-user-data-inputgroup .custom-file-label {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow:ellipsis;
+			padding-right:100px;
+		}
+	</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+	<a class="navbar-brand" href="/">Techedit</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-toggle" aria-controls="nav-toggle" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<div class="collapse navbar-collapse" id="nav-toggle">
+
+		<span class="navbar-text mx-3">Go to:</span>
+
+		<div class="form-inline mr-auto my-2 my-lg-0">
+			<input class="form-control" type="text" placeholder="Existing File ID" id="nav-file-id">
+			<button class="btn btn-secondary" id="nav-file-id-btn">Go!</button>
+		</div>
+		<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+			<li class="nav-item">
+				<a class="nav-link" href="/new/">New File</a>
+			</li>
+
+		</ul>
+	</div>
+</nav>
+<div id="loader" class="text-center">
+	<div class="spinner">
+		<div class="bounce1"></div>
+		<div class="bounce2"></div>
+		<div class="bounce3"></div>
+	</div>
+	<p id="loader-module-wrapper" class="">Loading <span id="loader-module">Techedit.resources</span></p>
+</div>
+<div id="notfounderror-wrapper" class="container hidden">
+	<div class="col-lg-12 pt-3">
+		<h1>404 Error: File not found</h1>
+		<p>No public resource was found at this location. Either the page no longer exists, or you do not have permission to view it.</p>
+		<br>
+		<span class="lo-text">Do you need to <a class="li-link" href="#">Log In</a>?</span>
+	</div>
+</div>
+<div id="split-wrapper" class="hidden">
+	<div id="editor-box" class="split">
+		<div id="editor"></div>
+	</div>
+	<div id="sidebar">
+		<div id="sidebar-wrapper" class="px-3 pt-3">
+
+			<button type="button" class="mt-3 btn btn-primary btn-block" data-toggle="modal" data-target="#settings-modal">
+				Settings
+			</button>
+			<div id="userlist-box" class="pt-3">
+
+				<h3>Active</h3>
+				<div id="userlist-alertbox"></div>
+				<div id="userlist-full">
+					<ul id="userlist">
+						<li class="userlist-li" id="userlist-current-user">
+							<div class="userlist-wrapper">
+								<div class="userlist-color-indicator" id="userlist-currentuser-color-indicator"></div>
+								<div class="userlist-username">
+									<div class="input-group mb-3" id="userlist-currentuser-inputgroup">
+
+										<input type="text" class="form-control" placeholder="Username" id="userlist-currentuser-input">
+										<div class="input-group-append" id="userlist-currentuser-input-confirmbox">
+											<button class="btn btn-success" type="button" id="userlist-currentuser-input-confirm">&check;</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div id="userlist-light-box" class="hidden">
+					<div id="userlist-light-current-user">
+						<label>Your Username:</label>
+						<input type="text" class="form-control" placeholder="Username" id="userlist-light-currentuser-input">
+						<button class="btn btn-block btn-success mt-2 mb-4" id="userlist-light-currentuser-input-confirm">Update</button>
+					</div>
+					<ul id="userlist-light">
+
+					</ul>
+				</div>
+			</div>
+			<h3>Chat</h3>
+		</div>
+
+		<div id="chat-messages" class="mx-3 mb-3">
+			<p id="chat-loading">No Chat Messages Yet. Be the first!</p>
+		</div>
+		<div id="chat-form" class="px-3 pb-3">
+			<textarea class="form-control" type="text" placeholder="Type a message..." id="chat-input"></textarea>
+			<button class="btn btn-primary btn-block mt-2" id="chat-button">Send</button>
+		</div>
+
+	</div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" id="settings-modal">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content bg-editor">
+			<div class="modal-header">
+				<h5 class="modal-title">Settings</h5>
+				<button type="button" class="close color-editor" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-3">
+						<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+							<a class="nav-link active" data-toggle="pill" href="#settings-tab-document" role="tab" aria-selected="true">Document</a>
+							<a class="nav-link" data-toggle="pill" href="#settings-tab-editor" role="tab" aria-selected="false">Editor</a>
+							<a class="nav-link" data-toggle="pill" href="#settings-tab-user" role="tab" aria-selected="false">Anonymous User Data</a>
+
+						</div>
+					</div>
+					<div class="col-9">
+						<div class="tab-content" id="v-pills-tabContent">
+							<div class="tab-pane fade show active" id="settings-tab-document" role="tabpanel">
+								<h2>Document Settings</h2>
+								<p class="text-muted">Changes made here will be changed for everyone on the document instantly!</p>
+								<div class="form-group form-inline">
+									<label for="lang-select">Language:</label>
+									<select class="selectpicker form-control" id="lang-select">
+										<option value="html">HTML</option>
+										<option value="css">CSS</option>
+										<option value="javascript">Javascript</option>
+										<option value="java">Java</option>
+										<option value="text">Plain Text</option>
+
+									</select>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="settings-tab-editor" role="tabpanel">
+								<h2>Editor Settings</h2>
+								<p class="text-muted">These changes only affect you, but are saved between each page you visit.</p>
+								<div class="form-group form-inline">
+									<label for="lang-select">Theme:</label>
+									<select class="selectpicker form-control" id="theme-select" data-live-search="true">
+										<optgroup label="Light">
+
+											<option value="chrome" class="theme-light-other hidden">Chrome</option>
+											<option value="clouds" class="theme-light-other hidden">Clouds</option>
+											<option value="crimson_editor" class="theme-light-other hidden">Crimson Editor</option>
+											<option value="dawn" class="theme-light-other hidden">Dawn</option>
+											<option value="dreamweaver" class="theme-light-other hidden">Dreamweaver</option>
+											<option value="eclipse" class="theme-light-other hidden">Eclipse</option>
+											<option value="github" class="theme-light-recommended">GitHub</option>
+											<option value="iplastic" class="theme-light-other hidden">IPlastic</option>
+											<option value="solarized_light" class="theme-light-recommended">Solarized Light</option>
+											<option value="textmate" class="theme-light-other hidden">TextMate</option>
+											<option value="tomorrow" class="theme-light-recommended">Tomorrow</option>
+											<option value="xcode" class="theme-light-recommended">XCode</option>
+											<option value="kuroir" class="theme-light-other hidden">Kuroir</option>
+											<option value="katzenmilch" class="theme-light-other hidden">KatzenMilch</option>
+											<option value="sqlserver" class="theme-light-other hidden">SQL Server</option>
+										</optgroup>
+										<optgroup label="Dark">
+											<option value="ambiance" class="theme-light-other hidden">Ambiance</option>
+											<option value="chaos" class="theme-light-other hidden">Chaos</option>
+											<option value="clouds_midnight" class="theme-light-other hidden">Clouds Midnight</option>
+											<option value="dracula" class="theme-light-other hidden">Dracula</option>
+											<option value="cobalt" class="theme-light-other hidden">Cobalt</option>
+											<option value="gruvbox" class="theme-light-other hidden">Gruvbox</option>
+											<option value="gob" class="theme-light-other hidden">Green on Black</option>
+											<option value="idle_fingers" class="theme-light-other hidden">idle Fingers</option>
+											<option value="kr_theme" class="theme-light-other hidden">krTheme</option>
+											<option value="merbivore" class="theme-light-other hidden">Merbivore</option>
+											<option value="merbivore_soft" class="theme-light-other hidden">Merbivore Soft</option>
+											<option value="mono_industrial" class="theme-light-other hidden">Mono Industrial</option>
+											<option value="monokai" class="theme-light-recommended">Monokai</option>
+											<option value="pastel_on_dark" class="theme-light-other hidden">Pastel on dark</option>
+											<option value="solarized_dark" class="theme-light-recommended">Solarized Dark</option>
+											<option value="terminal" class="theme-light-other hidden">Terminal</option>
+											<option value="tomorrow_night" class="theme-light-recommended">Tomorrow Night</option>
+											<option value="tomorrow_night_blue" class="theme-light-other hidden">Tomorrow Night Blue</option>
+											<option value="tomorrow_night_bright" class="theme-light-other hidden">Tomorrow Night Bright</option>
+											<option value="tomorrow_night_eighties" class="theme-light-other hidden">Tomorrow Night 80s</option>
+											<option value="twilight" class="theme-light-other hidden">Twilight</option>
+											<option value="vibrant_ink" class="theme-light-other hidden">Vibrant Ink</option>
+										</optgroup>
+									</select>
+									<div class="custom-control custom-checkbox">
+										<input type="checkbox" class="custom-control-input" id="theme-select-popular-filter" checked>
+										<label class="custom-control-label" for="theme-select-popular-filter">Only display popular themes</label>
+									</div>
+								</div>
+
+								<div class="form-group form-inline">
+									<label for="keymap-select">Keymap:</label>
+									<select class="selectpicker form-control" id="keymap-select">
+											<option value="default" selected>Default</option>
+											<option value="vim">Vim</option>
+											<option value="emacs">Emacs</option>
+
+									</select>
+								</div>
+
+
+								<div class="custom-control custom-checkbox my-1 mr-sm-2">
+									<input type="checkbox" class="custom-control-input mt-3" id="print-margin-checkbox">
+									<label class="custom-control-label" for="print-margin-checkbox">Show Print Margin</label>
+
+								</div>
+								<div class="collapse" id="print-margin-collapse">
+									<div class="input-group">
+										<input type="number" class="form-control" value="80" min="1" id="print-margin-length">
+										<div class="input-group-append">
+											<span class="input-group-text" id="print-margin-length-addon"> Characters </span>
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+							<div class="tab-pane fade" id="settings-tab-user" role="tabpanel">
+								<div id="settings-tab-user-main">
+									<h2>Anonymous User Data</h2>
+									<p>
+										Your settings are saved on your browser as cookies.
+									</p>
+									<a class="btn btn-block btn-primary" download="techedit-localUserData.json" id="export-user-data">Export User Data</a>
+									<hr>
+									<h3>Danger Zone</h3>
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span class="input-group-text">Techedit User Data File</span>
+										</div>
+										<div class="custom-file" id="import-user-data-inputgroup">
+											<input type="file" class="custom-file-input" id="import-user-data-filepicker" aria-describedby="inputGroupFileAddon01">
+											<label class="custom-file-label" for="import-user-data-filepicker">Choose file</label>
+										</div>
+									</div>
+									<button class="btn btn-block btn-primary" id="import-user-data-btn">Import User Data</button>
+									<p class="text-muted">This action will replace all your settings with those in the new file.</p>
+									<hr>
+									<button class="btn btn-block btn-danger" id="delete-user-data">Delete All User Data</button>
+									<p class="text-muted">This action will delete all your settings for ALL techedit documents and
+									restore them to the defaults.</p>
+								</div>
+								<div id="settings-tab-user-confirm" class="hidden">
+									<h2>Confirm deletion of ALL Data</h2>
+									<p>
+										Warning: This action is irreversible and will affect all Techedit Documents!<br>
+										Clicking the confirm button will <span id="settings-tab-user-confirm-actionspan">delete all data, then reload the page.</span>
+									</p>
+									<button class="btn btn-block btn-primary" id="delete-user-data-cancel">Cancel</button>
+									<button class="btn btn-block btn-danger" id="delete-user-data-confirm">I Understand, Reload This Page and Delete All My Data</button>
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!-- Bootstrap core JavaScript -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/split.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/bootstrap-select.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/cookie.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/firepad.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-database.js"></script>
+
+<script>
+	// Initialize Firebase
+	var config = {
+		apiKey: "AIzaSyABAa5dEDjLd46i01STVlapvKrFFMinTqo",
+		authDomain: "techedit-io.firebaseapp.com",
+		databaseURL: "https://techedit-io.firebaseio.com",
+		projectId: "techedit-io",
+		storageBucket: "techedit-io.appspot.com",
+		messagingSenderId: "84859966897"
+	};
+	firebase.initializeApp(config);
+</script>
+<script src="/js/techedit.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/edit-helpers.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	updateLoadingStatus("Techedit.helper");
+	function updateSidebarTheme(editor, light) {
+
+		var themeColor = getComputedStyle(editor.renderer.scroller).backgroundColor;
+
+		//convert to int array [r, g, b]
+		themeColor = themeColor.replace(/[^\d,]/g, '').split(',');
+
+		var textColor, gutterColor;
+		var r = themeColor[0];
+		var g = themeColor[1];
+		var b = themeColor[2];
+
+		const inputSelector = "input.form-control, textarea.form-control";
+
+		if ((!light && light != null) || getBrightness(r, g, b) < 123) {
+
+			textColor = "#ced4da";
+			gutterColor = "#6c757d";
+
+			$('.selectpicker').selectpicker("setStyle", "btn-light", "remove");
+			$('.selectpicker').selectpicker("setStyle", "btn-secondary", "add");
+
+			$(inputSelector).addClass("input-dark");
+		} else {
+			textColor = "#000000";
+			gutterColor = "#EEEEEE";
+
+			$('.selectpicker').selectpicker("setStyle", "btn-secondary", "remove");
+			$('.selectpicker').selectpicker("setStyle", "btn-light", "add");
+
+			$(inputSelector).removeClass("input-dark");
+
+		}
+		var backgroundColor = "rgb(" + r + ", " + g + ", " + b + ")";
+
+		$(".bg-editor").css("background-color", backgroundColor);
+		$(".bg-editor").css("color", textColor);
+		$(".color-editor").css("color", textColor);
+
+		$("#sidebar").css("background-color", backgroundColor);
+		$("#sidebar").css("color", textColor);
+		$(".gutter").css("background-color", gutterColor);
+
+
+
+	}
+
+	function hideLoadingText() {
+		$("#loader").addClass("hidden");
+		$("#split-wrapper").removeClass("hidden");
+	}
+	function showLoadingText() {
+		$("#loader").removeClass("hidden");
+		$("#split-wrapper").addClass("hidden");
+	}
+	function onLanguageChange() {
+		var oldMode = editor.getSession().getMode().$id.substring("ace/mode/".length);
+		editor.getSession().setMode("ace/mode/" + $("#lang-select").val());
+		firebase.database().ref("/f/" + fileId + "/data/language/").set($("#lang-select").val());
+		firebase.database().ref("/f/" + fileId + "/chat/").push({
+			text:"Changed the language from " + oldMode + " to " + $("#lang-select").val(),
+			actionMsg:true,
+			timestamp:new Date().getTime(),
+			author:userId,
+			displayName:userDisplayName
+		});
+
+	}
+	function addUserToUserlist(username, color) {
+		var html = `<li class="userlist-li userlist-addedbyjs"><div class="userlist-wrapper">` +
+			`<div class="userlist-color-indicator" style="background-color:${color};"></div> ` +
+			`<div class="userlist-username">${username}</div></div></li>` //+
+			/*`<br class="userlist-linebreak userlist-addedbyjs"><br class="userlist-linebreak userlist-addedbyjs">`*/;
+		var lighthtml = `<li class="userlist-light-li userlist-addedbyjs">${username}</li>`;
+
+		$("#userlist").append(html);
+		$("#userlist-light").append(lighthtml);
+		return html;
+	}
+	function resetUserlist() {
+		$(".userlist-addedbyjs").remove();
+	}
+	function onUserlistResize() {
+		var fullHiddenBefore = $("#userlist-full").hasClass("hidden");
+		if ($("#userlist-box").width() < 325) {
+			if (!fullHiddenBefore) {
+				$("#userlist-light-currentuser-input").val($("#userlist-currentuser-input").val());
+			}
+			$("#userlist-full").addClass("hidden");
+			$("#userlist-light-box").removeClass("hidden");
+		} else {
+			if (fullHiddenBefore) {
+				$("#userlist-currentuser-input").val($("#userlist-light-currentuser-input").val());
+			}
+			$("#userlist-full").removeClass("hidden");
+			$("#userlist-light-box").addClass("hidden");
+		}
+	}
+	function setConfirmBoxVisible(visible) {
+		if (visible) {
+			var html =
+				`<div class="input-group-append" id="userlist-currentuser-input-confirmbox">` +
+					`<button class="btn btn-success" type="button" id="userlist-currentuser-input-confirm">submit</button>` +
+				`</div>`;
+
+			// if the confirm box doesn't already exist
+			if ($("#userlist-currentuser-input-confirmbox").length == 0) {
+				$("#userlist-currentuser-inputgroup").append(html);
+			}
+
+		} else {
+			//detach removes the element but keeps click handlers
+			$("#userlist-currentuser-input-confirmbox").detach();
+		}
+	}
+	function setUserData(user, path, value) {//path should be relative to /users/$UID/
+		if (user != null) {
+			firebase.database().ref("/users/" + user.uid + "/data/" + (path.replaceAll(".", "/") || "")).set(value);
+
+		} else {
+
+			var data = Cookies.get("techedit-anonymous-user-data");
+			if (data == undefined) {
+				data = {}
+			} else {
+				data = JSON.parse(data);
+			}
+
+			if (path == null || path == "") {
+				data = value;
+			} else {
+				setObjectValueByString(path, data, value);
+			}
+			Cookies.set("techedit-anonymous-user-data", data, {expires:365});
+
+		}
+	}
+	function setDisplayName(userId, userDisplayName, oldDisplayName) {//path should be relative to /users/$UID/
+
+
+		firebase.database().ref("/f/" +fileId + "/users/" + userId + "/displayName/").set(userDisplayName);
+		if (oldDisplayName !== false) {
+			firebase.database().ref("/f/" + fileId + "/chat/").push({
+				text: "Changed username from " + oldDisplayName + " to " + userDisplayName,
+				actionMsg: true,
+				timestamp: new Date().getTime(),
+				author: userId,
+				displayName: userDisplayName
+			});
+		}
+	}
+	function stripUsername(username) {
+
+		return username.substring(0, 64).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+	}
+	function reverseStripUsername(username) {
+
+		return username.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"');
+
+	}
+	function stripText(text) {
+
+		return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+	}
+	function reverseText(text) {
+
+		return text.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"');
+
+	}
+	function stripId(id) {
+	 	return id.replace(new RegExp("[\\[\\]\\\\\\/\\$#\\.]", 'g'), "");
+	}
+	function safeStripUsername(username) {
+		//this can be used to strip a username that should already be stripped
+		//if the username has all quotes then it each quote could potentially end up being 6 characters.
+		return username.substring(0, 64 * 6).replace(/</g, '&lt;').replace(/"/g, '&quot;');
+	}
+
+
+	function updateLoadingStatus(module) {
+		if (!this.loadList) this.loadList = [];
+		if (module) {
+			$("#loader-module").html(module);
+			this.loadList.push(module);
+		}
+
+		return this.loadList;
+	}
+</script>
+<script>
+	class Techedit {
+		constructor(divs) {
+
+		}
+	}
+	(function() {
+		let techedit = {
+			loader: {
+				container: "#loader"
+			},
+			editor:{
+				container:""
+			}
+		}
+	})()
+	var editor;
+	var path = window.location.pathname.substring(1).split("/");
+	if (path[0] == "f") {
+		fileId = path[1];
+	} else if (path[0].substring(0,4) == "edit") {//for localhost
+		fileId = getQuery("id");
+	}
+
+	// check if document exists
+	// strip id will remove characters that cause firebase to throw an error, and also slashes.
+	// if the id is valid strip id will not change the id, if the id is invalid then no file can
+	// possible exist with that id and firebase will return null, so we shoe 404 as expected.
+	firebase.database().ref("/f/" + stripId(fileId) + "/createdOn/").once("value").then(function(snapshot) {
+		if (snapshot.val() != null) {
+			load();
+		} else {
+			//show 404
+			$("#loader").addClass("hidden");
+			$("#notfounderror-wrapper").removeClass("hidden");
+		}
+	});
+
+	function load() {
+		$("#notfounderror-wrapper").addClass("hidden");
+		showLoadingText();
+		updateLoadingStatus("Techedit.user");
+		$("#editor").html("");
+		let editorExists = editor != null && editor.destroy;
+		if (editorExists) {
+			editor.destroy();
+		}
+		editor = ace.edit("editor");
+		firebase.auth().onAuthStateChanged(function (user) {
+			if (user) {
+				updateLoadingStatus("Techedit.user.profile");
+				firebase.database().get("/users/" + user.uid + "/data/").once("value").then(function (snapshot) {
+					var userdata = snapshot.val();
+					userdata.uid = user.uid;
+					main(user, userdata);
+				});
+			} else {
+				updateLoadingStatus("Techedit.localuser.profile");
+				//user is null
+				var cookie = Cookies.get("techedit-anonymous-user-data");
+				if (cookie) {
+					cookie = JSON.parse(cookie);
+				}
+				var anonData = cookie;
+				var tempuid = firebase.database().ref("/f/" + fileId + "/users/").push().key;
+				var defaultData = {
+					uid: tempuid,
+					displayName: tempuid,
+					color: colorFromUserId(tempuid),
+					editor: {}
+				};
+				var anonData = merge(defaultData, anonData);
+				setUserData(user, null, anonData);
+
+				main(user, anonData);
+
+			}
+		});
+	}
+
+	var theme;
+	var userDisplayName;
+	var userId;
+	function main(user, userdata) {
+		userId = userdata.uid;
+
+		init(user, userdata);
+
+
+		//define listeners
+		updateLoadingStatus("Techedit.editor.theme.update");
+		editor.renderer.on("themeLoaded", function() {
+			updateSidebarTheme(editor);
+		});
+
+		updateLoadingStatus("Techedit.userlist");
+		firebase.database().ref("/f/" + fileId + "/users/").on("value", function(snapshot) {
+			resetUserlist();
+			var users = snapshot.val();
+			//https://stackoverflow.com/a/684692/5511561 (slightly adapted)
+			for (var key in users) {
+				if (users.hasOwnProperty(key)) {
+					if (key !== userdata.uid) {
+						console.log(users[key].color)
+						if (users[key].color == undefined) {
+							//user has been deleted
+							firebase.database().ref("/f/" + fileId + "/users/" + key).set(null);
+							continue;
+						}
+						addUserToUserlist(safeStripUsername(users[key].displayName || key), users[key].color);
+						// add the initial displayname to firebase
+						setDisplayName(userdata.uid, userDisplayName, false);
+					} else {
+
+						$("#userlist-currentuser-input").val(reverseStripUsername(userDisplayName));
+						$("#userlist-light-currentuser-input").val(reverseStripUsername(userDisplayName));
+						$("#userlist-currentuser-color-indicator").css("background-color", userdata.color);
+					}
+				}
+			}
+
+
+		});
+
+		updateLoadingStatus("Techedit.editor.language.change");
+		firebase.database().ref("/f/" + fileId + "/data/language/").on("value", function(snapshot) {
+			$("#lang-select").off("change", onLanguageChange);
+			var lang = snapshot.val();
+			if (lang == null) {
+				lang = "text";
+				firebase.database().ref("/f/" + fileId + "/data/language/").set("text");
+			}
+			$("#lang-select").val(lang);
+			$("#lang-select").selectpicker("refresh");
+			editor.getSession().setMode("ace/mode/" + lang);
+			$("#lang-select").on("change", onLanguageChange);
+		});
+
+
+		updateLoadingStatus("Techedit.theme.select");
+		$("#theme-select").change(function() {
+			editor.setTheme("ace/theme/" + $("#theme-select").val());
+			setUserData(user, "editor.theme", $("#theme-select").val());
+			updateSidebarTheme(editor);
+
+		});
+
+		updateLoadingStatus("Techedit.user.username.change");
+		$("#userlist-currentuser-inputgroup").on("click", "#userlist-currentuser-input-confirm", function() {
+			var oldName = userDisplayName;
+			var username = $("#userlist-currentuser-input").val();
+			setConfirmBoxVisible(false);
+			userDisplayName = stripUsername(username);
+			setUserData(user, "displayName", userDisplayName);
+			setDisplayName(userdata.uid, userDisplayName, oldName);
+			$("#userlist-light-currentuser-input").val(reverseStripUsername(userDisplayName));
+		});
+
+		$("#userlist-light-currentuser-input-confirm").click(function() {
+			var oldName = userDisplayName;
+			var username = $("#userlist-light-currentuser-input").val();
+
+			$("#userlist-light-currentuser-input-confirm").attr("disabled", "disabled");
+			userDisplayName = stripUsername(username);
+			setUserData(user, "displayName", userDisplayName);
+			setDisplayName(userdata.uid, userDisplayName, oldName);
+			$("#userlist-light-currentuser-input").val(reverseStripUsername(userDisplayName));
+
+		});
+		$("#userlist-currentuser-input").on("input", function() {
+
+			if (userDisplayName !== $(this).val()) {
+				setConfirmBoxVisible(true);
+			} else {
+				setConfirmBoxVisible(false);
+			}
+		});
+
+		$("#userlist-light-currentuser-input").on("input", function() {
+			if (userDisplayName !== $(this).val()) {
+				$("#userlist-light-currentuser-input-confirm").attr("disabled", false);
+			} else {
+				$("#userlist-light-currentuser-input-confirm").attr("disabled", "disabled");
+			}
+
+		});
+
+		$("#userlist-currentuser-input").keypress(function(e) {
+			if(e.which === 13) {
+
+				$("#userlist-currentuser-input-confirm").click();
+			}
+
+		});
+		$("#userlist-light-currentuser-input").keypress(function(e) {
+			if(e.which === 13) {
+
+				$("#userlist-light-currentuser-input-confirm").click();
+			}
+
+		});
+		updateLoadingStatus("Techedit.theme.filter.change");
+		$("#theme-select-popular-filter").change(function() {
+			if ($(this).is(':checked')) {
+				$(".theme-light-other, .theme-dark-other").addClass("hidden");
+			} else {
+				$(".theme-light-other, .theme-dark-other").removeClass("hidden");
+			}
+			$(".selectpicker").selectpicker("refresh");
+			updateSidebarTheme(editor);
+		});
+
+		updateLoadingStatus("Techedit.editor.printmargin.change");
+		$("#print-margin-checkbox").change(function() {
+			if ($(this).is(":checked")) {
+				editor.setShowPrintMargin(true);
+				setUserData(user, "editor.printMargin", $("#print-margin-length").val() || 80);
+				$("#print-margin-collapse").collapse("show");
+			} else {
+				editor.setShowPrintMargin(false);
+				setUserData(user, "editor.printMargin", -1);
+				$("#print-margin-collapse").collapse("hide");
+			}
+		});
+		$("#print-margin-length").on("input", function() {
+			var column = $("#print-margin-length").val();
+			if (column < 1) {
+				$("#print-margin-length").val(1);
+				return;
+			}
+			editor.setShowPrintMargin(true);
+			editor.setPrintMarginColumn(column);
+			setUserData(user, "editor.printMargin", column);
+
+		});
+		updateLoadingStatus("Techedit.editor.keymap.change");
+		$("#keymap-select").change(function() {
+			var keymap = $("#keymap-select").val();
+			editor.setKeyboardHandler("ace/keyboard/" + keymap);
+			setUserData(user, "editor.keymap", keymap);
+		});
+		updateLoadingStatus("Techedit.user.deleteData.change");
+		$("#delete-user-data").click(function() {
+			$("#settings-tab-user-confirm-actionspan").text("delete all data, then reload the page.");
+			$("#settings-tab-user-main").addClass("hidden");
+			$("#settings-tab-user-confirm").removeClass("hidden");
+			$("#delete-user-data-confirm").off();
+			$("#delete-user-data-confirm").text("I Understand, Reload This Page and Delete All My Data");
+			$("#delete-user-data-confirm").click(function() {
+				deleteAllCookies();
+				window.location.reload();
+
+			});
+		});
+		$("#delete-user-data-cancel").click(function() {
+			$("#settings-tab-user-confirm").addClass("hidden");
+			$("#settings-tab-user-main").removeClass("hidden");
+		});
+		$("#settings-modal").on("hidden.bs.modal", function() {
+			$("#settings-tab-user-confirm").addClass("hidden");
+			$("#settings-tab-user-main").removeClass("hidden");
+			window.location.href = "#";
+		});
+		$("#settings-modal").on("shown.bs.modal", function() {
+			window.location.href = "#settings-main";
+		});
+		$("#settings-modal a[data-toggle='tab']").on('shown.bs.tab', function (e) {
+			console.log(e.target);
+			window.location.href = "#settings-" + e.target;
+		});
+		$("#import-user-data-btn").click(function() {
+			$("#settings-tab-user-confirm-actionspan").text("delete all data and replace " +
+				"it with the data from the file, then reload the page. If you select the wrong file or the file is corrupted, " +
+				"your settings will be set to the default settings!");
+			$("#settings-tab-user-confirm").removeClass("hidden");
+			$("#settings-tab-user-main").addClass("hidden");
+			$("#delete-user-data-confirm").off();
+			$("#delete-user-data-confirm").text("I Understand, Reload This Page and Update All My Data");
+			$("#delete-user-data-confirm").click(function() {
+				var file = $("#import-user-data-filepicker")[0].files[0];
+				var reader = new FileReader();
+				console.log(file);
+				reader.onload = function(e) {
+					var text = e.target.result;
+					console.log(text);
+					console.log(JSON.parse(text));
+					Cookies.set("techedit-anonymous-user-data", text, {expires:365});
+					window.location.reload();
+				};
+				var text = reader.readAsText(file);
+
+				//window.location.reload();
+
+			});
+		});
+		updateLoadingStatus("Techedit.chat");
+		firebase.database().ref("/f/" + fileId + "/chat/").limitToLast(50).on("child_added", function(snapshot) {
+			var message = snapshot.val();
+			if (!($("#chat-loading").hasClass("hidden"))) {
+				$("#chat-loading").addClass("hidden");
+			}
+
+			// if user is scrolled within 10px of the bottom.
+			var scroll = ($('#chat-messages')[0].scrollHeight - $('#chat-messages').scrollTop() - 10 <= $('#chat-messages').outerHeight());
+
+			if (message.actionMsg != undefined && message.actionMsg) {
+				$("#chat-messages").append("<p><i><b>" + (message.displayName || ("user " + message.author)) + "</b>: " + message.text + "</i></p>");
+			} else {
+				$("#chat-messages").append("<p><b>" + (message.displayName || ("user " + message.author)) + "</b>: " + message.text + "</p>");
+			}
+
+			if (scroll) {
+				$('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
+			}
+
+
+		});
+		$("#chat-input").keyup(function(e) {
+			if(e.which === 13 && !e.shiftKey) {
+
+				$("#chat-button").click();
+
+			}
+		});
+		$("#chat-button").click(function() {
+			//TODO: allow markdown, account for xss
+			//TODO: Lazy load
+			var message = stripText($("#chat-input").val());
+			var messageStripped = message.replaceAll(" ", "");
+
+			$("#chat-input").val("");
+			firebase.database().ref("/f/" + fileId + "/chat/").push({
+				text:message,
+				timestamp:new Date().getTime(),
+				author:userdata.uid,
+				displayName:userDisplayName,
+				actionMsg:false
+			});
+		});
+		updateLoadingStatus("Techedit.user.data")
+
+		//https://stackoverflow.com/a/30800715
+		var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(Cookies.get("techedit-anonymous-user-data"));
+		$("#export-user-data").attr("href", dataStr);
+		$("#export-user-data").attr("download", "techedit-localUserData" + userdata.uid + ".json");
+
+		$('#import-user-data-filepicker').on('change',function(){
+			//get the file name
+			var fileName = $(this).val();
+			fileName = fileName.substring(fileName.lastIndexOf("\\") + 1)
+			//replace the "Choose a file" label
+			$(this).next('.custom-file-label').css("white-space: nowrap;overflow:hidden;");
+			$(this).next('.custom-file-label').html(fileName);
+		});
+
+		updateLoadingStatus("Techedit.ui");
+
+	}
+	function init(user, userdata) {
+		updateLoadingStatus("Techedit.js.init");
+		if (userdata.editor) {
+			//if userdata.editor.theme is undefined it will be caught at the if statement
+			theme = userdata.editor.theme;
+		}
+		if (theme == undefined) {
+			theme = "monokai";
+			setUserData(user, "editor.theme", theme);
+		}
+
+		userDisplayName = userdata.displayName;
+		setConfirmBoxVisible(false);
+		$("#userlist-light-currentuser-input-confirm").attr("disabled", "disabled");
+
+		updateLoadingStatus("Techedit.editor.theme");
+		editor.setTheme("ace/theme/" + theme);
+		$("#theme-select").selectpicker("val", theme);
+		updateLoadingStatus("Techedit.editor.language");
+		//editor.getSession().setMode("ace/mode/text");
+
+		updateLoadingStatus("Techedit.editor.printMargin");
+
+		if (userdata.editor.printMargin > 0) {
+			editor.setShowPrintMargin(true);
+			editor.setPrintMarginColumn(parseInt(userdata.editor.printMargin, 10));
+
+			$("#print-margin-length").val(userdata.editor.printMargin);
+			$("#print-margin-checkbox").attr("checked", "checked");
+			$("#print-margin-collapse").collapse("show");
+		} else {
+			editor.setShowPrintMargin(false);
+		}
+
+
+		updateLoadingStatus("Techedit.editor.keymap");
+		if (userdata.editor.keymap != null && userdata.editor.keymap !== "default") {
+			$("#keymap-select").selectpicker("val", userdata.editor.keymap);
+			editor.setKeyboardHandler("ace/keyboard/" + userdata.editor.keymap);
+		}
+
+
+
+		updateLoadingStatus("Techedit.splitview");
+
+		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+			$(".selectpicker").selectpicker("mobile");
+			$(".selectpicker").attr("data-mobile", "true");
+
+			var split = Split(["#editor-box", "#sidebar"],
+				{
+					onDragEnd:function() {
+						editor.resize();
+
+					},
+					onDrag:onUserlistResize,
+					minSize:[0,0],
+					gutterSize:30,
+					sizes: [100, 0],
+				});
+
+		} else {
+			var split = Split(["#editor-box", "#sidebar"],
+				{
+					onDragEnd:function() {
+						editor.resize();
+
+					},
+					onDrag:onUserlistResize,
+					minSize:[0,0],
+					sizes: [73, 27],
+				});
+		}
+
+
+		//check for sidebar resize
+		$(window).resize(onUserlistResize);
+
+
+
+
+		// Get Firebase Database reference.
+
+		updateLoadingStatus("Techedit.file.data");
+		var firepadRef = firebase.database().ref("/f/" + fileId);
+
+		firebase.database().ref("/f/" + fileId + "/data/").once("value").then(function(snapshot) {
+			var data = snapshot.val();
+			if (!data) {
+				data = {};
+			}
+			if (!data.language) {
+				data.language = "text";
+				firebase.database().ref("/f/" + fileId + "/data/language/").set(data.language);
+			}
+			$("#lang-select").off("change", onLanguageChange);
+			$("#lang-select").val(data.language);
+			$("#lang-select").selectpicker("refresh");
+			$("#lang-select").on("change", onLanguageChange);
+			updateLoadingStatus("Techedit.sync.engine");
+			var initialText = null;
+			if (data.initialization != undefined) {
+				initialText = atob(data.initialization.text);
+				firebase.database().ref("/f/" + fileId + "/data/initialization/").set(null);
+			}
+			var firepad = Firepad.fromACE(firepadRef, editor, {
+				userId:userdata.uid,
+				color:userdata.color,
+				defaultText:initialText
+			});
+
+			firepad.on("ready", function() {
+				updateLoadingStatus("Techedit.final");
+				hideLoadingText();
+
+				onUserlistResize();
+
+				// We need this because when the document is loading, the chat-messages div is not visible and
+				// therefore it's scrollHeight will be 0 and it will not scroll.
+				// After the page is loaded, the div is scrolled on each new message in the firebase
+				// .on function.
+				$('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
+
+			});
+
+		});
+	}
+
+</script>
+
+
+</body>
+</html>

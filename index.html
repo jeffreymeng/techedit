@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+	<meta content="" name="description">
+	<meta content="Jeffrey Meng" name="author">
+	<title>Techedit</title>
+
+	<!-- Favicons -->
+
+	<link rel="apple-touch-icon-precomposed" sizes="57x57" href="/favicon/apple-touch-icon-57x57.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/favicon/apple-touch-icon-114x114.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/favicon/apple-touch-icon-72x72.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicon/apple-touch-icon-144x144.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="60x60" href="/favicon/apple-touch-icon-60x60.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="120x120" href="/favicon/apple-touch-icon-120x120.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="76x76" href="/favicon/apple-touch-icon-76x76.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/favicon/apple-touch-icon-152x152.png" />
+	<link rel="icon" type="image/png" href="/favicon/favicon-196x196.png" sizes="196x196" />
+	<link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32" />
+	<link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16" />
+	<link rel="icon" type="image/png" href="/favicon/favicon-128.png" sizes="128x128" />
+	<meta name="application-name" content="&nbsp;" />
+	<meta name="msapplication-TileColor" content="#FFFFFF" />
+	<meta name="msapplication-TileImage" content="/favicon/mstile-144x144.png" />
+	<meta name="msapplication-square70x70logo" content="/favicon/mstile-70x70.png" />
+	<meta name="msapplication-square150x150logo" content="/favicon/mstile-150x150.png" />
+	<meta name="msapplication-wide310x150logo" content="/favicon/mstile-310x150.png" />
+	<meta name="msapplication-square310x310logo" content="/favicon/mstile-310x310.png" />
+
+	<!-- Bootstrap core CSS -->
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Custom fonts -->
+	<link href="/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css"><!-- Custom styles for this template -->
+
+
+	<link href="/css/landing-page.css" rel="stylesheet">
+	<link href="/css/techedit.css" rel="stylesheet">
+	<style>
+		/* https://stackoverflow.com/a/17528590 */
+		#paste {
+			width: 1px;
+			height: 1px;
+			padding: 0px;
+			outline: none 0;
+			border:none 0;
+			opacity: 100%;
+			resize:none;
+			position:fixed;
+			top:1px;
+			left:1px;
+			background:rgba(0,0,0,1);
+		}
+		.invisible {
+			visiblilty:hidden !important;
+		}
+	</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<a class="navbar-brand" href="/" tabindex="1">Techedit</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-toggle" aria-controls="nav-toggle" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<div class="collapse navbar-collapse" id="nav-toggle">
+
+		<span class="navbar-text mx-3">Go to:</span>
+
+		<div class="form-inline mr-auto my-2 my-lg-0">
+			<input class="form-control" type="text" placeholder="Existing File ID" id="nav-file-id" tabindex="2">
+			<button class="btn btn-secondary" id="nav-file-id-btn">Go!</button>
+		</div>
+		<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+			<li class="nav-item">
+				<a class="nav-link" href="/new/">New File</a>
+			</li>
+
+		</ul>
+	</div>
+</nav>
+<!-- Masthead -->
+<header class="masthead text-white text-center">
+	<div class="overlay"></div>
+	<div class="container" style="">
+		<div class="row">
+			<div class="col-xl-9 mx-auto">
+				<h1 class="mb-5">A <span class="text-warning">smarter</span>, <span class="text-warning">real-time</span>,
+					<span class="text-warning">collaborative</span> code editor in the cloud.</h1>
+			</div>
+			<div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+				<div class="form-row">
+
+					<div class="col-12 col-md-12">
+						<a href="/new/" class="btn btn-block btn-lg btn-primary" role="button">Create File!</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</header><!-- Icons Grid -->
+<section class="features-icons bg-light text-center">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4">
+				<div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+					<div class="features-icons-icon d-flex">
+						<i class="icon-screen-desktop m-auto text-primary"></i>
+					</div>
+					<h3>Share Code</h3>
+					<p class="lead mb-0">Techedit lets you easily and beautifully share code online.</p>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+					<div class="features-icons-icon d-flex">
+						<i class="icon-people m-auto text-primary"></i>
+					</div>
+					<h3>Edit Together</h3>
+					<p class="lead mb-0">Edit code in real time with as many people you share your document with, and enjoy syntax highlighting, chat, and permissions.</p>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="features-icons-item mx-auto mb-0 mb-lg-3">
+					<div class="features-icons-icon d-flex">
+						<i class="icon-check m-auto text-primary"></i>
+					</div>
+					<h3>Full Featured</h3>
+					<p class="lead mb-0">A powerful editor utilizes your unique coding preferences and keeps them separate from any shared documents.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<section class="call-to-action text-white text-center">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-xl-9 mx-auto">
+				<h2 class="mb-4">Ready to get started? Create a file now!</h2>
+			</div>
+			<div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+				<form>
+					<div class="form-row">
+
+						<div class="col-12 col-md-12">
+							<a href="/new/" class="btn btn-block btn-lg btn-primary" role="button">Create File!</a>
+						</div>
+
+						<h5 class="pt-2 display-block">
+							<kbd>n</kbd>: New empty file
+							<br><br>
+							<kbd><kbd class="ctrl-cmd">ctrl</kbd> + <kbd>v</kbd></kbd>: New file from clipboard
+						</h5>
+						<div id="paste-container">
+							<textarea id="paste" class="invisible mousetrap"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- Bootstrap core JavaScript -->
+<script src="/js/jquery.min.js">
+</script>
+<script src="/js/bootstrap.bundle.min.js">
+</script>
+<script src="/js/techedit.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/mousetrap.min.js" type="text/javascript" charset="utf-8"></script>
+
+<script>
+	var metaKeyPressed = false;
+	var pasted = false;
+	Mousetrap.bind(["command", "ctrl"], function() {
+		$("#paste").removeClass("invisible");
+		$("#paste").focus();
+		metaKeyPressed = true;
+
+
+	}, "keydown");
+	Mousetrap.bind(["command", "ctrl"], function() {
+		$("#paste").val("").blur().addClass("invisible");
+		metaKeyPressed = false;
+
+
+	}, "keyup");
+
+	Mousetrap.bind(['command', 'ctrl', "v"], function() {
+
+		if (metaKeyPressed) {
+			var value = $("#paste").val();
+			if (value != "") {
+			console.log(value);
+				$("#paste").blur().addClass("invisible");
+				localStorage.setItem("techedit-paste-to-create-data", btoa(value));
+				metaKeyPressed = false;
+				var pasted = true;
+				window.location.href = "/new/";
+			}
+		}
+
+
+
+	}, "keyup");
+	Mousetrap.bind("n", function() {
+
+		window.location.href = "/new/";
+
+	});
+</script>
+</body>
+</html>
