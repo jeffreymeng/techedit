@@ -311,7 +311,7 @@
 									restore them to the defaults.</p>
 								</div>
 								<div id="settings-tab-user-confirm" class="hidden">
-									<h2>Confirm deletion of ALL Data</h2>
+									<h2 id="settings-tab-user-confirm-title">Confirm deletion of ALL Data</h2>
 									<p>
 										Warning: This action is irreversible and will affect all Techedit Documents!<br>
 										Clicking the confirm button will <span id="settings-tab-user-confirm-actionspan">delete all data, then reload the page.</span>
@@ -802,6 +802,7 @@
 		});
 		updateLoadingStatus("Techedit.user.deleteData.change");
 		$("#delete-user-data").click(function() {
+			$("#settings-tab-user-confirm-title").text("Confirm deletion of ALL Data")
 			$("#settings-tab-user-confirm-actionspan").text("delete all data, then reload the page.");
 			$("#settings-tab-user-main").addClass("hidden");
 			$("#settings-tab-user-confirm").removeClass("hidden");
@@ -836,6 +837,7 @@
 			$("#settings-tab-user-confirm").removeClass("hidden");
 			$("#settings-tab-user-main").addClass("hidden");
 			$("#delete-user-data-confirm").off();
+			$("#settings-tab-user-confirm-title").text("Confirm importation of data")
 			$("#delete-user-data-confirm").text("I Understand, Reload This Page and Update All My Data");
 			$("#delete-user-data-confirm").click(function() {
 				var file = $("#import-user-data-filepicker")[0].files[0];
