@@ -791,7 +791,7 @@
 		updateLoadingStatus("Techedit.editor.keymap.change");
 		$("#keymap-select").change(function() {
 			var keymap = $("#keymap-select").val();
-			editor.setKeyboardHandler("ace/keyboard/" + keymap);
+			editor.setKeyboardHandler(keymap === "default" ? "" : ("ace/keyboard/" + keymap));
 			setUserData(user, "editor.keymap", keymap);
 		});
 		updateLoadingStatus("Techedit.user.deleteData.change");
