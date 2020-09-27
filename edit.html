@@ -478,13 +478,15 @@
 		}
 	}
 	function setUserData(user, path, value) {//path should be relative to /users/$UID/
+
+
 		if (user != null) {
 			firebase.database().ref("/users/" + user.uid + "/data/" + (path.replaceAll(".", "/") || "")).set(value);
 
 		} else {
 
-			var data = Cookies.get("techedit-anonymous-user-data");
-			if (data == undefined) {
+			var data = localStorage.getItem("techedit-anonymous-user-data");
+			if (!data) {
 				data = {}
 			} else {
 				data = JSON.parse(data);
@@ -495,8 +497,12 @@
 			} else {
 				setObjectValueByString(path, data, value);
 			}
-			Cookies.set("techedit-anonymous-user-data", data, {expires:365});
+			localStorage.setItem("techedit-anonymous-user-data", JSON.stringify(data));
 
+			var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(localStorage.getItem("techedit-anonymous-user-data"));
+			$("#export-user-data").attr("href", dataStr);
+			$("#export-user-data").attr("download", "techedit-localUserData" + (data.uid || "") + ".json");
+		
 		}
 	}
 	function setDisplayName(userId, userDisplayName, oldDisplayName) {//path should be relative to /users/$UID/
@@ -612,7 +618,7 @@
 			} else {
 				updateLoadingStatus("Techedit.localuser.profile");
 				//user is null
-				var cookie = Cookies.get("techedit-anonymous-user-data");
+				var cookie = localStorage.getItem("techedit-anonymous-user-data");
 				if (cookie) {
 					cookie = JSON.parse(cookie);
 				}
@@ -839,7 +845,7 @@
 					var text = e.target.result;
 					console.log(text);
 					console.log(JSON.parse(text));
-					Cookies.set("techedit-anonymous-user-data", text, {expires:365});
+					localStorage.setItem("techedit-anonymous-user-data", text, {expires:365});
 					window.location.reload();
 				};
 				var text = reader.readAsText(file);
@@ -895,7 +901,7 @@
 		updateLoadingStatus("Techedit.user.data")
 
 		//https://stackoverflow.com/a/30800715
-		var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(Cookies.get("techedit-anonymous-user-data"));
+		var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(localStorage.getItem("techedit-anonymous-user-data"));
 		$("#export-user-data").attr("href", dataStr);
 		$("#export-user-data").attr("download", "techedit-localUserData" + userdata.uid + ".json");
 
