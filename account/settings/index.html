@@ -287,7 +287,7 @@
 							}
 							firebase.database.ref("/u/" + user.uid + "/status/").set("DELETED");
 							firebase.database.ref("/u/" + user.uid + "/deleted-date/").set(new Date().getTime())
-							window.location.href = "/accounts/logout?continue=" + encodeURIComponent("https://techedit.jeffkmeng.com/accounts/login#accountdeleted");
+							window.location.href = "/accounts/logout?continue=" + encodeURIComponent("https://v1.techedit.io/accounts/login#accountdeleted");
 						}, function(error) {
 							$("#delete-error").removeClass("hidden");
 						});
@@ -332,7 +332,7 @@
 								user.updateEmail($("#update-email-new-email").val()).then(function() {
 									user.sendEmailVerification().then(function() {
 
-										window.location.href = "/account/logout?continue=" + encodeURIComponent("https://techedit.jeffkmeng.com/account/login#emailchangesuccess");
+										window.location.href = "/account/logout?continue=" + encodeURIComponent("https://v1.techedit.io/account/login#emailchangesuccess");
 
 									});
 								});
@@ -361,7 +361,7 @@
 								$("#confirm-modal").modal("hide");
 								var user = firebase.auth().currentUser;
 								user.updatePassword($("#update-password-new-password").val()).then(function() {
-									window.location.href = "/account/logout?continue=" + encodeURIComponent("https://techedit.jeffkmeng.com/account/login#passwordchanged");
+									window.location.href = "/account/logout?continue=" + encodeURIComponent("https://v1.techedit.io/account/login#passwordchanged");
 
 								}, function(error) {
 									$(".alert").addClass("hidden");
